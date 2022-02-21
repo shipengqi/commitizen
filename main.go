@@ -16,8 +16,6 @@ const (
 )
 
 func main() {
-
-
 	go watch()
 	err := execute()
 	if err != nil {

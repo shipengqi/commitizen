@@ -20,7 +20,7 @@ func New() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			log.Print(msg)
+			log.Print(string(msg))
 			return nil
 		},
 	}
@@ -30,4 +30,3 @@ func New() *cobra.Command {
 
 	return c
 }
-

@@ -15,8 +15,7 @@ const (
 	TypeSelect    = "select"
 	TypeInput     = "input"
 	TypeMultiline = "multiline"
-	DescMaxLength = 100
-	DescMinLength = 3
+	DescMaxLength = 50
 )
 
 type Option struct {
@@ -87,6 +86,7 @@ func (t *Template) init() error {
 	if len(t.Format) == 0 {
 		return errors.New("format is required")
 	}
+
 	for _, item := range t.Items {
 		if len(item.Name) == 0 {
 			return errors.New("item.name is required")
@@ -106,6 +106,9 @@ func (t *Template) init() error {
 			q.Prompt = &survey.Input{
 				Message: item.Desc,
 			}
+			if item.Required {
+				q.Validate = survey.ComposeValidators(survey.Required, survey.MaxLength(DescMaxLength))
+			}
 		case TypeSelect:
 			if len(item.Options) == 0 {
 				return errors.New("item.options is required in the 'select'")
@@ -123,26 +126,23 @@ func (t *Template) init() error {
 						return nil
 					} else {
 						answer.Value = options[answer.Index].Name
-						return ans
+						return answer
 					}
 				}
 			}(item.Options)
+			if item.Required {
+				q.Validate = survey.Required
+			}
 		case TypeMultiline:
 			q.Prompt = &survey.Multiline{
 				Message: item.Desc,
 			}
+			if item.Required {
+				q.Validate = survey.ComposeValidators(survey.Required, survey.MaxLength(DescMaxLength))
+			}
 		default:
 			continue
 		}
-
-		validators := []survey.Validator{
-			survey.MaxLength(DescMaxLength),
-			survey.MinLength(DescMinLength),
-		}
-		if item.Required {
-			validators = append(validators, survey.Required)
-		}
-		q.Validate = survey.ComposeValidators(validators...)
 
 		t.questions = append(t.questions, &q)
 	}
