@@ -15,10 +15,10 @@ items:
         desc: "Documentation only changes"
       - name: test
         desc: "Adding missing tests"
-      - name: ci
-        desc: "A code change for CI/CD"
       - name: wip
         desc: "Work in progress"
+      - name: chore
+        desc: "Changes to the build process or auxiliary tools\n            and libraries such as documentation generation"
       - name: style
         desc: "Changes that do not affect the meaning of the code\n            (white-space, formatting, missing semi-colons, etc)"
       - name: refactor
@@ -27,8 +27,6 @@ items:
         desc: "A code change that improves performance"
       - name: revert
         desc: "Revert to a commit"
-      - name: chore
-        desc: "Changes to the build process or auxiliary tools\n            and libraries such as documentation generation"
     required: true
   - name: scope
     desc: "Scope. Could be anything specifying place of the commit change:"

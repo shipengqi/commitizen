@@ -1,11 +1,10 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
-	"os/signal"
-	"syscall"
 
+	"github.com/AlecAivazis/survey/v2/terminal"
 	"github.com/shipengqi/commitizen/cmd/cz"
 )
 
@@ -16,10 +15,12 @@ const (
 )
 
 func main() {
-	go watch()
 	err := execute()
 	if err != nil {
-		log.Printf("exception: %s", err)
+		if err == terminal.InterruptErr {
+			os.Exit(ExitCodeSignal)
+		}
+		fmt.Printf("exception: %s\n", err)
 		os.Exit(ExitCodeException)
 	}
 	os.Exit(ExitCodeOk)
@@ -28,22 +29,9 @@ func main() {
 func execute() error {
 	defer func() {
 		if err := recover(); err != nil {
-			log.Printf("[recover panic]:\n%s", err)
+			fmt.Printf("[recover panic]:\n%s\n", err)
 		}
 	}()
 
 	return cz.New().Execute()
-}
-
-func watch() {
-	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
-	for {
-		select {
-		case sig := <-quit:
-			log.Printf("get a signal %s", sig.String())
-			os.Exit(ExitCodeSignal)
-			return
-		}
-	}
 }

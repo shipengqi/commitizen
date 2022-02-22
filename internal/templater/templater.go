@@ -3,6 +3,7 @@ package templater
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"os"
 	"strings"
 	"text/template"
@@ -55,6 +56,7 @@ func (t *Template) Run() ([]byte, error) {
 		return nil, err
 	}
 
+	fmt.Println("All commit message lines will be cropped at 100 characters.")
 	// ask the question
 	answers := map[string]interface{}{}
 	if err := survey.Ask(t.questions, &answers); err != nil {
@@ -131,14 +133,14 @@ func (t *Template) init() error {
 				}
 			}(item.Options)
 			if item.Required {
-				q.Validate = survey.Required
+				q.Validate = survey.ComposeValidators(survey.Required, survey.MaxLength(DescMaxLength))
 			}
 		case TypeMultiline:
 			q.Prompt = &survey.Multiline{
 				Message: item.Desc,
 			}
 			if item.Required {
-				q.Validate = survey.ComposeValidators(survey.Required, survey.MaxLength(DescMaxLength))
+				q.Validate = survey.Required
 			}
 		default:
 			continue
