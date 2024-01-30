@@ -1,15 +1,11 @@
 package templater
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
+	"gopkg.in/yaml.v3"
 	"os"
 	"strings"
-	"text/template"
-
-	"github.com/AlecAivazis/survey/v2"
-	"gopkg.in/yaml.v3"
 )
 
 const (
@@ -45,10 +41,10 @@ type Item struct {
 }
 
 type Template struct {
-	Name      string
-	Format    string
-	Items     []*Item
-	questions []*survey.Question
+	Name   string
+	Format string
+	Items  []*Item
+	// questions []*survey.Question
 }
 
 func (t *Template) Run() ([]byte, error) {
@@ -58,30 +54,31 @@ func (t *Template) Run() ([]byte, error) {
 
 	fmt.Println("All commit message lines will be cropped at 100 characters.")
 	// ask the question
-	answers := map[string]interface{}{}
-	if err := survey.Ask(t.questions, &answers); err != nil {
-		return nil, err
-	}
-
-	tmpl, err := template.New("commmitizen").Parse(t.Format)
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range answers {
-		if option, ok := v.(survey.OptionAnswer); ok {
-			answers[k] = option.Value
-		} else if vstr, ok := v.(string); ok {
-			answers[k] = strings.TrimSpace(vstr)
-		}
-	}
-
-	var buf bytes.Buffer
-	if err = tmpl.Execute(&buf, answers); err != nil {
-		return nil, err
-	}
-
-	return buf.Bytes(), nil
+	// answers := map[string]interface{}{}
+	// if err := survey.Ask(t.questions, &answers); err != nil {
+	// 	return nil, err
+	// }
+	//
+	// tmpl, err := template.New("commmitizen").Parse(t.Format)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	//
+	// for k, v := range answers {
+	// 	if option, ok := v.(survey.OptionAnswer); ok {
+	// 		answers[k] = option.Value
+	// 	} else if vstr, ok := v.(string); ok {
+	// 		answers[k] = strings.TrimSpace(vstr)
+	// 	}
+	// }
+	//
+	// var buf bytes.Buffer
+	// if err = tmpl.Execute(&buf, answers); err != nil {
+	// 	return nil, err
+	// }
+	//
+	// return buf.Bytes(), nil
+	return nil, nil
 }
 
 func (t *Template) init() error {
@@ -99,54 +96,54 @@ func (t *Template) init() error {
 		if len(item.Type) == 0 {
 			return errors.New("item.type is required")
 		}
-		q := survey.Question{
-			Name: item.Name,
-		}
+		// q := survey.Question{
+		// 	Name: item.Name,
+		// }
 
-		switch item.Type {
-		case TypeInput:
-			q.Prompt = &survey.Input{
-				Message: item.Desc,
-			}
-			if item.Required {
-				q.Validate = survey.ComposeValidators(survey.Required, survey.MaxLength(DescMaxLength))
-			}
-		case TypeSelect:
-			if len(item.Options) == 0 {
-				return errors.New("item.options is required in the 'select'")
-			}
-			s := &survey.Select{
-				Message: item.Desc,
-			}
-			for _, option := range item.Options {
-				s.Options = append(s.Options, option.String())
-			}
-			q.Prompt = s
-			q.Transform = func(options []*Option) func(interface{}) interface{} {
-				return func(ans interface{}) (newAns interface{}) {
-					if answer, ok := ans.(survey.OptionAnswer); !ok {
-						return nil
-					} else {
-						answer.Value = options[answer.Index].Name
-						return answer
-					}
-				}
-			}(item.Options)
-			if item.Required {
-				q.Validate = survey.ComposeValidators(survey.Required, survey.MaxLength(DescMaxLength))
-			}
-		case TypeMultiline:
-			q.Prompt = &survey.Multiline{
-				Message: item.Desc,
-			}
-			if item.Required {
-				q.Validate = survey.Required
-			}
-		default:
-			continue
-		}
-
-		t.questions = append(t.questions, &q)
+		// switch item.Type {
+		// case TypeInput:
+		// 	q.Prompt = &survey.Input{
+		// 		Message: item.Desc,
+		// 	}
+		// 	if item.Required {
+		// 		q.Validate = survey.ComposeValidators(survey.Required, survey.MaxLength(DescMaxLength))
+		// 	}
+		// case TypeSelect:
+		// 	if len(item.Options) == 0 {
+		// 		return errors.New("item.options is required in the 'select'")
+		// 	}
+		// 	s := &survey.Select{
+		// 		Message: item.Desc,
+		// 	}
+		// 	for _, option := range item.Options {
+		// 		s.Options = append(s.Options, option.String())
+		// 	}
+		// 	q.Prompt = s
+		// 	q.Transform = func(options []*Option) func(interface{}) interface{} {
+		// 		return func(ans interface{}) (newAns interface{}) {
+		// 			if answer, ok := ans.(survey.OptionAnswer); !ok {
+		// 				return nil
+		// 			} else {
+		// 				answer.Value = options[answer.Index].Name
+		// 				return answer
+		// 			}
+		// 		}
+		// 	}(item.Options)
+		// 	if item.Required {
+		// 		q.Validate = survey.ComposeValidators(survey.Required, survey.MaxLength(DescMaxLength))
+		// 	}
+		// case TypeMultiline:
+		// 	q.Prompt = &survey.Multiline{
+		// 		Message: item.Desc,
+		// 	}
+		// 	if item.Required {
+		// 		q.Validate = survey.Required
+		// 	}
+		// default:
+		// 	continue
+		// }
+		//
+		// t.questions = append(t.questions, &q)
 	}
 	return nil
 }
