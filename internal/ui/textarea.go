@@ -59,7 +59,7 @@ func (m *TextAreaModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	// We handle errors just like any other message
-	case errMsg:
+	case error:
 		m.err = msg
 		return m, nil
 	}
