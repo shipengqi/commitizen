@@ -2,76 +2,146 @@ package ui
 
 import (
 	"errors"
+	"fmt"
+	"io"
 	"strings"
 
+	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
-type SelectModel struct {
-	cursor   int
-	question string
-	choice   string
-	choices  []string
+const listHeight = 14
+
+var (
+	titleStyle        = lipgloss.NewStyle().MarginLeft(2)
+	itemStyle         = lipgloss.NewStyle().PaddingLeft(4)
+	selectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("170"))
+	paginationStyle   = list.DefaultStyles().PaginationStyle.PaddingLeft(4)
+	helpStyle         = list.DefaultStyles().HelpStyle.PaddingLeft(4).PaddingBottom(1)
+	quitTextStyle     = lipgloss.NewStyle().Margin(1, 0, 2, 4)
+)
+
+type Choices []Choice
+
+func (c Choices) toBubblesItem() []list.Item {
+	if len(c) == 0 {
+		return nil
+	}
+
+	var items []list.Item
+
+	for _, v := range c {
+		items = append(items, v)
+	}
+	return items
 }
 
-func NewSelect(question string, choices []string) (SelectModel, error) {
-	if question == "" {
-		return SelectModel{}, errors.New("")
+type Choice string
+
+func (i Choice) FilterValue() string { return "" }
+
+type itemDelegate struct{}
+
+func (d itemDelegate) Height() int                             { return 1 }
+func (d itemDelegate) Spacing() int                            { return 0 }
+func (d itemDelegate) Update(_ tea.Msg, _ *list.Model) tea.Cmd { return nil }
+func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list.Item) {
+	i, ok := listItem.(Choice)
+	if !ok {
+		return
+	}
+
+	str := fmt.Sprintf("%d. %s", index+1, i)
+
+	fn := itemStyle.Render
+	if index == m.Index() {
+		fn = func(s ...string) string {
+			return selectedItemStyle.Render("> " + strings.Join(s, " "))
+		}
+	}
+
+	_, _ = fmt.Fprint(w, fn(str))
+}
+
+type SelectModel struct {
+	label    string
+	choice   string
+	canceled bool
+	required bool
+
+	list list.Model
+}
+
+func NewSelect(label string, choices Choices) (*SelectModel, error) {
+	if label == "" {
+		return nil, errors.New("")
 	}
 	if len(choices) == 0 {
-		return SelectModel{}, errors.New("")
+		return nil, errors.New("")
 	}
-	return SelectModel{
-		question: question,
-		choices:  choices,
-	}, nil
+	l := list.New(choices.toBubblesItem(), itemDelegate{}, DefaultSelectWidth, DefaultSelectHeight)
+	l.Title = label
+	l.SetShowStatusBar(false)
+	l.SetFilteringEnabled(false)
+	l.Styles.Title = titleStyle
+	l.Styles.PaginationStyle = paginationStyle
+	l.Styles.HelpStyle = helpStyle
+
+	return &SelectModel{list: l, label: label}, nil
 }
 
-func (m SelectModel) Init() tea.Cmd {
+func (m *SelectModel) WithWidth(width int) *SelectModel {
+	m.list.SetWidth(width)
+	return m
+}
+
+func (m *SelectModel) WithHeight(height int) *SelectModel {
+	m.list.SetHeight(height)
+	return m
+}
+
+func (m *SelectModel) SetRequired(required bool) *SelectModel {
+	m.required = required
+	return m
+}
+
+func (m *SelectModel) Init() tea.Cmd {
 	return nil
 }
 
-func (m SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch tmsg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.list.SetWidth(tmsg.Width)
+		return m, nil
+
 	case tea.KeyMsg:
-		switch tmsg.String() {
-		case "ctrl+c", "q", "esc":
+		switch keypress := tmsg.String(); keypress {
+		case "q", "ctrl+c":
+			m.canceled = true
 			return m, tea.Quit
+
 		case "enter":
-			// Send the choice on the channel and exit.
-			m.choice = m.choices[m.cursor]
+			i, ok := m.list.SelectedItem().(Choice)
+			if ok {
+				m.choice = string(i)
+			}
 			return m, tea.Quit
-		case "down", "j":
-			m.cursor++
-			if m.cursor >= len(m.choices) {
-				m.cursor = 0
-			}
-		case "up", "k":
-			m.cursor--
-			if m.cursor < 0 {
-				m.cursor = len(m.choices) - 1
-			}
 		}
 	}
 
-	return m, nil
+	var cmd tea.Cmd
+	m.list, cmd = m.list.Update(msg)
+	return m, cmd
 }
 
-func (m SelectModel) View() string {
-	s := strings.Builder{}
-	s.WriteString(m.question)
-	s.WriteString("\n\n")
-
-	for i := 0; i < len(m.choices); i++ {
-		if m.cursor == i {
-			s.WriteString("(•) ")
-		} else {
-			s.WriteString("( ) ")
-		}
-		s.WriteString(m.choices[i])
-		s.WriteString("\n")
+func (m *SelectModel) View() string {
+	if m.choice != "" {
+		return quitTextStyle.Render(fmt.Sprintf("%s\n%s", m.label, m.choice))
 	}
-	s.WriteString("\n(press q to quit)\n")
-
-	return s.String()
+	// if m.canceled && m.required && m.choice == "" {
+	// 	return quitTextStyle.Render("Not hungry? That’s cool.")
+	// }
+	return "\n" + m.list.View()
 }

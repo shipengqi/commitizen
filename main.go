@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/shipengqi/commitizen/cmd/cz"
@@ -26,11 +25,17 @@ func main() {
 	// }
 	// os.Exit(ExitCodeOk)
 
-	i := ui.NewInput("Scope. Could be anything specifying place of the commit change:").WithValidateFunc(func(s string) error {
-		if s != "aaa" {
-			return errors.New("invalid password")
-		}
-		return nil
+	i, _ := ui.NewSelect("Scope. Could be anything specifying place of the commit change:", ui.Choices{
+		"test1",
+		"test2",
+		"test1",
+		"test2",
+		"test1",
+		"test2",
+		"test1",
+		"test2",
+		"test1",
+		"test2",
 	})
 	if _, err := tea.NewProgram(i).Run(); err != nil {
 		fmt.Printf("could not start program: %s\n", err)

@@ -3,6 +3,9 @@ package ui
 import "github.com/charmbracelet/lipgloss"
 
 func FontColor(text, color string) string {
+	if text == "" {
+		return ""
+	}
 	return lipgloss.NewStyle().Foreground(lipgloss.Color(color)).Render(text)
 }
 

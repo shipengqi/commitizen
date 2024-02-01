@@ -1,6 +1,10 @@
 package ui
 
-import tea "github.com/charmbracelet/bubbletea"
+import (
+	"errors"
+	tea "github.com/charmbracelet/bubbletea"
+	"strings"
+)
 
 // EchoMode sets the input behavior of the text input field.
 // EchoMode is an alias for the textinput.EchoMode.
@@ -22,6 +26,10 @@ const (
 const (
 	DefaultValidateOkPrefix  = "✔"
 	DefaultValidateErrPrefix = "✘"
+	DefaultTextAreaMaxHeight = 5
+	DefaultTextAreaHeight    = 5
+	DefaultSelectWidth       = 20
+	DefaultSelectHeight      = 14
 
 	ColorPrompt      = "2"
 	colorValidateOk  = "2"
@@ -32,6 +40,14 @@ const DONE = "DONE"
 
 // DefaultValidateFunc is a verification function that does nothing
 func DefaultValidateFunc(_ string) error { return nil }
+
+// NotBlank is a verification function that checks whether the input is empty
+func NotBlank(s string) error {
+	if strings.TrimSpace(s) == "" {
+		return errors.New("input is empty")
+	}
+	return nil
+}
 
 func Done() tea.Msg {
 	return DONE

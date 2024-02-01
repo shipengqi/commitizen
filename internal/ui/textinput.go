@@ -17,6 +17,7 @@ type InputModel struct {
 	canceled bool
 	finished bool
 	showErr  bool
+	init     bool
 	err      error
 
 	// validateFunc is a "real-time verification" function, which verifies
@@ -91,7 +92,7 @@ func (m *InputModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			// then the input has been completed
 			if m.err == nil {
 				m.finished = true
-				return m, Done
+				return m, tea.Quit
 			}
 
 			// If there is a verification error, the error message should be display
@@ -143,10 +144,15 @@ func (m *InputModel) View() string {
 		}
 	}
 
+	if !m.init {
+		m.err = m.validateFunc(m.input.Value())
+		m.init = true
+	}
+
 	var showMsg, errMsg string
 	if m.err != nil {
 		showMsg = fmt.Sprintf(
-			"%s %s\n%s\n",
+			"%s %s\n%s",
 			FontColor(m.validateErrPrefix, colorValidateErr),
 			m.label,
 			m.input.View(),
@@ -157,14 +163,14 @@ func (m *InputModel) View() string {
 		}
 	} else {
 		showMsg = fmt.Sprintf(
-			"%s %s\n%s\n",
+			"%s %s\n%s",
 			FontColor(m.validateOkPrefix, colorValidateOk),
 			m.label,
 			m.input.View(),
 		)
 	}
 
-	return showMsg
+	return showMsg + "\n"
 }
 
 // Value return the input string
