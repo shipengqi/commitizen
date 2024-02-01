@@ -69,6 +69,7 @@ type SelectModel struct {
 	choice   string
 	canceled bool
 	required bool
+	showErr  bool
 
 	list list.Model
 }
@@ -121,7 +122,6 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "q", "ctrl+c":
 			m.canceled = true
 			return m, tea.Quit
-
 		case "enter":
 			i, ok := m.list.SelectedItem().(Choice)
 			if ok {
@@ -140,8 +140,8 @@ func (m *SelectModel) View() string {
 	if m.choice != "" {
 		return quitTextStyle.Render(fmt.Sprintf("%s\n%s", m.label, m.choice))
 	}
-	// if m.canceled && m.required && m.choice == "" {
-	// 	return quitTextStyle.Render("Not hungry? That’s cool.")
-	// }
+	if m.canceled && m.required && m.choice == "" {
+		return fmt.Sprintf("%s\n%s\n", m.list.View(), FontColor(fmt.Sprintf("%s ERROR: input is empty\n", DefaultValidateErrPrefix), colorValidateErr))
+	}
 	return "\n" + m.list.View()
 }

@@ -37,6 +37,7 @@ func main() {
 		"test1",
 		"test2",
 	})
+	i.SetRequired(true)
 	if _, err := tea.NewProgram(i).Run(); err != nil {
 		fmt.Printf("could not start program: %s\n", err)
 		os.Exit(1)

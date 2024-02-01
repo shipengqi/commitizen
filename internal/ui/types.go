@@ -29,7 +29,7 @@ const (
 	DefaultTextAreaMaxHeight = 5
 	DefaultTextAreaHeight    = 5
 	DefaultSelectWidth       = 20
-	DefaultSelectHeight      = 14
+	DefaultSelectHeight      = 12
 
 	ColorPrompt      = "2"
 	colorValidateOk  = "2"
