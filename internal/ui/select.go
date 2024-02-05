@@ -68,8 +68,6 @@ type SelectModel struct {
 	label    string
 	choice   string
 	finished bool
-	required bool
-	showErr  bool
 	err      error
 
 	list list.Model
@@ -103,11 +101,6 @@ func (m *SelectModel) WithHeight(height int) *SelectModel {
 	return m
 }
 
-func (m *SelectModel) SetRequired(required bool) *SelectModel {
-	m.required = required
-	return m
-}
-
 func (m *SelectModel) Init() tea.Cmd {
 	return nil
 }
@@ -123,11 +116,6 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch keypress := tmsg.String(); keypress {
 		case "q", "ctrl+c":
-			if m.required && m.choice == "" {
-				m.err = errors.New("this filed is required")
-				m.showErr = true
-				return m, nil
-			}
 			return m, tea.Quit
 		case "enter":
 			i, ok := m.list.SelectedItem().(Choice)
@@ -135,17 +123,11 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.choice = string(i)
 			}
 			return m, tea.Quit
-		case tea.KeyUp.String(), tea.KeyDown.String(), tea.KeyRight.String(), tea.KeyLeft.String(),
-			tea.KeyHome.String(), tea.KeyEnd.String(), tea.KeyPgUp.String(), tea.KeyPgDown.String(),
-			"k", "j", "l", "h", "g", "G":
-			m.showErr = false
-			m.err = nil
 		}
 		m.list, cmd = m.list.Update(msg)
 
 	case error:
 		m.err = tmsg
-		m.showErr = true
 		return m, nil
 	}
 
@@ -155,9 +137,6 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m *SelectModel) View() string {
 	if m.choice != "" {
 		return quitTextStyle.Render(fmt.Sprintf("%s\n%s", m.label, m.choice))
-	}
-	if m.showErr {
-		return fmt.Sprintf("%s\n%s\n", m.list.View(), FontColor(fmt.Sprintf("%s ERROR: %s\n", DefaultValidateErrPrefix, m.err.Error()), colorValidateErr))
 	}
 	return "\n" + m.list.View()
 }
