@@ -14,12 +14,12 @@ import (
 const listHeight = 14
 
 var (
-	titleStyle        = lipgloss.NewStyle().MarginLeft(2)
+	titleStyle        = lipgloss.NewStyle()
 	itemStyle         = lipgloss.NewStyle().PaddingLeft(4)
 	selectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("170"))
 	paginationStyle   = list.DefaultStyles().PaginationStyle.PaddingLeft(4)
-	helpStyle         = list.DefaultStyles().HelpStyle.PaddingLeft(4).PaddingBottom(1)
-	quitTextStyle     = lipgloss.NewStyle().Margin(1, 0, 2, 4)
+	helpStyle         = list.DefaultStyles().HelpStyle.PaddingBottom(1)
+	quitTextStyle     = lipgloss.NewStyle().Margin(1, 0, 2, 2)
 )
 
 type Choices []Choice
@@ -67,9 +67,10 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 type SelectModel struct {
 	label    string
 	choice   string
-	canceled bool
+	finished bool
 	required bool
 	showErr  bool
+	err      error
 
 	list list.Model
 }
@@ -112,6 +113,8 @@ func (m *SelectModel) Init() tea.Cmd {
 }
 
 func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	var cmd tea.Cmd
+
 	switch tmsg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.list.SetWidth(tmsg.Width)
@@ -120,7 +123,11 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch keypress := tmsg.String(); keypress {
 		case "q", "ctrl+c":
-			m.canceled = true
+			if m.required && m.choice == "" {
+				m.err = errors.New("this filed is required")
+				m.showErr = true
+				return m, nil
+			}
 			return m, tea.Quit
 		case "enter":
 			i, ok := m.list.SelectedItem().(Choice)
@@ -128,11 +135,20 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.choice = string(i)
 			}
 			return m, tea.Quit
+		case tea.KeyUp.String(), tea.KeyDown.String(), tea.KeyRight.String(), tea.KeyLeft.String(),
+			tea.KeyHome.String(), tea.KeyEnd.String(), tea.KeyPgUp.String(), tea.KeyPgDown.String(),
+			"k", "j", "l", "h", "g", "G":
+			m.showErr = false
+			m.err = nil
 		}
+		m.list, cmd = m.list.Update(msg)
+
+	case error:
+		m.err = tmsg
+		m.showErr = true
+		return m, nil
 	}
 
-	var cmd tea.Cmd
-	m.list, cmd = m.list.Update(msg)
 	return m, cmd
 }
 
@@ -140,8 +156,8 @@ func (m *SelectModel) View() string {
 	if m.choice != "" {
 		return quitTextStyle.Render(fmt.Sprintf("%s\n%s", m.label, m.choice))
 	}
-	if m.canceled && m.required && m.choice == "" {
-		return fmt.Sprintf("%s\n%s\n", m.list.View(), FontColor(fmt.Sprintf("%s ERROR: input is empty\n", DefaultValidateErrPrefix), colorValidateErr))
+	if m.showErr {
+		return fmt.Sprintf("%s\n%s\n", m.list.View(), FontColor(fmt.Sprintf("%s ERROR: %s\n", DefaultValidateErrPrefix, m.err.Error()), colorValidateErr))
 	}
 	return "\n" + m.list.View()
 }
