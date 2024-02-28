@@ -15,7 +15,7 @@ items:
         desc: "Documentation only changes"
       - name: test
         desc: "Adding missing tests"
-      - name: wip
+      - name: WIP
         desc: "Work in progress"
       - name: chore
         desc: "Changes to the build process or auxiliary tools\n            and libraries such as documentation generation"

@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
-
-	"github.com/AlecAivazis/survey/v2/terminal"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/shipengqi/commitizen/cmd/cz"
+	"github.com/shipengqi/commitizen/internal/ui"
+	"os"
 )
 
 const (
@@ -15,15 +15,45 @@ const (
 )
 
 func main() {
-	err := execute()
-	if err != nil {
-		if err == terminal.InterruptErr {
-			os.Exit(ExitCodeSignal)
-		}
-		fmt.Printf("exception: %s\n", err)
-		os.Exit(ExitCodeException)
+	// err := execute()
+	// if err != nil {
+	// 	if err == terminal.InterruptErr {
+	// 		os.Exit(ExitCodeSignal)
+	// 	}
+	// 	fmt.Printf("exception: %s\n", err)
+	// 	os.Exit(ExitCodeException)
+	// }
+	// os.Exit(ExitCodeOk)
+
+	i, _ := ui.NewSelect("Scope. Could be anything specifying place of the commit change:", ui.Choices{
+		"test1",
+		"test2",
+		"test1",
+		"test2",
+		"test1",
+		"test2",
+		"test1",
+		"test2",
+		"test1",
+		"test2",
+	})
+	if _, err := tea.NewProgram(i).Run(); err != nil {
+		fmt.Printf("could not start program: %s\n", err)
+		os.Exit(1)
 	}
-	os.Exit(ExitCodeOk)
+	in := ui.NewInput("Scope. Could be anything specifying place of the commit change:")
+
+	if _, err := tea.NewProgram(in).Run(); err != nil {
+		fmt.Printf("could not start program: %s\n", err)
+		os.Exit(1)
+	}
+
+	ta := ui.NewTextArea("Scope. Could be anything specifying place of the commit change:")
+
+	if _, err := tea.NewProgram(ta).Run(); err != nil {
+		fmt.Printf("could not start program: %s\n", err)
+		os.Exit(1)
+	}
 }
 
 func execute() error {
