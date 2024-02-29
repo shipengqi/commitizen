@@ -1,4 +1,4 @@
-package templater
+package render
 
 const DefaultCommitTemplate = `---
 name: default
@@ -27,7 +27,6 @@ items:
         desc: "A code change that improves performance"
       - name: revert
         desc: "Revert to a commit"
-    required: true
   - name: scope
     desc: "Scope. Could be anything specifying place of the commit change:"
     type: input
@@ -37,8 +36,8 @@ items:
     required: true
   - name: body
     desc: "Body. Motivation for the change and contrast this with previous behavior:"
-    type: multiline
+    type: textarea
   - name: footer
     desc: "Footer. Information about Breaking Changes and reference issues that this commit closes:"
-    type: multiline
+    type: textarea
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
