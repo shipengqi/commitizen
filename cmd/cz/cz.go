@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/shipengqi/commitizen/internal/git"
-	"github.com/shipengqi/commitizen/internal/templater"
+	"github.com/shipengqi/commitizen/internal/render"
 )
 
 func New() *cobra.Command {
@@ -22,7 +22,7 @@ func New() *cobra.Command {
 			if !isrepo {
 				return errors.New("not a git repository")
 			}
-			tmpl, err := templater.Load([]byte(templater.DefaultCommitTemplate))
+			tmpl, err := render.Load([]byte(render.DefaultCommitTemplate))
 			if err != nil {
 				return err
 			}
@@ -30,11 +30,12 @@ func New() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			output, err := git.Commit(msg)
-			if err != nil {
-				return err
-			}
-			fmt.Println(output)
+			fmt.Println(string(msg))
+			// output, err := git.Commit(msg)
+			// if err != nil {
+			// 	return err
+			// }
+			// fmt.Println(output)
 			return nil
 		},
 	}

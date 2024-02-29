@@ -5,8 +5,9 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/shipengqi/commitizen/internal/git"
 	"github.com/spf13/cobra"
+
+	"github.com/shipengqi/commitizen/internal/git"
 )
 
 func NewInitCmd() *cobra.Command {

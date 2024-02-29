@@ -1,14 +1,20 @@
 package ui
 
 import (
-	"errors"
+	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
-	"strings"
 )
+
+// Model is an alias for the tea.Model.
+type Model interface {
+	tea.Model
+
+	Value() string
+}
 
 // EchoMode sets the input behavior of the text input field.
 // EchoMode is an alias for the textinput.EchoMode.
-type EchoMode int
+type EchoMode textinput.EchoMode
 
 const (
 	// EchoNormal displays text as is. This is the default behavior.
@@ -40,14 +46,6 @@ const DONE = "DONE"
 
 // DefaultValidateFunc is a verification function that does nothing
 func DefaultValidateFunc(_ string) error { return nil }
-
-// NotBlank is a verification function that checks whether the input is empty
-func NotBlank(s string) error {
-	if strings.TrimSpace(s) == "" {
-		return errors.New("input is empty")
-	}
-	return nil
-}
 
 func Done() tea.Msg {
 	return DONE

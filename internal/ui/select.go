@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"strings"
@@ -73,13 +72,7 @@ type SelectModel struct {
 	list list.Model
 }
 
-func NewSelect(label string, choices Choices) (*SelectModel, error) {
-	if label == "" {
-		return nil, errors.New("")
-	}
-	if len(choices) == 0 {
-		return nil, errors.New("")
-	}
+func NewSelect(label string, choices Choices) *SelectModel {
 	l := list.New(choices.toBubblesItem(), itemDelegate{}, DefaultSelectWidth, DefaultSelectHeight)
 	l.Title = label
 	l.SetShowStatusBar(false)
@@ -88,7 +81,7 @@ func NewSelect(label string, choices Choices) (*SelectModel, error) {
 	l.Styles.PaginationStyle = paginationStyle
 	l.Styles.HelpStyle = helpStyle
 
-	return &SelectModel{list: l, label: label}, nil
+	return &SelectModel{list: l, label: label}
 }
 
 func (m *SelectModel) WithWidth(width int) *SelectModel {
@@ -139,4 +132,8 @@ func (m *SelectModel) View() string {
 		return quitTextStyle.Render(fmt.Sprintf("%s\n%s", m.label, m.choice))
 	}
 	return "\n" + m.list.View()
+}
+
+func (m *SelectModel) Value() string {
+	return m.choice
 }
