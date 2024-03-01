@@ -10,15 +10,12 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-const listHeight = 14
-
 var (
 	titleStyle        = lipgloss.NewStyle()
 	itemStyle         = lipgloss.NewStyle().PaddingLeft(4)
 	selectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("170"))
 	paginationStyle   = list.DefaultStyles().PaginationStyle.PaddingLeft(4)
 	helpStyle         = list.DefaultStyles().HelpStyle.PaddingBottom(1)
-	quitTextStyle     = lipgloss.NewStyle().Margin(1, 0, 2, 2)
 )
 
 type Choices []Choice
@@ -67,6 +64,7 @@ type SelectModel struct {
 	label    string
 	choice   string
 	finished bool
+	canceled bool
 	err      error
 
 	list list.Model
@@ -109,6 +107,7 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch keypress := tmsg.String(); keypress {
 		case "q", "ctrl+c":
+			m.canceled = true
 			return m, tea.Quit
 		case "enter":
 			i, ok := m.list.SelectedItem().(Choice)
@@ -129,11 +128,20 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m *SelectModel) View() string {
 	if m.choice != "" {
-		return quitTextStyle.Render(fmt.Sprintf("%s\n%s", m.label, m.choice))
+		return fmt.Sprintf(
+			"%s %s\n%s\n",
+			FontColor(DefaultValidateOkPrefix, colorValidateOk),
+			m.label,
+			quitValueStyle.Render(fmt.Sprintf(m.Value())),
+		)
 	}
 	return "\n" + m.list.View()
 }
 
 func (m *SelectModel) Value() string {
 	return m.choice
+}
+
+func (m *SelectModel) Canceled() bool {
+	return m.canceled
 }

@@ -10,6 +10,7 @@ type Model interface {
 	tea.Model
 
 	Value() string
+	Canceled() bool
 }
 
 // EchoMode sets the input behavior of the text input field.
@@ -33,7 +34,7 @@ const (
 	DefaultValidateOkPrefix  = "✔"
 	DefaultValidateErrPrefix = "✘"
 	DefaultTextAreaMaxHeight = 5
-	DefaultTextAreaHeight    = 5
+	DefaultTextAreaHeight    = 2
 	DefaultSelectWidth       = 20
 	DefaultSelectHeight      = 12
 
