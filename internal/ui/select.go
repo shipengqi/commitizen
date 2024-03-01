@@ -64,6 +64,7 @@ type SelectModel struct {
 	label    string
 	choice   string
 	finished bool
+	canceled bool
 	err      error
 
 	list list.Model
@@ -106,6 +107,7 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch keypress := tmsg.String(); keypress {
 		case "q", "ctrl+c":
+			m.canceled = true
 			return m, tea.Quit
 		case "enter":
 			i, ok := m.list.SelectedItem().(Choice)
@@ -138,4 +140,8 @@ func (m *SelectModel) View() string {
 
 func (m *SelectModel) Value() string {
 	return m.choice
+}
+
+func (m *SelectModel) Canceled() bool {
+	return m.canceled
 }

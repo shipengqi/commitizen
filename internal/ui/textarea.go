@@ -2,7 +2,8 @@ package ui
 
 import (
 	"fmt"
-
+	"github.com/charmbracelet/bubbles/help"
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/textarea"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -28,7 +29,9 @@ type TextAreaModel struct {
 	// validateErrPrefix is the prompt prefix when the verification is successful
 	validateErrPrefix string
 
-	input textarea.Model
+	helpKeys keyMap
+	help     help.Model
+	input    textarea.Model
 }
 
 func NewTextArea(label string) *TextAreaModel {
@@ -40,6 +43,8 @@ func NewTextArea(label string) *TextAreaModel {
 	return &TextAreaModel{
 		input:             ti,
 		label:             label,
+		helpKeys:          helpKeys,
+		help:              help.New(),
 		validateFunc:      DefaultValidateFunc,
 		validateOkPrefix:  DefaultValidateOkPrefix,
 		validateErrPrefix: DefaultValidateErrPrefix,
@@ -93,13 +98,13 @@ func (m *TextAreaModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 
 	switch tmsg := msg.(type) {
+	case tea.WindowSizeMsg:
+		// If we set a width on the help menu it can gracefully truncate
+		// its view as needed.
+		m.help.Width = tmsg.Width
 	case tea.KeyMsg:
-		switch tmsg.Type {
-		case tea.KeyEsc:
-			if m.input.Focused() {
-				m.input.Blur()
-			}
-		case tea.KeyCtrlJ:
+		switch {
+		case key.Matches(tmsg, m.helpKeys.Save):
 			// If the real-time verification function does not return an error,
 			// then the input has been completed
 			if m.err == nil {
@@ -108,10 +113,14 @@ func (m *TextAreaModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 			// If there is a verification error, the error message should be display
 			m.showErr = true
-		case tea.KeyCtrlC:
+		case key.Matches(tmsg, m.helpKeys.Quit):
 			m.canceled = true
 			return m, tea.Quit
-		case tea.KeyRunes:
+		case tmsg.Type == tea.KeyEsc:
+			if m.input.Focused() {
+				m.input.Blur()
+			}
+		case tmsg.Type == tea.KeyRunes:
 			// Hide verification failure message when entering content again
 			m.showErr = false
 			m.err = nil
@@ -146,6 +155,7 @@ func (m *TextAreaModel) View() string {
 	}
 
 	var showMsg, errMsg string
+	helpView := m.help.View(m.helpKeys)
 	if m.err != nil {
 		showMsg = fmt.Sprintf(
 			"%s %s\n%s",
@@ -159,10 +169,11 @@ func (m *TextAreaModel) View() string {
 		}
 	} else {
 		showMsg = fmt.Sprintf(
-			"%s %s\n%s",
+			"%s %s\n%s\n%s",
 			FontColor(m.validateOkPrefix, colorValidateOk),
 			m.label,
 			m.input.View(),
+			helpStyle.Render(helpView),
 		)
 	}
 

@@ -73,14 +73,15 @@ func (t *Template) Run() ([]byte, error) {
 		if _, err = tea.NewProgram(v.model).Run(); err != nil {
 			return nil, err
 		}
+		if v.model.Canceled() {
+			return nil, errors.New("canceled")
+		}
 		val := v.model.Value()
 		// hardcode for the select options
 		if v.t == TypeSelect {
 			tokens := strings.Split(val, ":")
-			if len(tokens) == 1 {
+			if len(tokens) > 0 {
 				val = tokens[0]
-			} else if len(tokens) > 1 {
-				val = fmt.Sprintf("%s: %s", tokens[0], strings.TrimSpace(tokens[1]))
 			}
 		}
 		values[v.name] = val
