@@ -58,11 +58,3 @@ func Commit(msg []byte) (string, error) {
 	}
 	return strings.TrimSpace(stdout), nil
 }
-
-func Add() error {
-	return nil
-}
-
-func Push() error {
-	return nil
-}

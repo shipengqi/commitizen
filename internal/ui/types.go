@@ -5,6 +5,10 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
+// EchoMode sets the input behavior of the text input field.
+// EchoMode is an alias for the textinput.EchoMode.
+type EchoMode textinput.EchoMode
+
 // Model is an alias for the tea.Model.
 type Model interface {
 	tea.Model
@@ -12,10 +16,6 @@ type Model interface {
 	Value() string
 	Canceled() bool
 }
-
-// EchoMode sets the input behavior of the text input field.
-// EchoMode is an alias for the textinput.EchoMode.
-type EchoMode textinput.EchoMode
 
 const (
 	// EchoNormal displays text as is. This is the default behavior.
@@ -43,11 +43,5 @@ const (
 	colorValidateErr = "1"
 )
 
-const DONE = "DONE"
-
 // DefaultValidateFunc is a verification function that does nothing
 func DefaultValidateFunc(_ string) error { return nil }
-
-func Done() tea.Msg {
-	return DONE
-}

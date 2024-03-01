@@ -30,12 +30,12 @@ func New() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			fmt.Println(string(msg))
-			// output, err := git.Commit(msg)
-			// if err != nil {
-			// 	return err
-			// }
-			// fmt.Println(output)
+
+			output, err := git.Commit(msg)
+			if err != nil {
+				return err
+			}
+			fmt.Println(output)
 			return nil
 		},
 	}
