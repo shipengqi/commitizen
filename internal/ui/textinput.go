@@ -126,7 +126,7 @@ func (m *InputModel) View() string {
 				"%s %s\n%s\n",
 				FontColor(m.validateOkPrefix, colorValidateOk),
 				m.label,
-				m.Value(),
+				quitValueStyle.Render(m.Value()),
 			)
 		case textinput.EchoNone:
 			return fmt.Sprintf(
@@ -139,7 +139,7 @@ func (m *InputModel) View() string {
 				"%s %s\n%s\n",
 				FontColor(m.validateOkPrefix, colorValidateOk),
 				m.label,
-				GenMask(len([]rune(m.Value()))),
+				quitValueStyle.Render(GenMask(len([]rune(m.Value())))),
 			)
 		}
 	}

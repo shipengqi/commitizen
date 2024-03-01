@@ -44,6 +44,7 @@ type Template struct {
 }
 
 type model struct {
+	t     string
 	name  string
 	model ui.Model
 }
@@ -69,10 +70,20 @@ func (t *Template) Run() ([]byte, error) {
 
 	values := map[string]interface{}{}
 	for _, v := range t.models {
-		if _, err := tea.NewProgram(v.model).Run(); err != nil {
+		if _, err = tea.NewProgram(v.model).Run(); err != nil {
 			return nil, err
 		}
-		values[v.name] = v.model.Value()
+		val := v.model.Value()
+		// hardcode for the select options
+		if v.t == TypeSelect {
+			tokens := strings.Split(val, ":")
+			if len(tokens) == 1 {
+				val = tokens[0]
+			} else if len(tokens) > 1 {
+				val = fmt.Sprintf("%s: %s", tokens[0], strings.TrimSpace(tokens[1]))
+			}
+		}
+		values[v.name] = val
 	}
 
 	tmpl, err := template.New("cz").Parse(t.Format)
@@ -114,9 +125,10 @@ func (t *Template) init() error {
 		case TypeTextArea:
 			m = t.createTextAreaItem(item.Name, item.Desc, item.Required)
 		default:
-			return errors.New("unsupported item.type")
+			return fmt.Errorf("unsupported type: %s", item.Type)
 		}
 		t.models = append(t.models, model{
+			t:     item.Type,
 			name:  item.Name,
 			model: m,
 		})
@@ -138,7 +150,7 @@ func (t *Template) createInputItem(name, label string, required bool) *ui.InputM
 	if required {
 		m.WithValidateFunc(NotBlankValidator(name))
 	}
-	return ui.NewInput(label)
+	return m
 }
 
 func (t *Template) createTextAreaItem(name, label string, required bool) *ui.TextAreaModel {
@@ -146,7 +158,7 @@ func (t *Template) createTextAreaItem(name, label string, required bool) *ui.Tex
 	if required {
 		m.WithValidateFunc(NotBlankValidator(name))
 	}
-	return ui.NewTextArea(label)
+	return m
 }
 
 // NotBlankValidator is a verification function that checks whether the input is empty

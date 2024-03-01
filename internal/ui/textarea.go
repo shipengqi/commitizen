@@ -5,7 +5,10 @@ import (
 
 	"github.com/charmbracelet/bubbles/textarea"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
+
+var quitValueStyle = lipgloss.NewStyle().Margin(0, 0, 0, 2)
 
 type TextAreaModel struct {
 	label    string
@@ -133,7 +136,7 @@ func (m *TextAreaModel) View() string {
 			"%s %s\n%s\n",
 			FontColor(m.validateOkPrefix, colorValidateOk),
 			m.label,
-			m.Value(),
+			quitValueStyle.Render(fmt.Sprintf(m.Value())),
 		)
 	}
 

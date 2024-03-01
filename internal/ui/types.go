@@ -33,7 +33,7 @@ const (
 	DefaultValidateOkPrefix  = "✔"
 	DefaultValidateErrPrefix = "✘"
 	DefaultTextAreaMaxHeight = 5
-	DefaultTextAreaHeight    = 5
+	DefaultTextAreaHeight    = 3
 	DefaultSelectWidth       = 20
 	DefaultSelectHeight      = 12
 
