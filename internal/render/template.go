@@ -2,7 +2,6 @@ package render
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"strings"
 	"text/template"
@@ -74,7 +73,7 @@ func (t *Template) Run() ([]byte, error) {
 			return nil, err
 		}
 		if v.model.Canceled() {
-			return nil, errors.New("canceled")
+			return nil, ErrCanceled
 		}
 		val := v.model.Value()
 		// hardcode for the select options
@@ -102,18 +101,18 @@ func (t *Template) Run() ([]byte, error) {
 
 func (t *Template) init() error {
 	if isEmptyStr(t.Format) {
-		return errors.New("format is required")
+		return NewMissingErr("format")
 	}
 
 	for _, item := range t.Items {
 		if isEmptyStr(item.Name) {
-			return errors.New("item.name is required")
+			return NewMissingErr("item.name")
 		}
 		if isEmptyStr(item.Desc) {
-			return errors.New("item.desc is required")
+			return NewMissingErr("item.desc")
 		}
 		if isEmptyStr(item.Type) {
-			return errors.New("item.type is required")
+			return NewMissingErr("item.type")
 		}
 
 		var m ui.Model
@@ -147,7 +146,7 @@ func (t *Template) createSelectItem(label string, options []Option) *ui.SelectMo
 }
 
 func (t *Template) createInputItem(name, label string, required bool) *ui.InputModel {
-	m := ui.NewInput(label)
+	m := ui.NewInput(label).WithWidth(30)
 	if required {
 		m.WithValidateFunc(NotBlankValidator(name))
 	}
@@ -166,7 +165,7 @@ func (t *Template) createTextAreaItem(name, label string, required bool) *ui.Tex
 func NotBlankValidator(name string) func(s string) error {
 	return func(s string) error {
 		if strings.TrimSpace(s) == "" {
-			return fmt.Errorf("%s is required", name)
+			return NewMissingErr(name)
 		}
 		return nil
 	}

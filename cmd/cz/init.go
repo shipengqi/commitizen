@@ -13,7 +13,7 @@ import (
 func NewInitCmd() *cobra.Command {
 	c := &cobra.Command{
 		Use:   "init",
-		Short: "Initialize the 'git cz' and templates.",
+		Short: "Initialize this tool to git-core as git-cz.",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			src, err := exec.LookPath(os.Args[0])
 			if err != nil {
