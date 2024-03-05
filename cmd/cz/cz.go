@@ -15,11 +15,11 @@ func New() *cobra.Command {
 		Use:  "commitizen",
 		Long: `Command line utility to standardize git commit messages.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			isrepo, err := git.IsGitRepo()
+			isRepo, err := git.IsGitRepo()
 			if err != nil {
 				return err
 			}
-			if !isrepo {
+			if !isRepo {
 				return errors.New("not a git repository")
 			}
 			tmpl, err := render.Load([]byte(render.DefaultCommitTemplate))
@@ -44,6 +44,7 @@ func New() *cobra.Command {
 	c.SilenceErrors = true
 
 	c.AddCommand(NewInitCmd())
+	c.AddCommand(NewLoadCmd())
 
 	return c
 }

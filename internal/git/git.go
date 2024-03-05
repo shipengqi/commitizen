@@ -35,6 +35,15 @@ func IsGitRepo() (bool, error) {
 	return true, nil
 }
 
+// WorkingTreeRoot return path of the top-level directory of the working tree
+func WorkingTreeRoot() (path string, err error) {
+	output, err := cliutil.ExecContext(context.TODO(), "git", "rev-parse", "--show-toplevel")
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(string(output)), nil
+}
+
 func ExecPath() (string, error) {
 	stdout, err := cliutil.ExecContext(context.TODO(), "git", "--exec-path")
 	if err != nil {

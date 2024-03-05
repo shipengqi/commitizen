@@ -3,10 +3,10 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/shipengqi/commitizen/internal/render"
 	"os"
 
 	"github.com/shipengqi/commitizen/cmd/cz"
+	"github.com/shipengqi/commitizen/internal/render"
 )
 
 const (
