@@ -52,7 +52,7 @@ func ExecPath() (string, error) {
 	return strings.TrimSpace(stdout), nil
 }
 
-func Commit(msg []byte) (string, error) {
+func Commit(msg []byte, opts *Options) (string, error) {
 	temp, err := os.CreateTemp("", "COMMIT_MESSAGE_")
 	if err != nil {
 		return "", err
@@ -61,7 +61,19 @@ func Commit(msg []byte) (string, error) {
 	if _, err = temp.Write(msg); err != nil {
 		return "", err
 	}
-	stdout, err := cliutil.ExecContext(context.TODO(), "git", "commit", "-F", temp.Name())
+
+	tokens := []string{
+		"commit",
+		"-F",
+		temp.Name(),
+	}
+	if opts.Add {
+		tokens = append(tokens, "-a")
+	}
+	if opts.SignOff {
+		tokens = append(tokens, "-s")
+	}
+	stdout, err := cliutil.ExecContext(context.TODO(), "git", tokens...)
 	if err != nil {
 		return "", err
 	}

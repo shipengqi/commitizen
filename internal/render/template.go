@@ -146,7 +146,7 @@ func (t *Template) createSelectItem(label string, options []Option) *ui.SelectMo
 }
 
 func (t *Template) createInputItem(name, label string, required bool) *ui.InputModel {
-	m := ui.NewInput(label)
+	m := ui.NewInput(label).WithWidth(30)
 	if required {
 		m.WithValidateFunc(NotBlankValidator(name))
 	}

@@ -8,8 +8,7 @@ import (
 )
 
 const (
-	DefaultInputWidth     = 20
-	DefaultInputCharLimit = 156
+	DefaultInputWidth = 20
 )
 
 type InputModel struct {
@@ -35,7 +34,6 @@ type InputModel struct {
 
 func NewInput(label string) *InputModel {
 	ti := textinput.New()
-	ti.CharLimit = DefaultInputCharLimit
 	ti.Width = DefaultInputWidth
 	ti.EchoMode = textinput.EchoMode(EchoNormal)
 	ti.Focus()
@@ -71,6 +69,11 @@ func (m *InputModel) WithValidateErrPrefix(prefix string) *InputModel {
 
 func (m *InputModel) WithEchoMode(mode EchoMode) *InputModel {
 	m.input.EchoMode = textinput.EchoMode(mode)
+	return m
+}
+
+func (m *InputModel) WithWidth(width int) *InputModel {
+	m.input.Width = width
 	return m
 }
 
