@@ -6,9 +6,9 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/shipengqi/commitizen/internal/config"
 	"github.com/shipengqi/commitizen/internal/git"
 	"github.com/shipengqi/commitizen/internal/options"
-	"github.com/shipengqi/commitizen/internal/render"
 )
 
 func New() *cobra.Command {
@@ -24,15 +24,26 @@ func New() *cobra.Command {
 			if !isRepo {
 				return errors.New("not a git repository")
 			}
-			tmpl, err := render.Load([]byte(render.DefaultCommitTemplate))
+
+			conf := config.New()
+			err = conf.Initialize()
 			if err != nil {
 				return err
 			}
+			tmpl, err := conf.Run()
+			if err != nil {
+				return err
+			}
+
 			msg, err := tmpl.Run()
 			if err != nil {
 				return err
 			}
 
+			if o.DryRun {
+				fmt.Println(string(msg))
+				return nil
+			}
 			output, err := git.Commit(msg, o.GitOptions)
 			if err != nil {
 				return err
@@ -53,7 +64,6 @@ func New() *cobra.Command {
 	o.AddFlags(f)
 
 	c.AddCommand(NewInitCmd())
-	c.AddCommand(NewLoadCmd())
 
 	return c
 }
