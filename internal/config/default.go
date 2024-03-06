@@ -1,7 +1,8 @@
-package render
+package config
 
 const DefaultCommitTemplate = `---
 name: default
+default: true
 items:
   - name: type
     desc: "Select the type of change that you're committing:"

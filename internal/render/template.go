@@ -36,10 +36,12 @@ type Item struct {
 }
 
 type Template struct {
-	Name   string
-	Format string
-	Items  []*Item
-	models []model
+	Name    string
+	Desc    string
+	Format  string
+	Default bool
+	Items   []*Item
+	models  []model
 }
 
 type model struct {
