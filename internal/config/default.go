@@ -19,9 +19,9 @@ items:
       - name: WIP
         desc: "Work in progress"
       - name: chore
-        desc: "Changes to the build process or auxiliary tools\n            and libraries such as documentation generation"
+        desc: "Changes to the build process or auxiliary tools and\n               libraries such as documentation generation"
       - name: style
-        desc: "Changes that do not affect the meaning of the code\n            (white-space, formatting, missing semi-colons, etc)"
+        desc: "Changes that do not affect the meaning of the code\n               (white-space, formatting, missing semi-colons, etc)"
       - name: refactor
         desc: "A code change that neither fixes a bug nor adds a feature"
       - name: perf

@@ -18,7 +18,7 @@ type Option struct {
 func (o *Option) String() string {
 	var b strings.Builder
 	ml := len(o.Name)
-	pl := 10 - ml - 2
+	pl := 12 - ml - 2
 	padding := strings.Repeat(" ", pl)
 	b.WriteString(o.Name)
 	b.WriteString(": ")
@@ -143,7 +143,15 @@ func (t *Template) createSelectItem(label string, options []Option) *ui.SelectMo
 	for _, v := range options {
 		choices = append(choices, ui.Choice(v.String()))
 	}
-	m := ui.NewSelect(label, choices)
+	height := 8
+	if len(options) > 5 {
+		height = 12
+	} else if len(options) > 3 {
+		height = 10
+	} else if len(options) > 2 {
+		height = 9
+	}
+	m := ui.NewSelect(label, choices).WithHeight(height)
 	return m
 }
 

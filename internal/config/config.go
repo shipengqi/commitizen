@@ -98,7 +98,15 @@ func (c *Config) createTemplatesSelect(label string) *ui.SelectModel {
 	for _, v := range all {
 		choices = append(choices, ui.Choice(v.Name))
 	}
-	m := ui.NewSelect(label, choices)
+	height := 8
+	if len(all) > 5 {
+		height = 12
+	} else if len(all) > 3 {
+		height = 10
+	} else if len(all) > 2 {
+		height = 9
+	}
+	m := ui.NewSelect(label, choices).WithHeight(height)
 	return m
 }
 
