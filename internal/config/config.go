@@ -46,6 +46,10 @@ func (c *Config) Initialize() error {
 	}
 	for _, v := range tmpls {
 		if v.Default {
+			if c.defaultTmpl != nil {
+				// the default template already exists
+				return errors.New("only one default template is permitted")
+			}
 			c.defaultTmpl = v
 			continue
 		}
