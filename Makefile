@@ -1,33 +1,27 @@
-VERSION := $(shell git describe --abbrev=0)
-COMMIT_REVISION := $(shell git log --pretty=%h -1)
-REVISION_FLAG := "-X github.com/lintingzhen/commitizen-go/cmd.revision=${COMMIT_REVISION} -X github.com/lintingzhen/commitizen-go/cmd.version=${VERSION}"
-TARGET := commitizen-go
-GOFILES := $(wildcard *.go) $(wildcard cmd/*.go) $(wildcard git/*.go) $(wildcard commit/*.go)
-GOARCH := $(shell go env GOARCH)
+# The project's root import path
+PKG := github.com/shipengqi/commitizen
+# set version package
+VERSION_PKG=github.com/shipengqi/component-base/version
 
-ifeq ($(OS),Windows_NT)
-	GOOS := windows
-	COPY := copy
-else
-	COPY := cp
-	UNAME_S := $(shell uname -s)
-	ifeq ($(UNAME_S),Linux)
-		GOOS := linux
-	else ifeq ($(UNAME_S),Darwin)
-		GOOS := darwin
-	endif
+ifeq ($(origin VERSION), undefined)
+VERSION := $(shell git describe --tags --always --match='v*')
 endif
 
-GIT_EXEC_PATH := $(shell git --exec-path)
+# set git commit and tree state
+GIT_COMMIT = $(shell git rev-parse HEAD)
+ifneq ($(shell git status --porcelain 2> /dev/null),)
+	GIT_TREE_STATE ?= dirty
+else
+	GIT_TREE_STATE ?= clean
+endif
 
-all: ${TARGET}
-install: 
-	$(COPY) commitizen-go $(GIT_EXEC_PATH)/git-cz
-clean:
-	rm -rf ${TARGET}
-    
-
-commitizen-go: $(GOFILES)
-	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build -o $@ -ldflags ${REVISION_FLAG}
-
-.PHONY: all install clean 
+# set ldflags
+GO_LDFLAGS += -X $(VERSION_PKG).Version=$(VERSION) \
+	-X $(VERSION_PKG).GitCommit=$(GIT_COMMIT) \
+	-X $(VERSION_PKG).GitTreeState=$(GIT_TREE_STATE) \
+	-X $(VERSION_PKG).BuildDate=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
+	
+.PHONY: go.build
+go.build:
+	@echo "===========> Building: $(OUTPUT_DIR)/$(BIN)"
+	@CGO_ENABLED=0 go build -ldflags "$(GO_LDFLAGS)" -o $(OUTPUT_DIR)/$(BIN) ${PKG}

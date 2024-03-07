@@ -64,6 +64,7 @@ func New() *cobra.Command {
 	o.AddFlags(f)
 
 	c.AddCommand(NewInitCmd())
+	c.AddCommand(NewVersionCmd())
 
 	return c
 }
