@@ -26,15 +26,31 @@ Flags:
 Use "commitizen [command] --help" for more information about a command.
 ```
 
-commit with commitizen:
+Commit with commitizen:
 
 ```
 $ git cz
 ```
 
-## Installing commitizen 
+## Installation
 
 ### From the Binary Releases
+
+Download the pre-compiled binaries from the [releases page](https://github.com/shipengqi/commitizen/releases) and copy them to the desired location.
+
+Then initialize this tool to git-core as git-cz:
+```
+$ commitizen init
+```
+
+### Go Install
+
+You must have a working Go environment:
+
+```
+$ go install github.com/shipengqi/commitizen@latest
+$ commitizen init
+```
 
 ### From Source
 
@@ -43,13 +59,7 @@ You must have a working Go environment:
 ```
 $ git clone https://github.com/shipengqi/commitizen.git
 $ cd commitizen
-$ make && make install
-```
-
-Or:
-
-```
-$ make && ./commitizen-go install
+$ make && ./commitizen init
 ```
 
 ## Configuration
