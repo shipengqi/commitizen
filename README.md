@@ -6,26 +6,6 @@ The [survey](https://github.com/AlecAivazis/survey) project is no longer maintai
 
 ## Getting Started
 
-installation with source code:
-
-```
-$ make && make install
-```
-
-or
-
-```
-$ make && ./commitizen-go install
-```
-
-commit with commitizen:
-
-```
-$ git cz
-```
-
-## Usage
-
 ```
 Command line utility to standardize git commit messages.
 
@@ -35,28 +15,50 @@ Usage:
 
 Available Commands:
   init        Initialize this tool to git-core as git-cz.
-  load        Load templates.
   help        Help about any command
 
 Flags:
-  -s, --signoff   Add a Signed-off-by trailer by the committer at the end of the commit log message.
-  -a, --add       Tell the command to automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
+  -s, --signoff   add a Signed-off-by trailer by the committer at the end of the commit log message.
+  -a, --add       tell the command to automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
+      --dry-run   you can use the --dry-run flag to preview the message that would be committed, without really submitting it.
   -h, --help      help for commitizen
 
 Use "commitizen [command] --help" for more information about a command.
 ```
 
-## Configure
-
-You can set configuration file that .git-czrc at repository root or home directory. (You can also add the extension to file, like .git-czrc.yaml) The configure file that located in repository root have a priority over the one in home directory. The format is the same as the defaultConfig string in the file [commit/defaultConfig.go]().
-
-Type item like that:
+commit with commitizen:
 
 ```
-package render
+$ git cz
+```
 
-const DefaultCommitTemplate = `---
-name: default
+## Installing commitizen 
+
+### From the Binary Releases
+
+### From Source
+
+You must have a working Go environment:
+
+```
+$ git clone https://github.com/shipengqi/commitizen.git
+$ cd commitizen
+$ make && make install
+```
+
+Or:
+
+```
+$ make && ./commitizen-go install
+```
+
+## Configuration
+
+You can set configuration file that `.git-czrc` at repository root or home directory. The configuration file that located in repository root have a priority over the one in home directory. The format is the same as the following:
+
+```yaml
+name: my-default
+default: true  # (optional) If true, this template will be used as the default template, note that there can only be one default template       
 items:
   - name: type
     desc: "Select the type of change that you're committing:"
@@ -98,7 +100,7 @@ items:
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
 ```
 
-Template like that:
+Commit message `format`:
 
 ```
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"
