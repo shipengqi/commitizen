@@ -1,0 +1,38 @@
+name: golangci-lint
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+permissions:
+  contents: read
+
+jobs:
+  golangci:
+    strategy:
+      matrix:
+        go: [ '1.20', '1.21' ]
+        os: [ ubuntu-latest, windows-latest ]
+    permissions:
+      contents: read  # for actions/checkout to fetch code
+      pull-requests: read  # for golangci/golangci-lint-action to fetch pull requests
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version: stable # get the latest stable version from the go-versions repository manifest.
+          cache: false
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          args: --timeout=10m
