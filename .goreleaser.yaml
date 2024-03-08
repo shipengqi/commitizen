@@ -1,0 +1,82 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+
+dist: _output
+snapshot:
+  name_template: '{{ incpatch .Version }}-next'
+builds:
+  - env:
+      - CGO_ENABLED=0
+      - GIT_TREE_STATE=clean
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
+      - ppc64le
+    ignore:
+      # don't build arm for darwin and arm/arm64 for windows
+      - goos: darwin
+        goarch: arm
+      - goos: darwin
+        goarch: ppc64le
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+      - goos: windows
+        goarch: ppc64le
+    ldflags:
+      - -X "github.com/shipengqi/component-base/version.Version={{ .Tag }}" -X "github.com/shipengqi/component-base/version.GitCommit={{ .ShortCommit }}" -X "github.com/shipengqi/component-base/version.BuildDate={{ .Date }}" -X "github.com/shipengqi/component-base/version.GitTreeState={{ .Env.GIT_TREE_STATE }}"
+archives:
+  - name_template: "{{ .ProjectName }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}"
+#    wrap_in_directory: true
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG/**
+    # Can be used to change the archive formats for specific GOOSs.
+    # Most common use case is to archive as zip on Windows.
+    # Default is empty.
+    format_overrides:
+      - goos: windows
+        format: zip
+checksum:
+  name_template: 'CHECKSUM'
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^Merge'
+  groups:
+    - title: 'New Features'
+      regexp: "^.*feat.*:+.*$"
+      order: 100
+    - title: 'Bug Fixes'
+      regexp: "^.*fix.*:+.*$"
+      order: 200
+    - title: 'Dependency Updates'
+      regexp: "^.*(feat|fix)\\(deps\\)*:+.*$"
+      order: 300
+    - title: 'Documentation Updates'
+      regexp: "^.*docs.*:+.*$"
+      order: 400
+    - title: Other work
+      order: 9999
+release:
+#  github:
+#    owner: shipengqi
+#    name: commitizen
+#  draft: false
+#  prerelease: auto
+  footer: |
+    **Full Changelog**: https://github.com/shipengqi/commitizen/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+
+# modelines, feel free to remove those if you don't want/use them:
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj

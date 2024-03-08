@@ -19,12 +19,12 @@ jobs:
       actions: read
       contents: read
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
         with:
           go-version: stable
       # Initializes the CodeQL tools for scanning.
-      - uses: github/codeql-action/init@v2
+      - uses: github/codeql-action/init@v3
       # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-      - uses: github/codeql-action/autobuild@v2
-      - uses: github/codeql-action/analyze@v2
+      - uses: github/codeql-action/autobuild@v3
+      - uses: github/codeql-action/analyze@v3

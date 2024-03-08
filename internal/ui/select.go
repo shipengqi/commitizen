@@ -128,11 +128,19 @@ func (m *SelectModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m *SelectModel) View() string {
 	if m.choice != "" {
+		// hardcode for the select value
+		// fix https://github.com/shipengqi/commitizen/issues/18
+		val := m.Value()
+		tokens := strings.Split(m.Value(), ":")
+		if len(tokens) > 0 {
+			val = tokens[0]
+		}
+
 		return fmt.Sprintf(
 			"%s %s\n%s\n",
 			FontColor(DefaultValidateOkPrefix, colorValidateOk),
 			m.label,
-			quitValueStyle.Render(fmt.Sprintf(m.Value())),
+			quitValueStyle.Render(fmt.Sprintf(val)),
 		)
 	}
 	return "\n" + m.list.View()
