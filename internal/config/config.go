@@ -138,9 +138,6 @@ func load(reader io.Reader) ([]*render.Template, error) {
 			}
 			return nil, err
 		}
-		if tmpl == nil {
-			continue
-		}
 		templates = append(templates, tmpl)
 	}
 

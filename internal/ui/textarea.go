@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/textarea"
@@ -145,7 +146,7 @@ func (m *TextAreaModel) View() string {
 			"%s %s\n%s\n",
 			FontColor(m.validateOkPrefix, colorValidateOk),
 			m.label,
-			quitValueStyle.Render(fmt.Sprintf(m.Value())),
+			quitValueStyle.Render(m.Value()),
 		)
 	}
 

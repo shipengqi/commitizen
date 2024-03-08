@@ -63,7 +63,6 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 type SelectModel struct {
 	label    string
 	choice   string
-	finished bool
 	canceled bool
 	err      error
 
@@ -140,7 +139,7 @@ func (m *SelectModel) View() string {
 			"%s %s\n%s\n",
 			FontColor(DefaultValidateOkPrefix, colorValidateOk),
 			m.label,
-			quitValueStyle.Render(fmt.Sprintf(val)),
+			quitValueStyle.Render(val),
 		)
 	}
 	return "\n" + m.list.View()
