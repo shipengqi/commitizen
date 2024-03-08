@@ -1,0 +1,26 @@
+name: "grype"
+on:
+  push:
+    branches: ['main']
+    tags: ['v*']
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+jobs:
+  scan-source:
+    name: scan-source
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - uses: anchore/scan-action@v3
+        with:
+          path: "."
+          fail-build: true

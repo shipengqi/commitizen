@@ -1,0 +1,29 @@
+# Works with https://github.com/actions/labeler/
+# Below this line, the keys are labels to be applied, and the values are the file globs to match against.
+# Anything in the `design` directory gets the `Design` label.
+design:
+  - design/*
+
+example:
+  - example/*
+  - examples/*
+
+documentation:
+  - docs/**/*
+  - README.md
+
+dependencies:
+  - go.mod
+  - go.sum
+
+hack:
+  - hack/*
+
+unit-tests:
+  - "pkg/**/*_test.go"
+  - "cmd/**/*_test.go"
+  - "config/**/*_test.go"
+  - "internal/**/*_test.go"
+
+e2e-tests:
+  - "test/e2e/**/*"

@@ -1,0 +1,31 @@
+run:
+  # Include test files or not.
+  # Default: true
+  tests: false
+
+linters:
+  disable-all: true
+  enable:
+    - misspell
+    - govet
+    - staticcheck
+    - errcheck
+    - unparam
+    - ineffassign
+    - nakedret
+    - gocyclo
+    - dupl
+    - goimports
+    - revive
+    - gosec
+    - gosimple
+    - typecheck
+    - unused
+
+linters-settings:
+  gofmt:
+    simplify: true
+  goimports:
+    local-prefixes: github.com/shipengqi/commitizen
+  dupl:
+    threshold: 600

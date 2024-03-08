@@ -1,0 +1,30 @@
+name: "codeql"
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+jobs:
+  analyze:
+    name: analyze
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version: stable
+      # Initializes the CodeQL tools for scanning.
+      - uses: github/codeql-action/init@v2
+      # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+      - uses: github/codeql-action/autobuild@v2
+      - uses: github/codeql-action/analyze@v2
