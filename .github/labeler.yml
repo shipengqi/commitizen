@@ -2,28 +2,29 @@
 # Below this line, the keys are labels to be applied, and the values are the file globs to match against.
 # Anything in the `design` directory gets the `Design` label.
 design:
-  - design/*
+  - changed-files:
+      - any-glob-to-any-file: design/*
 
 example:
-  - example/*
-  - examples/*
+  - changed-files:
+      - any-glob-to-any-file: ["example/*", "examples/*"]
 
 documentation:
-  - docs/**/*
-  - README.md
+  - changed-files:
+      - any-glob-to-any-file: ["docs/**/*", "README.md"]
 
 dependencies:
-  - go.mod
-  - go.sum
+  - changed-files:
+      - any-glob-to-any-file: ["go.mod", "go.sum"]
 
 hack:
-  - hack/*
+  - changed-files:
+      - any-glob-to-any-file: hack/*
 
 unit-tests:
-  - "pkg/**/*_test.go"
-  - "cmd/**/*_test.go"
-  - "config/**/*_test.go"
-  - "internal/**/*_test.go"
+  - changed-files:
+      - any-glob-to-any-file: ["pkg/**/*_test.go", "cmd/**/*_test.go", "config/**/*_test.go", "internal/**/*_test.go"]
 
 e2e-tests:
-  - "test/e2e/**/*"
+  - changed-files:
+      - any-glob-to-any-file: test/e2e/**/*
