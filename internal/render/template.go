@@ -7,6 +7,7 @@ import (
 	"text/template"
 
 	tea "github.com/charmbracelet/bubbletea"
+
 	"github.com/shipengqi/commitizen/internal/ui"
 )
 

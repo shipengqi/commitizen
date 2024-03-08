@@ -14,7 +14,7 @@ func NewInitCmd() *cobra.Command {
 	c := &cobra.Command{
 		Use:   "init",
 		Short: "Initialize this tool to git-core as git-cz.",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			src, err := exec.LookPath(os.Args[0])
 			if err != nil {
 				return err

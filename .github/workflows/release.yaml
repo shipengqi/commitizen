@@ -1,8 +1,8 @@
 name: "Release a version"
-
 on:
-  tags:
-    - 'v*'
+  push:
+    tags:
+      - 'v*'
 permissions:
   contents: write
 jobs:
