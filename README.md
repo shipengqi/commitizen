@@ -115,3 +115,27 @@ Commit message `format`:
 ```
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"
 ```
+
+### Multiple Templates
+
+You can define multiple templates in the `.git-czrc` file, separated by `---`：
+
+```yaml
+name: angular-template
+items:
+  - name: scope
+    desc: "Scope. Could be anything specifying place of the commit change:"
+    type: input
+  # ...  
+format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
+
+---
+
+name: my-template
+items:
+  - name: scope
+    desc: "Scope. Could be anything specifying place of the commit change:"
+    type: input
+  # ...  
+format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
+```
