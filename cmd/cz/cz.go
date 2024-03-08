@@ -16,7 +16,7 @@ func New() *cobra.Command {
 	c := &cobra.Command{
 		Use:  "commitizen",
 		Long: `Command line utility to standardize git commit messages.`,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			isRepo, err := git.IsGitRepo()
 			if err != nil {
 				return err
