@@ -8,7 +8,7 @@ Command line utility to standardize git commit messages, golang version. Forked 
 
 The [survey](https://github.com/AlecAivazis/survey) project is no longer maintained. Therefore, this project uses [bubbletea](https://github.com/charmbracelet/bubbletea) instead.
 
-![git-cz](docs/images/git-cz.gif)
+![demo](docs/images/demo.gif)
 
 ## Getting Started
 
