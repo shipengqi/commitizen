@@ -35,11 +35,6 @@ export USAGE_OPTIONS
 build: modules
 	@$(MAKE) go.build
 
-## changelog: (Deprecated) generate changelogs.
-.PHONY: changelog
-changelog:
-	@$(MAKE) release.changelog
-
 ## tag: generate release tag.
 .PHONY: tag
 tag:
