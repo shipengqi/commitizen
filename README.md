@@ -8,6 +8,8 @@ Command line utility to standardize git commit messages, golang version. Forked 
 
 The [survey](https://github.com/AlecAivazis/survey) project is no longer maintained. Therefore, this project uses [bubbletea](https://github.com/charmbracelet/bubbletea) instead.
 
+![git-cz](docs/images/git-cz.gif)
+
 ## Getting Started
 
 ```
@@ -105,7 +107,7 @@ items:
   - name: subject
     desc: "Subject. Concise description of the changes. Imperative, lower case and no final dot:"
     type: input
-    required: true
+    required: true  # (optional) If true, enable a validator that requires the control have a non-empty value.
   - name: body
     desc: "Body. Motivation for the change and contrast this with previous behavior:"
     type: textarea
@@ -144,3 +146,5 @@ items:
   # ...  
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
 ```
+
+![multiple-templates](docs/images/multiple-templates.png)
