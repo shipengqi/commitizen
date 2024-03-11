@@ -30,7 +30,7 @@ builds:
       - goos: windows
         goarch: ppc64le
     ldflags:
-      - -X "github.com/shipengqi/component-base/version.Version={{ .Tag }}" -X "github.com/shipengqi/component-base/version.GitCommit={{ .ShortCommit }}" -X "github.com/shipengqi/component-base/version.BuildDate={{ .Date }}" -X "github.com/shipengqi/component-base/version.GitTreeState={{ .Env.GIT_TREE_STATE }}"
+      - -X "github.com/shipengqi/component-base/version.Version={{ .Tag }}" -X "github.com/shipengqi/component-base/version.GitCommit={{ .ShortCommit }}" -X "github.com/shipengqi/component-base/version.BuildTime={{ .Date }}" -X "github.com/shipengqi/component-base/version.GitTreeState={{ .Env.GIT_TREE_STATE }}"
 archives:
   - name_template: "{{ .ProjectName }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}"
 #    wrap_in_directory: true

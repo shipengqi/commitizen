@@ -1,7 +1,5 @@
 # commitizen
 
-[![test](https://github.com/shipengqi/commitizen/actions/workflows/test.yml/badge.svg)](https://github.com/shipengqi/commitizen/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/shipengqi/commitizen/branch/main/graph/badge.svg?token=SMU4SI304O)](https://codecov.io/gh/shipengqi/commitizen)
 [![Go Report Card](https://goreportcard.com/badge/github.com/shipengqi/commitizen)](https://goreportcard.com/report/github.com/shipengqi/commitizen)
 [![release](https://img.shields.io/github/release/shipengqi/commitizen.svg)](https://github.com/shipengqi/commitizen/releases)
 [![license](https://img.shields.io/github/license/shipengqi/commitizen)](https://github.com/shipengqi/commitizen/blob/main/LICENSE)
@@ -21,7 +19,7 @@ Usage:
 
 Available Commands:   
   init        Install this tool to git-core as git-cz.
-  version     Print the version information.
+  version     Print the CLI version information.
   help        Help about any command
 
 Flags:
