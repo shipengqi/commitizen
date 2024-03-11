@@ -1,8 +1,14 @@
 # commitizen
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/shipengqi/commitizen)](https://goreportcard.com/report/github.com/shipengqi/commitizen)
+[![release](https://img.shields.io/github/release/shipengqi/commitizen.svg)](https://github.com/shipengqi/commitizen/releases)
+[![license](https://img.shields.io/github/license/shipengqi/commitizen)](https://github.com/shipengqi/commitizen/blob/main/LICENSE)
+
 Command line utility to standardize git commit messages, golang version. Forked from [commitizen-go](https://github.com/lintingzhen/commitizen-go).
 
 The [survey](https://github.com/AlecAivazis/survey) project is no longer maintained. Therefore, this project uses [bubbletea](https://github.com/charmbracelet/bubbletea) instead.
+
+![demo](docs/images/demo.gif)
 
 ## Getting Started
 
@@ -13,8 +19,9 @@ Usage:
   commitizen
   commitizen [command]
 
-Available Commands:
-  init        Initialize this tool to git-core as git-cz.
+Available Commands:   
+  init        Install this tool to git-core as git-cz.
+  version     Print the CLI version information.
   help        Help about any command
 
 Flags:
@@ -38,7 +45,7 @@ $ git cz
 
 Download the pre-compiled binaries from the [releases page](https://github.com/shipengqi/commitizen/releases) and copy them to the desired location.
 
-Then initialize this tool to git-core as git-cz:
+Then install this tool to git-core as git-cz:
 ```
 $ commitizen init
 ```
@@ -100,7 +107,7 @@ items:
   - name: subject
     desc: "Subject. Concise description of the changes. Imperative, lower case and no final dot:"
     type: input
-    required: true
+    required: true  # (optional) If true, enable a validator that requires the control have a non-empty value.
   - name: body
     desc: "Body. Motivation for the change and contrast this with previous behavior:"
     type: textarea
@@ -139,3 +146,5 @@ items:
   # ...  
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
 ```
+
+![multiple-templates](docs/images/multiple-templates.png)
