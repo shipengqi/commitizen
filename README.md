@@ -1,5 +1,11 @@
 # commitizen
 
+[![test](https://github.com/shipengqi/commitizen/actions/workflows/test.yml/badge.svg)](https://github.com/shipengqi/commitizen/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/shipengqi/commitizen/branch/main/graph/badge.svg?token=SMU4SI304O)](https://codecov.io/gh/shipengqi/commitizen)
+[![Go Report Card](https://goreportcard.com/badge/github.com/shipengqi/commitizen)](https://goreportcard.com/report/github.com/shipengqi/commitizen)
+[![release](https://img.shields.io/github/release/shipengqi/commitizen.svg)](https://github.com/shipengqi/commitizen/releases)
+[![license](https://img.shields.io/github/license/shipengqi/commitizen)](https://github.com/shipengqi/commitizen/blob/main/LICENSE)
+
 Command line utility to standardize git commit messages, golang version. Forked from [commitizen-go](https://github.com/lintingzhen/commitizen-go).
 
 The [survey](https://github.com/AlecAivazis/survey) project is no longer maintained. Therefore, this project uses [bubbletea](https://github.com/charmbracelet/bubbletea) instead.
@@ -13,8 +19,9 @@ Usage:
   commitizen
   commitizen [command]
 
-Available Commands:
-  init        Initialize this tool to git-core as git-cz.
+Available Commands:   
+  init        Install this tool to git-core as git-cz.
+  version     Print the version information.
   help        Help about any command
 
 Flags:
@@ -38,7 +45,7 @@ $ git cz
 
 Download the pre-compiled binaries from the [releases page](https://github.com/shipengqi/commitizen/releases) and copy them to the desired location.
 
-Then initialize this tool to git-core as git-cz:
+Then install this tool to git-core as git-cz:
 ```
 $ commitizen init
 ```

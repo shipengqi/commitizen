@@ -12,8 +12,9 @@ import (
 
 func NewInitCmd() *cobra.Command {
 	c := &cobra.Command{
-		Use:   "init",
-		Short: "Initialize this tool to git-core as git-cz.",
+		Use:     "init",
+		Aliases: []string{"install"},
+		Short:   "Install this tool to git-core as git-cz.",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			src, err := exec.LookPath(os.Args[0])
 			if err != nil {
@@ -23,7 +24,7 @@ func NewInitCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			fmt.Printf("Init commitizen to %s\n", dst)
+			fmt.Printf("Install commitizen to %s\n", dst)
 			return nil
 		},
 	}
