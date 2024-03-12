@@ -1,4 +1,5 @@
 name: mf
+default: true
 items:
   - name: type
     desc: "Select the type of change that you're committing:"
@@ -42,6 +43,7 @@ format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{
 ---
 
 name: ot
+default: true
 items:
   - name: type
     desc: "Select the type of change that you're committing:"
