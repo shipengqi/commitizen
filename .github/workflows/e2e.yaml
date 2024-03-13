@@ -1,0 +1,61 @@
+name: "E2E Test"
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    # Do not run when the change only includes these directories.
+    paths-ignore:
+      - "example/**"
+      - "docs/**"
+      - "README.md"
+jobs:
+  # Build the commitizen and cache it so the workers can get it.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.21
+        id: go
+      # Look for a CLI that's made for this PR
+      - name: Fetch built CLI
+        id: cli-cache
+        uses: actions/cache@v4
+        with:
+          path: ./_output/linux/amd64/bin/commitizen
+          # The cache key a combination of the current PR number and the commit SHA
+          key: commitizen-${{ github.event.pull_request.number }}-${{ github.sha }}
+      - name: Fetch cached go modules
+        uses: actions/cache@v4
+        if: steps.cli-cache.outputs.cache-hit != 'true'
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: Check out the code
+        uses: actions/checkout@v4
+        if: steps.cli-cache.outputs.cache-hit != 'true'
+      # If no binaries were built for this PR, build it now.
+      - name: Build CLI
+        if: steps.cli-cache.outputs.cache-hit != 'true'
+        run: |
+          make build
+  # Run E2E test against all kubernetes versions on kind
+  run-e2e-test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+      - name: Fetch built CLI
+        id: cli-cache
+        uses: actions/cache@v4
+        with:
+          path: ./_output/linux/amd64/bin/commitizen
+          key: commitizen-${{ github.event.pull_request.number }}-${{ github.sha }}
+      - name: Run E2E test
+        run: |
+          GOPATH=~/go make test-e2e
