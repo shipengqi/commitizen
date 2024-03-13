@@ -1,5 +1,4 @@
 name: mf
-default: true
 items:
   - name: type
     desc: "Select the type of change that you're committing:"
