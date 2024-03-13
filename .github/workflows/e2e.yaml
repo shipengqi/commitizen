@@ -1,4 +1,4 @@
-name: "E2E Test"
+name: "e2e test"
 on:
   push:
     branches: [ main ]
@@ -43,7 +43,6 @@ jobs:
         if: steps.cli-cache.outputs.cache-hit != 'true'
         run: |
           make build
-  # Run E2E test against all kubernetes versions on kind
   run-e2e-test:
     needs: build
     runs-on: ubuntu-latest
@@ -58,4 +57,4 @@ jobs:
           key: commitizen-${{ github.event.pull_request.number }}-${{ github.sha }}
       - name: Run E2E test
         run: |
-          GOPATH=~/go make test-e2e
+          GOPATH=~/go make e2e
