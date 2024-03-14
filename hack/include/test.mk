@@ -24,4 +24,4 @@ test.cover:
 .PHONY: test.e2e
 test.e2e: tools.verify.ginkgo
 	@echo "===========> Run e2e test, CLI: $(CLI)"
-	@$(GINKGO) -v $(REPO_ROOT)/test/e2e -- -cli=$(CLI)
+	@$(GINKGO) -v $(REPO_ROOT)/test/e2e -- -cli=$(CLI) -no-tty=$(NO_TTY)

@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 
-	tea "github.com/charmbracelet/bubbletea"
 	"github.com/shipengqi/golib/convutil"
 	"github.com/shipengqi/golib/fsutil"
 	"github.com/shipengqi/golib/sysutil"
@@ -67,14 +66,14 @@ func (c *Config) initialize() error {
 	return nil
 }
 
-func (c *Config) Run() (*render.Template, error) {
+func (c *Config) Run(noTTY bool) (*render.Template, error) {
 	err := c.initialize()
 	if err != nil {
 		return nil, err
 	}
 	if len(c.others) > 0 {
 		model := c.createTemplatesSelect("Select a template to use for this commit:")
-		if _, err := tea.NewProgram(model).Run(); err != nil {
+		if _, err := ui.Run(model, noTTY); err != nil {
 			return nil, err
 		}
 		if model.Canceled() {
