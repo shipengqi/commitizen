@@ -14,6 +14,7 @@
 
 GINKGO := $(shell go env GOPATH)/bin/ginkgo
 CLI ?= $(OUTPUT_DIR)/commitizen
+NO_TTY ?= 0
 
 .PHONY: test.cover
 test.cover:

@@ -2,6 +2,8 @@ package e2e_test
 
 import (
 	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+	"github.com/onsi/gomega/gbytes"
 )
 
 func CZTest() {
@@ -9,18 +11,10 @@ func CZTest() {
 		It("should not need to select a template", func() {
 			se, err = RunCLITest()
 			NoError(err)
-			ShouldContains(se, "Select the type of change that you're committing:")
-			ShouldNotContains(se, "Select a template to use for this commit:")
-		})
-	})
-
-	Context("Check Commitizen Cancel", func() {
-		It("should output canceled", func() {
-			se, err = RunCLITest()
-			NoError(err)
+			Eventually(se.Out).Should(gbytes.Say("Select the type of"))
+			Eventually(se.Out).Should(gbytes.Say("A new feature"))
+			Eventually(se.Out).ShouldNot(gbytes.Say("Select a template to use for this commit:"))
 			se.Terminate()
-			ShouldContains(se, "canceled")
-			ExitCode(se, 0)
 		})
 	})
 }

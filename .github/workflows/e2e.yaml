@@ -61,4 +61,4 @@ jobs:
           key: commitizen-${{ github.event.pull_request.number }}-${{ github.sha }}
       - name: Run E2E test
         run: |
-          GOPATH=~/go make e2e NO_TTY 1
+          GOPATH=~/go make e2e NO_TTY=1

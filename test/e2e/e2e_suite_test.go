@@ -51,9 +51,6 @@ var _ = BeforeSuite(func() {
 // Helpers
 
 func RunCLITestAndWait(args ...string) (*gexec.Session, error) {
-	if CliOpts.NoTTY == 1 {
-		args = append(args, "--no-tty")
-	}
 	cmd := exec.Command(CliOpts.Cli, args...)
 	session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 	return session.Wait(), err
