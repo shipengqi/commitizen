@@ -26,10 +26,6 @@ func New() *cobra.Command {
 			}
 
 			conf := config.New()
-			err = conf.Initialize()
-			if err != nil {
-				return err
-			}
 			tmpl, err := conf.Run()
 			if err != nil {
 				return err

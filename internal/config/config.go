@@ -28,7 +28,7 @@ func New() *Config {
 	return &Config{}
 }
 
-func (c *Config) Initialize() error {
+func (c *Config) initialize() error {
 	var fpath string
 	if fsutil.IsExists(RCFilename) {
 		fpath = RCFilename
@@ -55,7 +55,7 @@ func (c *Config) Initialize() error {
 		}
 		c.others = append(c.others, v)
 	}
-	// If the user has not configured a default template, the built-in template is used
+	// If the user has not configured a default template, use the built-in template as the default template
 	if c.defaultTmpl == nil {
 		defaults, err := Load(convutil.S2B(DefaultCommitTemplate))
 		if err != nil {
@@ -68,8 +68,12 @@ func (c *Config) Initialize() error {
 }
 
 func (c *Config) Run() (*render.Template, error) {
+	err := c.initialize()
+	if err != nil {
+		return nil, err
+	}
 	if len(c.others) > 0 {
-		model := c.createTemplatesSelect("Select the template to be used for this commit")
+		model := c.createTemplatesSelect("Select a template to use for this commit:")
 		if _, err := tea.NewProgram(model).Run(); err != nil {
 			return nil, err
 		}

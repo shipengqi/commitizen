@@ -65,9 +65,9 @@ lint:
 test:
 	@$(MAKE) test.cover
 
-## test-e2e: run e2e test.
-.PHONY: test-e2e
-test-e2e:
+## e2e: run e2e test.
+.PHONY: e2e
+e2e:
 	@$(MAKE) test.e2e
 
 ## help: show help information.
