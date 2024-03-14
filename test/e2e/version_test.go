@@ -7,7 +7,7 @@ import (
 func VersionTest() {
 	Context("Check Version Message", func() {
 		It("should output the all version messages", func() {
-			se, err = RunCLITest("version")
+			se, err = RunCLITestAndWait("version")
 			NoError(err)
 			ShouldContains(se, "Version:")
 			ShouldContains(se, "Commit:")

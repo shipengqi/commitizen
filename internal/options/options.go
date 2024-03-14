@@ -8,6 +8,7 @@ import (
 
 type Options struct {
 	DryRun     bool
+	NoTTY      bool
 	GitOptions *git.Options
 }
 
@@ -22,4 +23,7 @@ func (o *Options) AddFlags(f *pflag.FlagSet) {
 	o.GitOptions.AddFlags(f)
 
 	f.BoolVar(&o.DryRun, "dry-run", o.DryRun, "you can use the --dry-run flag to preview the message that would be committed, without really submitting it.")
+	f.BoolVar(&o.NoTTY, "no-tty", o.NoTTY, "make sure that the TTY (terminal) is never used for any output.")
+
+	_ = f.MarkHidden("no-tty")
 }

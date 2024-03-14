@@ -6,8 +6,6 @@ import (
 	"strings"
 	"text/template"
 
-	tea "github.com/charmbracelet/bubbletea"
-
 	"github.com/shipengqi/commitizen/internal/ui"
 )
 
@@ -60,7 +58,7 @@ func NewTemplate() (*Template, error) {
 	return t, nil
 }
 
-func (t *Template) Run() ([]byte, error) {
+func (t *Template) Run(noTTY bool) ([]byte, error) {
 	err := t.init()
 	if err != nil {
 		return nil, err
@@ -72,7 +70,7 @@ func (t *Template) Run() ([]byte, error) {
 
 	values := map[string]interface{}{}
 	for _, v := range t.models {
-		if _, err = tea.NewProgram(v.model).Run(); err != nil {
+		if _, err = ui.Run(v.model, noTTY); err != nil {
 			return nil, err
 		}
 		if v.model.Canceled() {
