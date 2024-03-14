@@ -41,7 +41,7 @@ func WorkingTreeRoot() (path string, err error) {
 	if err != nil {
 		return "", err
 	}
-	return strings.TrimSpace(string(output)), nil
+	return strings.TrimSpace(output), nil
 }
 
 func ExecPath() (string, error) {

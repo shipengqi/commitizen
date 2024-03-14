@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/shipengqi/golib/convutil"
 	"github.com/spf13/cobra"
 
 	"github.com/shipengqi/commitizen/internal/config"
@@ -37,7 +38,7 @@ func New() *cobra.Command {
 			}
 
 			if o.DryRun {
-				fmt.Println(string(msg))
+				fmt.Println(convutil.B2S(msg))
 				return nil
 			}
 			output, err := git.Commit(msg, o.GitOptions)
