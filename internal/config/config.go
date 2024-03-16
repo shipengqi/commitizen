@@ -3,6 +3,7 @@ package config
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -43,6 +44,7 @@ func (c *Config) initialize() error {
 	if err != nil {
 		return err
 	}
+	var exists map[string]struct{}
 	for _, v := range tmpls {
 		if v.Default {
 			if c.defaultTmpl != nil {
@@ -52,6 +54,10 @@ func (c *Config) initialize() error {
 			c.defaultTmpl = v
 			continue
 		}
+		if _, ok := exists[v.Name]; ok {
+			return fmt.Errorf("duplicate template '%s'", v.Name)
+		}
+		exists[v.Name] = struct{}{}
 		c.others = append(c.others, v)
 	}
 	// If the user has not configured a default template, use the built-in template as the default template
