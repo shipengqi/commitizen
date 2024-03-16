@@ -47,7 +47,7 @@ func (c *Config) initialize() error {
 	if err != nil {
 		return err
 	}
-	exists := make(map[string]struct{})
+	exists := make(map[string]struct{}, len(tmpls))
 	for _, v := range tmpls {
 		if v.Default {
 			if c.defaultTmpl != nil {
