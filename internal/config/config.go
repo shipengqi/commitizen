@@ -17,7 +17,10 @@ import (
 	"github.com/shipengqi/commitizen/internal/ui"
 )
 
-const RCFilename = ".git-czrc"
+const (
+	RCFilename          = ".git-czrc"
+	ReservedDefaultName = "default"
+)
 
 type Config struct {
 	defaultTmpl *render.Template
@@ -44,7 +47,7 @@ func (c *Config) initialize() error {
 	if err != nil {
 		return err
 	}
-	var exists map[string]struct{}
+	exists := make(map[string]struct{})
 	for _, v := range tmpls {
 		if v.Default {
 			if c.defaultTmpl != nil {
@@ -54,9 +57,13 @@ func (c *Config) initialize() error {
 			c.defaultTmpl = v
 			continue
 		}
+		if v.Name == ReservedDefaultName {
+			return errors.New("template name 'default' is reserved, use 'default' as the template name, default must be true")
+		}
 		if _, ok := exists[v.Name]; ok {
 			return fmt.Errorf("duplicate template '%s'", v.Name)
 		}
+
 		exists[v.Name] = struct{}{}
 		c.others = append(c.others, v)
 	}
