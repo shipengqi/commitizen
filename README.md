@@ -1,5 +1,6 @@
 # commitizen
 
+[![test](https://github.com/shipengqi/commitizen/actions/workflows/e2e.yaml/badge.svg)](https://github.com/shipengqi/commitizen/actions/workflows/e2e.yaml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/shipengqi/commitizen)](https://goreportcard.com/report/github.com/shipengqi/commitizen)
 [![release](https://img.shields.io/github/release/shipengqi/commitizen.svg)](https://github.com/shipengqi/commitizen/releases)
 [![license](https://img.shields.io/github/license/shipengqi/commitizen)](https://github.com/shipengqi/commitizen/blob/main/LICENSE)
@@ -8,7 +9,7 @@ Command line utility to standardize git commit messages, golang version. Forked 
 
 The [survey](https://github.com/AlecAivazis/survey) project is no longer maintained. Therefore, this project uses [bubbletea](https://github.com/charmbracelet/bubbletea) instead.
 
-![demo](docs/images/demo.gif)
+![demo](https://github.com/shipengqi/illustrations/blob/ebe8786a60c6467edb3122723d74d22f639fb216/commitizen/demo.gif?raw=true)
 
 ## Getting Started
 
@@ -66,7 +67,7 @@ You must have a working Go environment:
 ```
 $ git clone https://github.com/shipengqi/commitizen.git
 $ cd commitizen
-$ make && ./commitizen init
+$ make && ./_output/$(GOOS)/$(GOARCH)/bin/commitizen init
 ```
 
 ## Configuration
@@ -147,4 +148,4 @@ items:
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
 ```
 
-![multiple-templates](docs/images/multiple-templates.png)
+![multiple-templates](https://github.com/shipengqi/illustrations/blob/ebe8786a60c6467edb3122723d74d22f639fb216/commitizen/multiple-templates.png?raw=true)
