@@ -20,16 +20,18 @@ Usage:
   commitizen
   commitizen [command]
 
-Available Commands:   
+Available Commands:
   init        Install this tool to git-core as git-cz.
   version     Print the CLI version information.
   help        Help about any command
 
 Flags:
-  -s, --signoff   add a Signed-off-by trailer by the committer at the end of the commit log message.
-  -a, --add       tell the command to automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
-      --dry-run   you can use the --dry-run flag to preview the message that would be committed, without really submitting it.
-  -h, --help      help for commitizen
+  -a, --add               tell the command to automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
+  -s, --signoff           add a Signed-off-by trailer by the committer at the end of the commit log message.
+      --dry-run           you can use the --dry-run flag to preview the message that would be committed, without really submitting it.
+  -t, --template string   template name to use when multiple templates exist.
+  -d, --default           use the default template, same as '--template default'. '--default' has a higher priority than '--template'.
+  -h, --help              help for commitizen
 
 Use "commitizen [command] --help" for more information about a command.
 ```
