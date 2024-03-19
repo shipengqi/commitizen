@@ -30,7 +30,7 @@ Flags:
   -s, --signoff           add a Signed-off-by trailer by the committer at the end of the commit log message.
       --dry-run           you can use the --dry-run flag to preview the message that would be committed, without really submitting it.
   -t, --template string   template name to use when multiple templates exist.
-  -d, --default           use the default template, same as '--template default'. '--default' has a higher priority than '--template'.
+  -d, --default           use the default template, '--default' has a higher priority than '--template'.
   -h, --help              help for commitizen
 
 Use "commitizen [command] --help" for more information about a command.
