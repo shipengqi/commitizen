@@ -14,9 +14,10 @@ Fixes some issues of commitizen-go and supports more new features.
 ## Features
 
 - Multi-template support
-- Default template support
-- Better unit tests.
+- Dry-run support
+- Signed-off support
 - Use [bubbletea](https://github.com/charmbracelet/bubbletea) instead of [survey](https://github.com/AlecAivazis/survey) ([survey](https://github.com/AlecAivazis/survey) is no longer maintained).
+- Better unit tests.
 
 ## Getting Started
 
