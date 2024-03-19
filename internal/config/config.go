@@ -13,6 +13,7 @@ import (
 	"github.com/shipengqi/golib/sysutil"
 	"gopkg.in/yaml.v3"
 
+	"github.com/shipengqi/commitizen/internal/options"
 	"github.com/shipengqi/commitizen/internal/render"
 	"github.com/shipengqi/commitizen/internal/ui"
 )
@@ -24,7 +25,7 @@ const (
 
 type Config struct {
 	defaultTmpl *render.Template
-	others      []*render.Template
+	more        []*render.Template
 }
 
 func New() *Config {
@@ -65,7 +66,7 @@ func (c *Config) initialize() error {
 		}
 
 		exists[v.Name] = struct{}{}
-		c.others = append(c.others, v)
+		c.more = append(c.more, v)
 	}
 	// If the user has not configured a default template, use the built-in template as the default template
 	if c.defaultTmpl == nil {
@@ -79,14 +80,27 @@ func (c *Config) initialize() error {
 	return nil
 }
 
-func (c *Config) Run(noTTY bool) (*render.Template, error) {
+func (c *Config) Run(opts *options.Options) (*render.Template, error) {
 	err := c.initialize()
 	if err != nil {
 		return nil, err
 	}
-	if len(c.others) > 0 {
+	// find the given template
+	if len(opts.Template) > 0 {
+		if opts.Template == c.defaultTmpl.Name {
+			return c.defaultTmpl, nil
+		}
+		for _, v := range c.more {
+			if v.Name == opts.Template {
+				return v, nil
+			}
+		}
+		return nil, fmt.Errorf("template '%s' not found", opts.Template)
+	}
+
+	if len(c.more) > 0 {
 		model := c.createTemplatesSelect("Select a template to use for this commit:")
-		if _, err := ui.Run(model, noTTY); err != nil {
+		if _, err = ui.Run(model, opts.NoTTY); err != nil {
 			return nil, err
 		}
 		if model.Canceled() {
@@ -96,7 +110,7 @@ func (c *Config) Run(noTTY bool) (*render.Template, error) {
 		if val == c.defaultTmpl.Name {
 			return c.defaultTmpl, nil
 		}
-		for _, v := range c.others {
+		for _, v := range c.more {
 			if v.Name == val {
 				return v, nil
 			}
@@ -108,7 +122,7 @@ func (c *Config) Run(noTTY bool) (*render.Template, error) {
 func (c *Config) createTemplatesSelect(label string) *ui.SelectModel {
 	var choices ui.Choices
 	var all []*render.Template
-	all = append(all, c.others...)
+	all = append(all, c.more...)
 	all = append(all, c.defaultTmpl)
 	// list custom templates and default templates
 	for _, v := range all {

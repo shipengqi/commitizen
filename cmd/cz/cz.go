@@ -27,7 +27,7 @@ func New() *cobra.Command {
 			}
 
 			conf := config.New()
-			tmpl, err := conf.Run(o.NoTTY)
+			tmpl, err := conf.Run(o)
 			if err != nil {
 				return err
 			}
