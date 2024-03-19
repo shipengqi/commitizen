@@ -7,9 +7,16 @@
 
 Command line utility to standardize git commit messages, golang version. Forked from [commitizen-go](https://github.com/lintingzhen/commitizen-go).
 
-The [survey](https://github.com/AlecAivazis/survey) project is no longer maintained. Therefore, this project uses [bubbletea](https://github.com/charmbracelet/bubbletea) instead.
+Fixes some issues of commitizen-go and supports more new features.
 
 ![demo](https://github.com/shipengqi/illustrations/blob/ebe8786a60c6467edb3122723d74d22f639fb216/commitizen/demo.gif?raw=true)
+
+## Features
+
+- Multi-template support
+- Default template support
+- Better unit tests.
+- Use [bubbletea](https://github.com/charmbracelet/bubbletea) instead of [survey](https://github.com/AlecAivazis/survey) ([survey](https://github.com/AlecAivazis/survey) is no longer maintained).
 
 ## Getting Started
 
