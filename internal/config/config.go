@@ -85,6 +85,10 @@ func (c *Config) Run(opts *options.Options) (*render.Template, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if opts.Default {
+		return c.defaultTmpl, nil
+	}
 	// find the given template
 	if len(opts.Template) > 0 {
 		if opts.Template == c.defaultTmpl.Name {
