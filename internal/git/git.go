@@ -62,7 +62,7 @@ func Commit(msg []byte, opts *Options) (string, error) {
 		return "", err
 	}
 
-	args := opts.Combination(temp.Name())
+	args := opts.Combine(temp.Name())
 	stdout, err := cliutil.ExecContext(context.TODO(), "git", args...)
 	if err != nil {
 		return "", err

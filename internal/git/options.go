@@ -37,33 +37,33 @@ func (o *Options) AddFlags(f *pflag.FlagSet) {
 	f.BoolVar(&o.Amend, "amend", o.Amend, "amend previous commit")
 }
 
-func (o *Options) Combination(filename string) []string {
-	combined := []string{
+func (o *Options) Combine(filename string) []string {
+	combination := []string{
 		"commit",
 		"-F",
 		filename,
 	}
 	if o.Quiet {
-		combined = append(combined, "-q")
+		combination = append(combination, "-q")
 	}
 	if o.Verbose {
-		combined = append(combined, "-v")
+		combination = append(combination, "-v")
 	}
 	if o.Author != "" {
-		combined = append(combined, "--author", o.Author)
+		combination = append(combination, "--author", o.Author)
 	}
 	if o.Date != "" {
-		combined = append(combined, "--date", o.Date)
+		combination = append(combination, "--date", o.Date)
 	}
 	if o.All {
-		combined = append(combined, "-a")
+		combination = append(combination, "-a")
 	}
 	if o.Amend {
-		combined = append(combined, "--amend")
+		combination = append(combination, "--amend")
 	}
 	if o.DryRun {
-		combined = append(combined, "--dry-run")
+		combination = append(combination, "--dry-run")
 	}
 
-	return combined
+	return combination
 }
