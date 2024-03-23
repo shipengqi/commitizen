@@ -39,7 +39,9 @@ func New() *cobra.Command {
 
 			if o.DryRun {
 				fmt.Println(convutil.B2S(msg))
-				return nil
+				fmt.Println("")
+				// inherits the --dry-run argument from the parent command
+				o.GitOptions.DryRun = o.DryRun
 			}
 			output, err := git.Commit(msg, o.GitOptions)
 			if err != nil {

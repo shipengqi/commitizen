@@ -62,18 +62,8 @@ func Commit(msg []byte, opts *Options) (string, error) {
 		return "", err
 	}
 
-	tokens := []string{
-		"commit",
-		"-F",
-		temp.Name(),
-	}
-	if opts.Add {
-		tokens = append(tokens, "-a")
-	}
-	if opts.SignOff {
-		tokens = append(tokens, "-s")
-	}
-	stdout, err := cliutil.ExecContext(context.TODO(), "git", tokens...)
+	args := opts.Combine(temp.Name())
+	stdout, err := cliutil.ExecContext(context.TODO(), "git", args...)
 	if err != nil {
 		return "", err
 	}
