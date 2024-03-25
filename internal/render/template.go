@@ -9,6 +9,11 @@ import (
 	"github.com/shipengqi/commitizen/internal/ui"
 )
 
+const (
+	TextAreaMaxHeight = 20
+	TextWidth         = 50
+)
+
 type Option struct {
 	Name string
 	Desc string
@@ -155,7 +160,7 @@ func (t *Template) createSelectItem(label string, options []Option) *ui.SelectMo
 }
 
 func (t *Template) createInputItem(name, label string, required bool) *ui.InputModel {
-	m := ui.NewInput(label).WithWidth(30)
+	m := ui.NewInput(label).WithWidth(TextWidth)
 	if required {
 		m.WithValidateFunc(NotBlankValidator(name))
 	}
@@ -163,7 +168,7 @@ func (t *Template) createInputItem(name, label string, required bool) *ui.InputM
 }
 
 func (t *Template) createTextAreaItem(name, label string, required bool) *ui.TextAreaModel {
-	m := ui.NewTextArea(label)
+	m := ui.NewTextArea(label).WithMaxHeight(TextAreaMaxHeight).WithWidth(TextWidth)
 	if required {
 		m.WithValidateFunc(NotBlankValidator(name))
 	}
