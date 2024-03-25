@@ -14,8 +14,7 @@ Fixes some issues of commitizen-go and supports more new features.
 ## Features
 
 - Multi-template support
-- Dry-run support
-- Signed-off support
+- Support more options of `git commit`
 - Use [bubbletea](https://github.com/charmbracelet/bubbletea) instead of [survey](https://github.com/AlecAivazis/survey) ([survey](https://github.com/AlecAivazis/survey) is no longer maintained).
 - Better unit tests.
 
@@ -34,9 +33,15 @@ Available Commands:
   help        Help about any command
 
 Flags:
-  -a, --add               tell the command to automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
-  -s, --signoff           add a Signed-off-by trailer by the committer at the end of the commit log message.
-      --dry-run           you can use the --dry-run flag to preview the message that would be committed, without really submitting it.
+  -q, --quiet             suppress summary after successful commit
+  -v, --verbose           show diff in commit message template
+      --author string     override author for commit
+      --date string       override date for commit
+  -a, --all               commit all changed files.
+  -s, --signoff           add a Signed-off-by trailer.
+      --amend             amend previous commit
+      --dry-run           do not create a commit, but show the message and list of paths
+                          that are to be committed.
   -t, --template string   template name to use when multiple templates exist.
   -d, --default           use the default template, '--default' has a higher priority than '--template'.
   -h, --help              help for commitizen
