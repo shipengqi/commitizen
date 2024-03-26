@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 
+	cliflag "github.com/shipengqi/component-base/cli/flag"
+	"github.com/shipengqi/component-base/term"
 	"github.com/shipengqi/golib/convutil"
 	"github.com/spf13/cobra"
 
@@ -57,10 +59,21 @@ func New() *cobra.Command {
 	cobra.EnableCommandSorting = false
 	c.CompletionOptions.DisableDefaultCmd = true
 
-	f := c.Flags()
-	f.SortFlags = false
+	cliflag.InitFlags(c.Flags())
+
+	// applies the FlagSets to this command
+	fs := c.Flags()
+	fss := o.Flags()
+	for _, set := range fss.FlagSets {
+		fs.AddFlagSet(set)
+	}
+
+	fs.SortFlags = false
 	c.DisableFlagsInUseLine = true
-	o.AddFlags(f)
+
+	// set both usage and help function.
+	width, _, _ := term.TerminalSize(c.OutOrStdout())
+	cliflag.SetUsageAndHelpFunc(c, fss, width)
 
 	c.AddCommand(NewInitCmd())
 	c.AddCommand(NewVersionCmd())

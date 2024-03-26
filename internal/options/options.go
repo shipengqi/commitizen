@@ -1,7 +1,7 @@
 package options
 
 import (
-	"github.com/spf13/pflag"
+	cliflag "github.com/shipengqi/component-base/cli/flag"
 
 	"github.com/shipengqi/commitizen/internal/git"
 )
@@ -21,13 +21,16 @@ func New() *Options {
 	}
 }
 
-func (o *Options) AddFlags(f *pflag.FlagSet) {
-	o.GitOptions.AddFlags(f)
+func (o *Options) Flags() (fss cliflag.NamedFlagSets) {
+	o.GitOptions.AddFlags(fss.FlagSet("Git Commit"))
 
-	f.BoolVar(&o.DryRun, "dry-run", o.DryRun, "do not create a commit, but show the message and list of paths \nthat are to be committed.")
-	f.StringVarP(&o.Template, "template", "t", o.Template, "template name to use when multiple templates exist.")
-	f.BoolVarP(&o.Default, "default", "d", o.Default, "use the default template, '--default' has a higher priority than '--template'.")
-	f.BoolVar(&o.NoTTY, "no-tty", o.NoTTY, "make sure that the TTY (terminal) is never used for any output.")
+	fs := fss.FlagSet("Commitizen")
+	fs.BoolVar(&o.DryRun, "dry-run", o.DryRun, "do not create a commit, but show the message and list of paths \nthat are to be committed.")
+	fs.StringVarP(&o.Template, "template", "t", o.Template, "template name to use when multiple templates exist.")
+	fs.BoolVarP(&o.Default, "default", "d", o.Default, "use the default template, '--default' has a higher priority than '--template'.")
+	fs.BoolVar(&o.NoTTY, "no-tty", o.NoTTY, "make sure that the TTY (terminal) is never used for any output.")
 
-	_ = f.MarkHidden("no-tty")
+	_ = fs.MarkHidden("no-tty")
+
+	return
 }
