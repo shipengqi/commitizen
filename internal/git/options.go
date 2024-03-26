@@ -1,8 +1,6 @@
 package git
 
-import (
-	"github.com/spf13/pflag"
-)
+import "github.com/spf13/pflag"
 
 type Options struct {
 	Quiet   bool
@@ -28,16 +26,15 @@ func NewOptions() *Options {
 	}
 }
 
-func (o *Options) AddFlags(fs *pflag.FlagSet) {
+func (o *Options) AddFlags(f *pflag.FlagSet) {
 	// inherits the --dry-run argument from the parent command
-	fs.BoolVarP(&o.Quiet, "quiet", "q", o.Quiet, "suppress summary after successful commit")
-	fs.BoolVarP(&o.Verbose, "verbose", "v", o.Verbose, "show diff in commit message template")
-	fs.StringVar(&o.Author, "author", o.Author, "override author for commit")
-	fs.StringVar(&o.Date, "date", o.Date, "override date for commit")
-	fs.BoolVarP(&o.All, "all", "a", o.All, "commit all changed files.")
-	fs.BoolVarP(&o.SignOff, "signoff", "s", o.SignOff, "add a Signed-off-by trailer.")
-	fs.BoolVar(&o.Amend, "amend", o.Amend, "amend previous commit")
-	return
+	f.BoolVarP(&o.Quiet, "quiet", "q", o.Quiet, "suppress summary after successful commit")
+	f.BoolVarP(&o.Verbose, "verbose", "v", o.Verbose, "show diff in commit message template")
+	f.StringVar(&o.Author, "author", o.Author, "override author for commit")
+	f.StringVar(&o.Date, "date", o.Date, "override date for commit")
+	f.BoolVarP(&o.All, "all", "a", o.All, "commit all changed files.")
+	f.BoolVarP(&o.SignOff, "signoff", "s", o.SignOff, "add a Signed-off-by trailer.")
+	f.BoolVar(&o.Amend, "amend", o.Amend, "amend previous commit")
 }
 
 func (o *Options) Combine(filename string) []string {
