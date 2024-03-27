@@ -25,26 +25,36 @@ Command line utility to standardize git commit messages.
 
 Usage:
   commitizen
-  commitizen [command]
 
 Available Commands:
   init        Install this tool to git-core as git-cz.
-  version     Print the CLI version information.
+  version     Print the CLI version information.      
   help        Help about any command
 
-Flags:
-  -q, --quiet             suppress summary after successful commit
-  -v, --verbose           show diff in commit message template
-      --author string     override author for commit
-      --date string       override date for commit
-  -a, --all               commit all changed files.
-  -s, --signoff           add a Signed-off-by trailer.
-      --amend             amend previous commit
-      --dry-run           do not create a commit, but show the message and list of paths
-                          that are to be committed.
-  -t, --template string   template name to use when multiple templates exist.
-  -d, --default           use the default template, '--default' has a higher priority than '--template'.
-  -h, --help              help for commitizen
+Git Commit flags:
+  -a, --all
+                commit all changed files.
+      --amend
+                amend previous commit
+      --author string
+                override author for commit
+      --date string
+                override date for commit
+  -q, --quiet
+                suppress summary after successful commit
+  -s, --signoff
+                add a Signed-off-by trailer.
+  -v, --verbose
+                show diff in commit message template
+
+Commitizen flags:
+  -d, --default
+                use the default template, '--default' has a higher priority than '--template'.
+      --dry-run
+                do not create a commit, but show the message and list of paths
+                that are to be committed.
+  -t, --template string
+                template name to use when multiple templates exist.
 
 Use "commitizen [command] --help" for more information about a command.
 ```
