@@ -8,7 +8,7 @@ require (
 	github.com/charmbracelet/lipgloss v0.10.0
 	github.com/onsi/ginkgo/v2 v2.17.1
 	github.com/onsi/gomega v1.32.0
-	github.com/shipengqi/component-base v0.2.6
+	github.com/shipengqi/component-base v0.2.7
 	github.com/shipengqi/golib v0.2.12
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
