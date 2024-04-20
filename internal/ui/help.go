@@ -25,8 +25,8 @@ func (k keyMap) FullHelp() [][]key.Binding {
 
 var helpKeys = keyMap{
 	Save: key.NewBinding(
-		key.WithKeys("ctrl+q"),
-		key.WithHelp("ctrl+q", "save"),
+		key.WithKeys("ctrl+w", "ctrl+q"),
+		key.WithHelp("ctrl+w", "save"),
 	),
 	Quit: key.NewBinding(
 		key.WithKeys("ctrl+c"),
