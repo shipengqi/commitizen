@@ -120,7 +120,7 @@ func (t *Template) init() error {
 			return NewMissingErr("item.type")
 		}
 		if _, ok := exists[item.Name]; ok {
-			return fmt.Errorf("duplicate name: %s", item.Name)
+			return fmt.Errorf("duplicate item.name: %s", item.Name)
 		}
 		exists[item.Name] = struct{}{}
 
