@@ -13,7 +13,7 @@ func CZTest() {
 			NoError(err)
 			Eventually(se.Out).Should(gbytes.Say("Select the type of"))
 			Eventually(se.Out).Should(gbytes.Say("A new feature"))
-			Eventually(se.Out).ShouldNot(gbytes.Say("Select a template to use for this commit:"))
+			Eventually(se.Out).ShouldNot(gbytes.Say("Select the template of change that you're committing:"))
 			se.Terminate()
 		})
 	})

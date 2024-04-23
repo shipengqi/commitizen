@@ -9,11 +9,6 @@ import (
 	"github.com/charmbracelet/huh"
 )
 
-const (
-	TextAreaMaxHeight = 20
-	TextWidth         = 50
-)
-
 type Option struct {
 	Name string
 	Desc string
@@ -113,7 +108,7 @@ func (t *Template) init() error {
 		return NewMissingErr("format")
 	}
 
-	// Todo name cannot duplicate
+	exists := make(map[string]struct{}, len(t.Items))
 	for _, item := range t.Items {
 		if isEmptyStr(item.Name) {
 			return NewMissingErr("item.name")
@@ -124,6 +119,10 @@ func (t *Template) init() error {
 		if isEmptyStr(item.Type) {
 			return NewMissingErr("item.type")
 		}
+		if _, ok := exists[item.Name]; ok {
+			return fmt.Errorf("duplicate name: %s", item.Name)
+		}
+		exists[item.Name] = struct{}{}
 
 		var field huh.Field
 
