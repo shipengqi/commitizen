@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/charmbracelet/huh"
 	"github.com/shipengqi/golib/convutil"
 	"github.com/shipengqi/golib/fsutil"
 	"github.com/shipengqi/golib/sysutil"
@@ -15,12 +16,12 @@ import (
 
 	"github.com/shipengqi/commitizen/internal/options"
 	"github.com/shipengqi/commitizen/internal/render"
-	"github.com/shipengqi/commitizen/internal/ui"
 )
 
 const (
-	RCFilename          = ".git-czrc"
-	ReservedDefaultName = "default"
+	RCFilename             = ".git-czrc"
+	ReservedDefaultName    = "default"
+	FieldKeyTemplateSelect = "template-select"
 )
 
 type Config struct {
@@ -59,7 +60,7 @@ func (c *Config) initialize() error {
 			continue
 		}
 		if v.Name == ReservedDefaultName {
-			return errors.New("template name 'default' is reserved, use 'default' as the template name, default must be true")
+			return errors.New("template name 'default' is reserved, to override the default template, you need to set default to true")
 		}
 		if _, ok := exists[v.Name]; ok {
 			return fmt.Errorf("duplicate template '%s'", v.Name)
@@ -103,14 +104,12 @@ func (c *Config) Run(opts *options.Options) (*render.Template, error) {
 	}
 
 	if len(c.more) > 0 {
-		model := c.createTemplatesSelect("Select a template to use for this commit:")
-		if _, err = ui.Run(model, opts.NoTTY); err != nil {
+		form := c.createTemplatesSelect("Select the template of change that you're committing:")
+		if err = form.Run(); err != nil {
 			return nil, err
 		}
-		if model.Canceled() {
-			return nil, render.ErrCanceled
-		}
-		val := model.Value()
+
+		val := form.GetString(FieldKeyTemplateSelect)
 		if val == c.defaultTmpl.Name {
 			return c.defaultTmpl, nil
 		}
@@ -123,25 +122,23 @@ func (c *Config) Run(opts *options.Options) (*render.Template, error) {
 	return c.defaultTmpl, nil
 }
 
-func (c *Config) createTemplatesSelect(label string) *ui.SelectModel {
-	var choices ui.Choices
+func (c *Config) createTemplatesSelect(label string) *huh.Form {
+	var choices []string
 	var all []*render.Template
 	all = append(all, c.more...)
 	all = append(all, c.defaultTmpl)
 	// list custom templates and default templates
 	for _, v := range all {
-		choices = append(choices, ui.Choice(v.Name))
+		choices = append(choices, v.Name)
 	}
-	height := 8
-	if len(all) > 5 {
-		height = 12
-	} else if len(all) > 3 {
-		height = 10
-	} else if len(all) > 2 {
-		height = 9
-	}
-	m := ui.NewSelect(label, choices).WithHeight(height)
-	return m
+
+	return huh.NewForm(huh.NewGroup(
+		huh.NewNote().Title("Commitizen").Description("Welcome to Commitizen!\nFor further configuration visit:\nhttps://github.com/shipengqi/commitizen"),
+		huh.NewSelect[string]().
+			Key(FieldKeyTemplateSelect).
+			Options(huh.NewOptions(choices...)...).
+			Title(label)),
+	)
 }
 
 func LoadTemplates(file string) ([]*render.Template, error) {

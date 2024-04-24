@@ -20,7 +20,6 @@ var (
 
 func init() {
 	flag.StringVar(&CliOpts.Cli, "cli", "", "path to the commitizen command to use.")
-	flag.IntVar(&CliOpts.NoTTY, "no-tty", 0, "make sure that the TTY (terminal) is never used for any output.")
 }
 
 var _ = Describe("Sorted Tests", func() {
@@ -57,9 +56,6 @@ func RunCLITestAndWait(args ...string) (*gexec.Session, error) {
 }
 
 func RunCLITest(args ...string) (*gexec.Session, error) {
-	if CliOpts.NoTTY == 1 {
-		args = append(args, "--no-tty")
-	}
 	cmd := exec.Command(CliOpts.Cli, args...)
 	return gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 }
