@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/charmbracelet/huh"
+
 	"github.com/shipengqi/commitizen/cmd/cz"
-	"github.com/shipengqi/commitizen/internal/render"
 )
 
 const (
@@ -17,7 +18,7 @@ const (
 func main() {
 	err := cz.New().Execute()
 	if err != nil {
-		if errors.Is(err, render.ErrCanceled) {
+		if errors.Is(err, huh.ErrUserAborted) {
 			fmt.Println(err.Error())
 			os.Exit(ExitCodeOk)
 			return

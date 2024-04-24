@@ -1,12 +1,7 @@
 package render
 
 import (
-	"errors"
 	"fmt"
-)
-
-var (
-	ErrCanceled = errors.New("canceled")
 )
 
 type MissingErr struct {

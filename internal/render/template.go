@@ -72,24 +72,6 @@ func (t *Template) Run(noTTY bool) ([]byte, error) {
 	for _, field := range t.fields {
 		values[field.GetKey()] = field.GetValue()
 	}
-	// for _, v := range t.models {
-	// 	if _, err = ui.Run(v.model, noTTY); err != nil {
-	// 		return nil, err
-	// 	}
-	// 	if v.model.Canceled() {
-	// 		return nil, ErrCanceled
-	// 	}
-	// 	val := v.model.Value()
-	// 	// hardcode for the select options
-	// 	if v.t == TypeSelect {
-	// 		tokens := strings.Split(val, ":")
-	// 		if len(tokens) > 0 {
-	// 			val = tokens[0]
-	// 		}
-	// 	}
-	// 	values[v.name] = val
-	// }
-	//
 	tmpl, err := template.New("cz").Parse(t.Format)
 	if err != nil {
 		return nil, err
