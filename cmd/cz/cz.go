@@ -34,7 +34,7 @@ func New() *cobra.Command {
 				return err
 			}
 
-			msg, err := tmpl.Run(o.NoTTY)
+			msg, err := tmpl.Run()
 			if err != nil {
 				return err
 			}

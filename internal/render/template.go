@@ -52,7 +52,7 @@ func NewTemplate() (*Template, error) {
 	return t, nil
 }
 
-func (t *Template) Run(noTTY bool) ([]byte, error) {
+func (t *Template) Run() ([]byte, error) {
 	err := t.init()
 	if err != nil {
 		return nil, err
