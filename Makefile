@@ -24,8 +24,6 @@ Options:
                    This option is available when using: make release
   V                Set to 1 enable verbose build. Default is 0.
   DEBUG            Whether to generate debug symbols. Default is 0.
-  NO_TTY           Make sure that the TTY (terminal) is never used for
-                   any output. Default is 0.
 endef
 export USAGE_OPTIONS
 
