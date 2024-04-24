@@ -27,16 +27,16 @@ items:
       - name: revert
         desc: "Reverts a previous commit"
   - name: scope
-    desc: "What is the scope of this change? (class or file name):"
+    desc: "Scope. What is the scope of this change? (class or file name):"
     type: input
   - name: subject
-    desc: "Write a short and imperative summary of the code change (lower case and no period):"
+    desc: "Subject. Write a short and imperative summary of the code change (lower case and no period):"
     type: input
     required: true
   - name: body
-    desc: "Provide additional contextual information about the code changes:"
+    desc: "Body. Provide additional contextual information about the code changes:"
     type: textarea
   - name: footer
-    desc: "Information about Breaking Changes and reference issues that this commit closes:"
+    desc: "Footer. Information about Breaking Changes and reference issues that this commit closes:"
     type: textarea
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
