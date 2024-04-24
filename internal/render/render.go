@@ -5,10 +5,9 @@ import (
 )
 
 const (
-	TypeSelect    = "select"
-	TypeInput     = "input"
-	TypeTextArea  = "textarea"
-	DescMaxLength = 50
+	TypeSelect   = "select"
+	TypeInput    = "input"
+	TypeTextArea = "textarea"
 )
 
 // -----------------------------------------

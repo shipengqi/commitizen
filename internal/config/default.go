@@ -15,9 +15,7 @@ items:
       - name: docs
         desc: "Documentation only changes"
       - name: test
-        desc: "Adding missing tests"
-      - name: WIP
-        desc: "Work in progress"
+        desc: "Adding missing or correcting existing tests"
       - name: chore
         desc: "Changes to the build process or auxiliary tools and\n               libraries such as documentation generation"
       - name: style
@@ -27,18 +25,18 @@ items:
       - name: perf
         desc: "A code change that improves performance"
       - name: revert
-        desc: "Revert to a commit"
+        desc: "Reverts a previous commit"
   - name: scope
-    desc: "Scope. Could be anything specifying place of the commit change:"
+    desc: "What is the scope of this change? (class or file name):"
     type: input
   - name: subject
-    desc: "Subject. Concise description of the changes. Imperative, lower case and no final dot:"
+    desc: "Write a short and imperative summary of the code change (lower case and no period):"
     type: input
     required: true
   - name: body
-    desc: "Body. Motivation for the change and contrast this with previous behavior:"
+    desc: "Provide additional contextual information about the code changes:"
     type: textarea
   - name: footer
-    desc: "Footer. Information about Breaking Changes and reference issues that this commit closes:"
+    desc: "Information about Breaking Changes and reference issues that this commit closes:"
     type: textarea
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`

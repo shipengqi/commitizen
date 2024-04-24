@@ -158,7 +158,7 @@ func (t *Template) createInputItem(name, label string, required bool, desc ...st
 func (t *Template) createTextAreaItem(name, label string, required bool, desc ...string) *huh.Text {
 	// Todo CharLimit??
 	text := huh.NewText().Key(name).
-		Placeholder("Just put it in the mailbox please").
+		Placeholder("Just put it in the textarea please").
 		Title(label).
 		Lines(5)
 
