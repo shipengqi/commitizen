@@ -31,7 +31,7 @@ jobs:
           go-version: stable # get the latest stable version from the go-versions repository manifest.
           cache: false
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@v5
         with:
           args: --timeout=10m
           version: latest
