@@ -9,7 +9,7 @@ Command line utility to standardize git commit messages, golang version. Forked 
 
 Fixes some issues of commitizen-go and supports more new features.
 
-![demo](https://github.com/shipengqi/illustrations/blob/ebe8786a60c6467edb3122723d74d22f639fb216/commitizen/demo.gif?raw=true)
+![demo](https://github.com/shipengqi/illustrations/blob/e0d588dd70551344f0394cbf6671b15ae22e7635/commitizen/demo.gif?raw=true)
 
 ## Features
 
@@ -173,4 +173,4 @@ items:
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
 ```
 
-![multiple-templates](https://github.com/shipengqi/illustrations/blob/ebe8786a60c6467edb3122723d74d22f639fb216/commitizen/multiple-templates.png?raw=true)
+![multiple-templates](https://github.com/shipengqi/illustrations/blob/e0d588dd70551344f0394cbf6671b15ae22e7635/commitizen/multiple-templates.png?raw=true)
