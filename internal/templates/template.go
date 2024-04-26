@@ -1,17 +1,16 @@
-package v2
+package templates
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
-	errors2 "github.com/shipengqi/commitizen/internal/errors"
-	"github.com/shipengqi/golib/strutil"
 	"strings"
 	"text/template"
 
 	"github.com/charmbracelet/huh"
 	"github.com/mitchellh/mapstructure"
+	"github.com/shipengqi/golib/strutil"
 
+	"github.com/shipengqi/commitizen/internal/errors"
 	"github.com/shipengqi/commitizen/internal/parameter"
 	"github.com/shipengqi/commitizen/internal/parameter/boolean"
 	"github.com/shipengqi/commitizen/internal/parameter/integer"
@@ -21,6 +20,8 @@ import (
 	"github.com/shipengqi/commitizen/internal/parameter/str"
 	"github.com/shipengqi/commitizen/internal/parameter/text"
 )
+
+const UnknownGroup = "unknown"
 
 type Option struct {
 	Name string
@@ -40,7 +41,6 @@ func (o *Option) String() string {
 }
 
 type Template struct {
-	Version string
 	Name    string
 	Desc    string
 	Format  string
@@ -50,16 +50,12 @@ type Template struct {
 	fields  []huh.Field
 }
 
-func (t *Template) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	if err := unmarshal(t); err != nil {
-		return err
-	}
-
+func (t *Template) Initialize() error {
 	if strutil.IsEmpty(t.Format) {
-		return errors2.NewRequiredErr("format")
+		return errors.NewRequiredErr("format")
 	}
 
-	groups := make(map[string][]huh.Field)
+	groups := NewSortedGroupMap()
 	exists := make(map[string]struct{}, len(t.Items))
 	for _, v := range t.Items {
 		namestr, err := GetValueFromYAML[string](v, "name")
@@ -113,19 +109,19 @@ func (t *Template) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		field = param.Render()
 		t.fields = append(t.fields, field)
 		if group == "" {
-			group = "unknown"
+			group = UnknownGroup
 		}
-		if fields, ok := groups[group]; !ok {
+		if fields, ok := groups.Get(group); !ok {
 			news := make([]huh.Field, 0)
 			news = append(news, field)
-			groups[group] = news
+			groups.Set(group, news)
 		} else {
 			fields = append(fields, field)
-			groups[group] = fields
+			groups.Set(group, fields)
 		}
 	}
 
-	t.groups = GroupMap2Array(groups)
+	t.groups = groups.FormGroups()
 	return nil
 }
 
@@ -169,20 +165,11 @@ func GetValueFromYAML[T any](data map[string]interface{}, key string) (T, error)
 
 	v, ok = data[key]
 	if !ok {
-		return res, errors2.NewRequiredErr(key)
+		return res, errors.NewRequiredErr(key)
 	}
 	res, ok = v.(T)
 	if !ok {
-		return res, errors.New("error type")
+		return res, errors.ErrType
 	}
 	return res, nil
-}
-
-func GroupMap2Array(all map[string][]huh.Field) []*huh.Group {
-	var groups []*huh.Group
-	for _, v := range all {
-		groups = append(groups, huh.NewGroup(v...))
-	}
-
-	return groups
 }

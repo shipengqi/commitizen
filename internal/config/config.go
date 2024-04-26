@@ -15,18 +15,18 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"github.com/shipengqi/commitizen/internal/options"
-	"github.com/shipengqi/commitizen/internal/render"
+	"github.com/shipengqi/commitizen/internal/templates"
 )
 
 const (
-	RCFilename             = ".git-czrc"
+	RCFilename             = ".czrc"
 	ReservedDefaultName    = "default"
 	FieldKeyTemplateSelect = "template-select"
 )
 
 type Config struct {
-	defaultTmpl *render.Template
-	more        []*render.Template
+	defaultTmpl *templates.Template
+	more        []*templates.Template
 }
 
 func New() *Config {
@@ -81,7 +81,7 @@ func (c *Config) initialize() error {
 	return nil
 }
 
-func (c *Config) Run(opts *options.Options) (*render.Template, error) {
+func (c *Config) Run(opts *options.Options) (*templates.Template, error) {
 	err := c.initialize()
 	if err != nil {
 		return nil, err
@@ -124,7 +124,7 @@ func (c *Config) Run(opts *options.Options) (*render.Template, error) {
 
 func (c *Config) createTemplatesSelect(label string) *huh.Form {
 	var choices []string
-	var all []*render.Template
+	var all []*templates.Template
 	all = append(all, c.more...)
 	all = append(all, c.defaultTmpl)
 	// list custom templates and default templates
@@ -141,7 +141,7 @@ func (c *Config) createTemplatesSelect(label string) *huh.Form {
 	)
 }
 
-func LoadTemplates(file string) ([]*render.Template, error) {
+func LoadTemplates(file string) ([]*templates.Template, error) {
 	if len(file) == 0 {
 		return nil, nil
 	}
@@ -153,15 +153,15 @@ func LoadTemplates(file string) ([]*render.Template, error) {
 	return load(fd)
 }
 
-func Load(data []byte) ([]*render.Template, error) {
+func Load(data []byte) ([]*templates.Template, error) {
 	return load(bytes.NewReader(data))
 }
 
-func load(reader io.Reader) ([]*render.Template, error) {
-	var templates []*render.Template
+func load(reader io.Reader) ([]*templates.Template, error) {
+	var tmpls []*templates.Template
 	d := yaml.NewDecoder(reader)
 	for {
-		tmpl := new(render.Template)
+		tmpl := new(templates.Template)
 		err := d.Decode(tmpl)
 		if err != nil {
 			if errors.Is(err, io.EOF) {
@@ -169,8 +169,12 @@ func load(reader io.Reader) ([]*render.Template, error) {
 			}
 			return nil, err
 		}
-		templates = append(templates, tmpl)
+		err = tmpl.Initialize()
+		if err != nil {
+			return nil, err
+		}
+		tmpls = append(tmpls, tmpl)
 	}
 
-	return templates, nil
+	return tmpls, nil
 }
