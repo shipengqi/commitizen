@@ -2,6 +2,7 @@ package secret
 
 import (
 	"github.com/charmbracelet/huh"
+
 	"github.com/shipengqi/commitizen/internal/parameter/str"
 )
 
