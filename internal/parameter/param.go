@@ -33,13 +33,13 @@ func (p Parameter) Render() huh.Field {
 func (p Parameter) Validate() []error {
 	var errs []error
 	if strutil.IsEmpty(p.Name) {
-		errs = append(errs, errors.NewRequiredErr("parameter.name"))
+		errs = append(errs, errors.NewMissingErr("parameter.name"))
 	}
 	if strutil.IsEmpty(p.Label) {
-		errs = append(errs, errors.NewRequiredErr("parameter.label"))
+		errs = append(errs, errors.NewMissingErr("label", p.Name))
 	}
 	if strutil.IsEmpty(p.Type) {
-		errs = append(errs, errors.NewRequiredErr("parameter.type"))
+		errs = append(errs, errors.NewMissingErr("type", p.Name))
 	}
 	return errs
 }

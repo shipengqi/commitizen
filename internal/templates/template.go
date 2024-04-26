@@ -35,7 +35,7 @@ type Template struct {
 
 func (t *Template) Initialize() error {
 	if strutil.IsEmpty(t.Format) {
-		return errors.NewRequiredErr("format")
+		return errors.NewMissingErr("format")
 	}
 
 	groups := NewSortedGroupMap()
@@ -152,7 +152,7 @@ func GetValueFromYAML[T any](data map[string]interface{}, key string) (T, error)
 
 	v, ok = data[key]
 	if !ok {
-		return res, errors.NewRequiredErr(key)
+		return res, errors.NewMissingErr(key)
 	}
 	res, ok = v.(T)
 	if !ok {

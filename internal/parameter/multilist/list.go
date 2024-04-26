@@ -19,7 +19,7 @@ type Param struct {
 func (p Param) Validate() []error {
 	errs := p.Parameter.Validate()
 	if len(p.Options) < 1 {
-		errs = append(errs, errors.NewRequiredErr("parameter.options"))
+		errs = append(errs, errors.NewMissingErr("options", p.Name))
 	}
 	return errs
 }
