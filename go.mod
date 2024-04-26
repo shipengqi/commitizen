@@ -4,7 +4,6 @@ go 1.22
 
 require (
 	github.com/charmbracelet/huh v0.3.0
-	github.com/emirpasic/gods v1.18.1
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/onsi/ginkgo/v2 v2.17.1
 	github.com/onsi/gomega v1.33.0
