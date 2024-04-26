@@ -2,6 +2,7 @@ package templates
 
 import (
 	"bytes"
+	standarderrs "errors"
 	"fmt"
 	"text/template"
 
@@ -86,6 +87,10 @@ func (t *Template) Initialize() error {
 		}
 		if err != nil {
 			return err
+		}
+		errs := param.Validate()
+		if len(errs) > 0 {
+			return standarderrs.Join(errs...)
 		}
 		group = param.GetGroup()
 		field = param.Render()
