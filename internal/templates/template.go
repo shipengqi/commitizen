@@ -3,7 +3,6 @@ package templates
 import (
 	"bytes"
 	"fmt"
-	"strings"
 	"text/template"
 
 	"github.com/charmbracelet/huh"
@@ -22,23 +21,6 @@ import (
 )
 
 const UnknownGroup = "unknown"
-
-type Option struct {
-	Name string
-	Desc string
-}
-
-func (o *Option) String() string {
-	var b strings.Builder
-	ml := len(o.Name)
-	pl := 12 - ml - 2
-	padding := strings.Repeat(" ", pl)
-	b.WriteString(o.Name)
-	b.WriteString(": ")
-	b.WriteString(padding)
-	b.WriteString(o.Desc)
-	return b.String()
-}
 
 type Template struct {
 	Name    string
