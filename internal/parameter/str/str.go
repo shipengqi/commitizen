@@ -35,7 +35,7 @@ func (p Param) RenderInput() *huh.Input {
 
 	param.Value(&p.DefaultValue)
 
-	var group []validators.Validator
+	var group []validators.Validator[string]
 	if p.Required {
 		group = append(group, validators.Required(p.Name, p.Trim))
 	}

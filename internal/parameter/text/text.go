@@ -33,7 +33,7 @@ func (p Param) Render() huh.Field {
 
 	param.Value(&p.DefaultValue)
 
-	var group []validators.Validator
+	var group []validators.Validator[string]
 	if p.Required {
 		group = append(group, validators.Required(p.Name, false))
 	}
