@@ -14,12 +14,13 @@ type Param struct {
 	Options      []huh.Option[string] `yaml:"options"       json:"options"       mapstructure:"options"`
 	DefaultValue []string             `yaml:"default_value" json:"default_value" mapstructure:"default_value"`
 	Required     bool                 `yaml:"required"      json:"required"      mapstructure:"required"`
+	Limit        *int                 `yaml:"limit"         json:"limit"         mapstructure:"limit"`
 }
 
 func (p Param) Validate() []error {
 	errs := p.Parameter.Validate()
 	if len(p.Options) < 1 {
-		errs = append(errs, errors.NewRequiredErr("parameter.options"))
+		errs = append(errs, errors.NewMissingErr("options", p.Name))
 	}
 	return errs
 }
@@ -32,10 +33,18 @@ func (p Param) Render() huh.Field {
 		param.Description(p.Description)
 	}
 
+	if p.Limit != nil {
+		param.Limit(*p.Limit)
+	}
 	param.Value(&p.DefaultValue)
 
+	var group []validators.Validator[[]string]
 	if p.Required {
-		param.Validate(validators.MultiRequired(p.Name))
+		group = append(group, validators.MultiRequired(p.Name))
+	}
+
+	if p.Required {
+		param.Validate(validators.Group(group...))
 	}
 
 	return param

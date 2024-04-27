@@ -2,8 +2,8 @@ package templates
 
 import (
 	"bytes"
+	standarderrs "errors"
 	"fmt"
-	"strings"
 	"text/template"
 
 	"github.com/charmbracelet/huh"
@@ -23,23 +23,6 @@ import (
 
 const UnknownGroup = "unknown"
 
-type Option struct {
-	Name string
-	Desc string
-}
-
-func (o *Option) String() string {
-	var b strings.Builder
-	ml := len(o.Name)
-	pl := 12 - ml - 2
-	padding := strings.Repeat(" ", pl)
-	b.WriteString(o.Name)
-	b.WriteString(": ")
-	b.WriteString(padding)
-	b.WriteString(o.Desc)
-	return b.String()
-}
-
 type Template struct {
 	Name    string
 	Desc    string
@@ -52,7 +35,7 @@ type Template struct {
 
 func (t *Template) Initialize() error {
 	if strutil.IsEmpty(t.Format) {
-		return errors.NewRequiredErr("format")
+		return errors.NewMissingErr("format")
 	}
 
 	groups := NewSortedGroupMap()
@@ -104,6 +87,10 @@ func (t *Template) Initialize() error {
 		}
 		if err != nil {
 			return err
+		}
+		errs := param.Validate()
+		if len(errs) > 0 {
+			return standarderrs.Join(errs...)
 		}
 		group = param.GetGroup()
 		field = param.Render()
@@ -165,7 +152,7 @@ func GetValueFromYAML[T any](data map[string]interface{}, key string) (T, error)
 
 	v, ok = data[key]
 	if !ok {
-		return res, errors.NewRequiredErr(key)
+		return res, errors.NewMissingErr(key)
 	}
 	res, ok = v.(T)
 	if !ok {
