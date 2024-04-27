@@ -28,7 +28,7 @@ func (p Param) Render() huh.Field {
 		group = append(group, validators.MaxLength(*p.MaxLength))
 	}
 	if p.Regex != "" {
-		group = append(group, validators.RegexValidator(p.Regex, p.RegexMessage))
+		group = append(group, validators.RegexValidator(p.Regex))
 	}
 	if len(group) > 0 {
 		param.Validate(validators.Group(group...))

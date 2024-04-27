@@ -1,7 +1,6 @@
 package validators
 
 import (
-	"errors"
 	"fmt"
 	"net"
 	"regexp"
@@ -29,11 +28,11 @@ func MinLength(min int) func(string) error {
 	}
 }
 
-func RegexValidator(regex, message string) func(string) error {
+func RegexValidator(regex string) func(string) error {
 	return func(str string) error {
 		re := regexp.MustCompile(regex)
 		if !re.MatchString(str) {
-			return errors.New(message)
+			return fmt.Errorf("contents must match the regex: %s", regex)
 		}
 		return nil
 	}
