@@ -1,7 +1,6 @@
 package config
 
 const DefaultCommitTemplate = `---
-version: v2
 name: default
 default: true
 items:

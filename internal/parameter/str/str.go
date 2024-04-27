@@ -13,7 +13,7 @@ type Param struct {
 	Required     bool   `yaml:"required"      json:"required"      mapstructure:"required"`
 	FQDN         bool   `yaml:"fqdn"          json:"fqdn"          mapstructure:"fqdn"`
 	IP           bool   `yaml:"ip"            json:"ip"            mapstructure:"ip"`
-	Trim         bool   `yaml:"trim"          json:"trim"          mapstructure:"trim"`
+	Trim         bool   `yaml:"trim"          json:"trim"          mapstructure:"trim"` // Todo implement trim??
 	DefaultValue string `yaml:"default_value" json:"default_value" mapstructure:"default_value"`
 	Regex        string `yaml:"regex"         json:"regex"         mapstructure:"regex"`
 	RegexMessage string `yaml:"regex_message" json:"regex_message" mapstructure:"regex_message"`

@@ -11,7 +11,7 @@ func (e MissingErr) Error() string {
 	if e.name == "" {
 		return fmt.Sprintf("missing required field `%s`", e.field)
 	}
-	return fmt.Sprintf("'%s' missing required field: %s", e.name, e.field)
+	return fmt.Sprintf("item '%s' missing required field: %s", e.name, e.field)
 }
 
 func NewMissingErr(field string, name ...string) error {

@@ -2,6 +2,7 @@ package secret
 
 import (
 	"github.com/charmbracelet/huh"
+	"github.com/shipengqi/commitizen/internal/parameter/validators"
 
 	"github.com/shipengqi/commitizen/internal/parameter/str"
 )
@@ -11,7 +12,26 @@ type Param struct {
 }
 
 func (p Param) Render() huh.Field {
-	input := p.Param.RenderInput()
-	input.Password(true)
-	return input
+	param := p.Param.RenderInput()
+	param.Password(true)
+
+	// reset validators of the secret
+	var group []validators.Validator[string]
+	if p.Required {
+		group = append(group, validators.Required(p.Name, p.Trim))
+	}
+	if p.MinLength != nil {
+		group = append(group, validators.MinLength(*p.MinLength))
+	}
+	if p.MaxLength != nil {
+		group = append(group, validators.MaxLength(*p.MaxLength))
+	}
+	if p.Regex != "" {
+		group = append(group, validators.RegexValidator(p.Regex, p.RegexMessage))
+	}
+	if len(group) > 0 {
+		param.Validate(validators.Group(group...))
+	}
+
+	return param
 }
