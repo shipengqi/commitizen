@@ -13,10 +13,10 @@ Fixes some issues of commitizen-go and supports more new features.
 
 ## Features
 
-- Multi-template support
-- Support more options of `git commit`
-- Use [bubbletea](https://github.com/charmbracelet/bubbletea) instead of [survey](https://github.com/AlecAivazis/survey) ([survey](https://github.com/AlecAivazis/survey) is no longer maintained).
-- Better unit tests.
+- Multi-template support.
+- More powerful and flexible template.
+- Support more options of `git commit`.
+- Use [huh](https://github.com/charmbracelet/huh) instead of [survey](https://github.com/AlecAivazis/survey) ([survey](https://github.com/AlecAivazis/survey) is no longer maintained).
 
 ## Getting Started
 
@@ -265,9 +265,18 @@ Properties:
 | Property      | Required | Default Value | Description                                |
 |:--------------|:---------|:--------------|:-------------------------------------------|
 | required      | no       | `false`       | Whether a string value is required or not. |
-| default_value | no       | -             | The default value for this item.           |
+| default_value | no       | -             | A list of default selection values.        |
 | options       | yes      | -             | The list of options to choose from.        |
 | limit         | no       | `false`       | The limit of the multiple selection list.  |
+
+#### list/multi_list Options
+
+Properties:
+
+| Property | Required | Description                      |
+|:---------|:---------|:---------------------------------|
+| key      | yes      | The message shown in the UI.     |
+| value    | yes      | Unique identifier for the value. |
 
 ### Multiple Templates
 
