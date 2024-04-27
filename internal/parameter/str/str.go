@@ -39,7 +39,8 @@ func (p Param) RenderInput() *huh.Input {
 	if p.Required {
 		group = append(group, validators.Required(p.Name, p.Trim))
 	}
-	if p.MinLength != nil {
+	// if the value is not required and no value has been given, min length validator should be ignored.
+	if p.Required && p.MinLength != nil {
 		group = append(group, validators.MinLength(*p.MinLength))
 	}
 	if p.MaxLength != nil {
