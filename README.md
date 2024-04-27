@@ -72,6 +72,7 @@ $ git cz
 Download the pre-compiled binaries from the [releases page](https://github.com/shipengqi/commitizen/releases) and copy them to the desired location.
 
 Then install this tool to git-core as git-cz:
+
 ```
 $ commitizen init
 ```
@@ -97,51 +98,57 @@ $ make && ./_output/$(GOOS)/$(GOARCH)/bin/commitizen init
 
 ## Configuration
 
-You can set configuration file that `.git-czrc` at repository root or home directory. The configuration file that located in repository root have a priority over the one in home directory. The format is the same as the following:
+You can set configuration file that `.czrc` at repository root or home directory. The configuration file that located in repository root have a priority over the one in home directory. The format is the same as the following:
 
 ```yaml
 name: my-default
 default: true  # (optional) If true, this template will be used as the default template, note that there can only be one default template       
 items:
   - name: type
-    desc: "Select the type of change that you're committing:"
-    type: select
+    group: page1
+    label: "Select the type of change that you're committing:"
+    type: list
     options:
-      - name: feat
-        desc: "A new feature"
-      - name: fix
-        desc: "A bug fix"
-      - name: docs
-        desc: "Documentation only changes"
-      - name: test
-        desc: "Adding missing tests"
-      - name: WIP
-        desc: "Work in progress"
-      - name: chore
-        desc: "Changes to the build process or auxiliary tools\n            and libraries such as documentation generation"
-      - name: style
-        desc: "Changes that do not affect the meaning of the code\n            (white-space, formatting, missing semi-colons, etc)"
-      - name: refactor
-        desc: "A code change that neither fixes a bug nor adds a feature"
-      - name: perf
-        desc: "A code change that improves performance"
-      - name: revert
-        desc: "Revert to a commit"
+      - value: feat
+        key: "feat:      A new feature"
+      - value: fix
+        key: "fix:       A bug fix"
+      - value: docs
+        key: "docs:      Documentation only changes"
+      - value: test
+        key: "test:      Adding missing or correcting existing tests"
+      - value: chore
+        key: "chore:     Changes to the build process or auxiliary tools and\n             libraries such as documentation generation"
+      - value: style
+        key: "style:     Changes that do not affect the meaning of the code\n             (white-space, formatting, missing semi-colons, etc)"
+      - value: refactor
+        key: "refactor:  A code change that neither fixes a bug nor adds a feature"
+      - value: perf
+        key: "perf:      A code change that improves performance"
+      - value: revert
+        key: "revert:    Reverts a previous commit"
   - name: scope
-    desc: "Scope. Could be anything specifying place of the commit change:"
-    type: input
+    group: page2
+    label: "Scope. What is the scope of this change? (class or file name):"
+    type: string
+    regex: ^[a-zA-Z0-9]+
   - name: subject
-    desc: "Subject. Concise description of the changes. Imperative, lower case and no final dot:"
-    type: input
-    required: true  # (optional) If true, enable a validator that requires the control have a non-empty value.
+    group: page2
+    label: "Subject. Write a short and imperative summary of the code change (lower case and no period):"
+    type: string
+    required: true
   - name: body
-    desc: "Body. Motivation for the change and contrast this with previous behavior:"
-    type: textarea
+    group: page3
+    label: "Body. Provide additional contextual information about the code changes:"
+    type: text
   - name: footer
-    desc: "Footer. Information about Breaking Changes and reference issues that this commit closes:"
-    type: textarea
+    group: page3
+    label: "Footer. Information about Breaking Changes and reference issues that this commit closes:"
+    type: text
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
 ```
+
+### Format
 
 Commit message `format`:
 
@@ -149,27 +156,134 @@ Commit message `format`:
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"
 ```
 
+### Items
+
+#### Common Item Properties
+
+| Property    | Required | Default Value | Description                                                                                                         |
+|:------------|:---------|:--------------|:--------------------------------------------------------------------------------------------------------------------|
+| name        | yes      | -             | Unique identifier for the item.                                                                                     |
+| label       | yes      | -             | This will be used as the label for the input field in the UI.                                                       |
+| type        | yes      | -             | The type of item. Determines which UI widget is shown. See the Item Types section to see all the different options. |
+| group       | no       | -             | The name of the group this item belongs to.                                                                         |
+| description | no       | -             | A short description of the item for user guidance. This will be displayed along with the input field.               |
+
+#### Item Types
+
+- string
+- text
+- integer
+- boolean
+- secret
+- list
+- multi_list
+
+#### string
+
+`string` are single line text parameters.
+
+Properties:
+
+| Property      | Required | Default Value | Description                                                                                                  |
+|:--------------|:---------|:--------------|:-------------------------------------------------------------------------------------------------------------|
+| required      | no       | `false`       | Whether a string value is required or not.                                                                   |
+| fqdn          | no       | `false`       | Add a preset FQDN regex to validate string.                                                                  |
+| ip            | no       | `false`       | Add a preset IPv4/IPv6 regex to validate string.                                                             |
+| default_value | no       | -             | The default value for this item.                                                                             |
+| regex         | no       | -             | A regex used to validate the string.                                                                         |
+| min_length    | no       | -             | The minimum length of the string. If the value is not required and no value has been given, this is ignored. |
+| max_length    | no       | -             | The maximum length of the string.                                                                            |
+
+#### text
+
+Properties:
+
+| Property      | Required | Default Value | Description                                                                                                |
+|:--------------|:---------|:--------------|:-----------------------------------------------------------------------------------------------------------|
+| required      | no       | `false`       | Whether the text is required or not.                                                                       |
+| height        | no       | 5             | The height of the text.                                                                                    |
+| default_value | no       | -             | The default value for this item.                                                                           |
+| regex         | no       | -             | A regex used to validate the text.                                                                         |
+| min_length    | no       | -             | The minimum length of the text. If the value is not required and no value has been given, this is ignored. |
+| max_length    | no       | -             | The maximum length of the text.                                                                            |
+
+#### integer
+
+`integer` is a number.
+
+Properties:
+
+| Property      | Required | Default Value | Description                             |
+|:--------------|:---------|:--------------|:----------------------------------------|
+| required      | no       | `false`       | Whether the integer is required or not. |
+| default_value | no       | -             | The default value for this item.        |
+| min           | no       | -             | The minimum value allowed.              |
+| max           | no       | -             | The maximum value allowed.              |
+
+#### boolean
+
+`boolean` are true or false values.
+
+Properties:
+
+| Property      | Required | Default Value | Description                      |
+|:--------------|:---------|:--------------|:---------------------------------|
+| default_value | no       | -             | The default value for this item. |
+
+#### secret
+
+`secret` is used for sensitive data that should not be echoed in the UI, for example, passwords.
+
+Properties:
+
+| Property      | Required | Default Value | Description                                                                                                  |
+|:--------------|:---------|:--------------|:-------------------------------------------------------------------------------------------------------------|
+| required      | no       | `false`       | Whether the secret is required or not.                                                                       |
+| default_value | no       | -             | The default value for this item.                                                                             |
+| regex         | no       | -             | A regex used to validate the secret.                                                                         |
+| min_length    | no       | -             | The minimum length of the secret. If the value is not required and no value has been given, this is ignored. |
+| max_length    | no       | -             | The maximum length of the secret.                                                                            |
+
+#### list
+
+`list` is predefined lists of values that can be picked by the user.
+
+Properties:
+
+| Property      | Required | Default Value | Description                                |
+|:--------------|:---------|:--------------|:-------------------------------------------|
+| required      | no       | `false`       | Whether a string value is required or not. |
+| default_value | no       | -             | The default value for this item.           |
+| options       | yes      | -             | The list of options to choose from.        |
+
+#### multi_list
+
+Similar to `list`, but with multiple selection.
+
+Properties:
+
+| Property      | Required | Default Value | Description                                |
+|:--------------|:---------|:--------------|:-------------------------------------------|
+| required      | no       | `false`       | Whether a string value is required or not. |
+| default_value | no       | -             | The default value for this item.           |
+| options       | yes      | -             | The list of options to choose from.        |
+| limit         | no       | `false`       | The limit of the multiple selection list.  |
+
 ### Multiple Templates
 
-You can define multiple templates in the `.git-czrc` file, separated by `---`：
+You can define multiple templates in the `.czrc` file, separated by `---`：
 
 ```yaml
 name: angular-template
 items:
-  - name: scope
-    desc: "Scope. Could be anything specifying place of the commit change:"
-    type: input
-  # ...  
+# ...  
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
 
 ---
 
 name: my-template
 items:
-  - name: scope
-    desc: "Scope. Could be anything specifying place of the commit change:"
-    type: input
-  # ...  
+# ...  
 format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
 ```
 
