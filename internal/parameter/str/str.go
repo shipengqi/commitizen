@@ -1,6 +1,8 @@
 package str
 
 import (
+	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/charmbracelet/huh"
@@ -20,6 +22,16 @@ type Param struct {
 	Regex        string `yaml:"regex"         json:"regex"         mapstructure:"regex"`
 	MinLength    *int   `yaml:"min_length"    json:"min_length"    mapstructure:"min_length"`
 	MaxLength    *int   `yaml:"max_length"    json:"max_length"    mapstructure:"max_length"`
+}
+
+func (p *Param) Validate() []error {
+	errs := p.Parameter.Validate()
+	if p.Regex != "" {
+		if _, err := regexp.Compile(p.Regex); err != nil {
+			errs = append(errs, fmt.Errorf("regex %s compile: %s", p.Regex, err.Error()))
+		}
+	}
+	return errs
 }
 
 func (p *Param) Render() {

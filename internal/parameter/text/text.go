@@ -1,6 +1,9 @@
 package text
 
 import (
+	"fmt"
+	"regexp"
+
 	"github.com/charmbracelet/huh"
 
 	"github.com/shipengqi/commitizen/internal/parameter"
@@ -16,6 +19,16 @@ type Param struct {
 	MinLength    *int   `yaml:"min_length"    json:"min_length"    mapstructure:"min_length"`
 	MaxLength    *int   `yaml:"max_length"    json:"max_length"    mapstructure:"max_length"`
 	Height       *int   `yaml:"height"        json:"height"        mapstructure:"height"`
+}
+
+func (p *Param) Validate() []error {
+	errs := p.Parameter.Validate()
+	if p.Regex != "" {
+		if _, err := regexp.Compile(p.Regex); err != nil {
+			errs = append(errs, fmt.Errorf("regex %s compile: %s", p.Regex, err.Error()))
+		}
+	}
+	return errs
 }
 
 func (p *Param) Render() {

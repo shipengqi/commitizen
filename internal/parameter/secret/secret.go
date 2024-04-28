@@ -1,12 +1,25 @@
 package secret
 
 import (
+	"fmt"
+	"regexp"
+
 	"github.com/shipengqi/commitizen/internal/parameter/str"
 	"github.com/shipengqi/commitizen/internal/parameter/validators"
 )
 
 type Param struct {
 	str.Param `mapstructure:",squash"`
+}
+
+func (p *Param) Validate() []error {
+	errs := p.Parameter.Validate()
+	if p.Regex != "" {
+		if _, err := regexp.Compile(p.Regex); err != nil {
+			errs = append(errs, fmt.Errorf("regex %s compile: %s", p.Regex, err.Error()))
+		}
+	}
+	return errs
 }
 
 func (p *Param) Render() {
