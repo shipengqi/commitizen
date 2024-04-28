@@ -15,6 +15,7 @@ type Param struct {
 	DefaultValue []string             `yaml:"default_value" json:"default_value" mapstructure:"default_value"`
 	Required     bool                 `yaml:"required"      json:"required"      mapstructure:"required"`
 	Limit        *int                 `yaml:"limit"         json:"limit"         mapstructure:"limit"`
+	Height       *int                 `yaml:"height"        json:"height"        mapstructure:"height"`
 }
 
 func (p *Param) Validate() []error {
@@ -32,7 +33,9 @@ func (p *Param) Render() {
 	if len(p.Description) > 0 {
 		param.Description(p.Description)
 	}
-
+	if p.Height != nil {
+		param.Height(*p.Height)
+	}
 	if p.Limit != nil {
 		param.Limit(*p.Limit)
 	}

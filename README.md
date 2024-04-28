@@ -252,11 +252,12 @@ Properties:
 
 Properties:
 
-| Property      | Required | Default Value | Description                                |
-|:--------------|:---------|:--------------|:-------------------------------------------|
-| required      | no       | `false`       | Whether a string value is required or not. |
-| default_value | no       | -             | The default value for this item.           |
-| options       | yes      | -             | The list of options to choose from.        |
+| Property      | Required | Default Value | Description                                                                                           |
+|:--------------|:---------|:--------------|:------------------------------------------------------------------------------------------------------|
+| required      | no       | `false`       | Whether a string value is required or not.                                                            |
+| default_value | no       | -             | The default value for this item.                                                                      |
+| options       | yes      | -             | The list of options to choose from.                                                                   |
+| height        | no       | -             | The height of the list. If the number of options exceeds the height, the list will become scrollable. |
 
 #### multi_list
 
@@ -264,12 +265,13 @@ Similar to `list`, but with multiple selection.
 
 Properties:
 
-| Property      | Required | Default Value | Description                                |
-|:--------------|:---------|:--------------|:-------------------------------------------|
-| required      | no       | `false`       | Whether a string value is required or not. |
-| default_value | no       | -             | A list of default selection values.        |
-| options       | yes      | -             | The list of options to choose from.        |
-| limit         | no       | `false`       | The limit of the multiple selection list.  |
+| Property      | Required | Default Value | Description                                                                                           |
+|:--------------|:---------|:--------------|:------------------------------------------------------------------------------------------------------|
+| required      | no       | `false`       | Whether a string value is required or not.                                                            |
+| default_value | no       | -             | A list of default selection values.                                                                   |
+| options       | yes      | -             | The list of options to choose from.                                                                   |
+| limit         | no       | `false`       | The limit of the multiple selection list.                                                             |
+| height        | no       | -             | The height of the list. If the number of options exceeds the height, the list will become scrollable. |
 
 #### list/multi_list Options
 

@@ -12,6 +12,7 @@ type Param struct {
 	parameter.Parameter `mapstructure:",squash"`
 
 	Options      []huh.Option[string] `yaml:"options"       json:"options"       mapstructure:"options"`
+	Height       *int                 `yaml:"height"        json:"height"        mapstructure:"height"`
 	DefaultValue string               `yaml:"default_value" json:"default_value" mapstructure:"default_value"`
 	Required     bool                 `yaml:"required"      json:"required"      mapstructure:"required"`
 }
@@ -31,7 +32,9 @@ func (p *Param) Render() {
 	if len(p.Description) > 0 {
 		param.Description(p.Description)
 	}
-
+	if p.Height != nil {
+		param.Height(*p.Height)
+	}
 	param.Value(&p.DefaultValue)
 
 	var group []validators.Validator[string]

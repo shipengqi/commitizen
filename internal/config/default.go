@@ -18,9 +18,9 @@ items:
       - value: test
         key: "test:      Adding missing or correcting existing tests"
       - value: chore
-        key: "chore:     Changes to the build process or auxiliary tools and\n             libraries such as documentation generation"
+        key: "chore:     Changes to the build process or auxiliary tools and libraries such as documentation generation"
       - value: style
-        key: "style:     Changes that do not affect the meaning of the code\n             (white-space, formatting, missing semi-colons, etc)"
+        key: "style:     Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
       - value: refactor
         key: "refactor:  A code change that neither fixes a bug nor adds a feature"
       - value: perf
