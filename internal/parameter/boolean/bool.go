@@ -12,7 +12,7 @@ type Param struct {
 	DefaultValue bool `yaml:"default_value" json:"default_value" mapstructure:"default_value"`
 }
 
-func (p Param) Render() huh.Field {
+func (p *Param) Render() {
 	param := huh.NewConfirm().Key(p.Name).
 		Title(p.Label)
 
@@ -22,5 +22,5 @@ func (p Param) Render() huh.Field {
 
 	param.Value(&p.DefaultValue)
 
-	return param
+	p.Field = param
 }

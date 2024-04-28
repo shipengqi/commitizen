@@ -1,7 +1,6 @@
 package config
 
 const DefaultCommitTemplate = `---
-version: v2
 name: default
 default: true
 items:
@@ -32,11 +31,13 @@ items:
     group: page2
     label: "Scope. What is the scope of this change? (class or file name):"
     type: string
+    trim: true
   - name: subject
     group: page2
     label: "Subject. Write a short and imperative summary of the code change (lower case and no period):"
     type: string
     required: true
+    trim: true
   - name: body
     group: page3
     label: "Body. Provide additional contextual information about the code changes:"

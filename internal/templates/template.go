@@ -30,7 +30,7 @@ type Template struct {
 	Default bool
 	Items   []map[string]interface{}
 	groups  []*huh.Group
-	fields  []huh.Field
+	fields  []parameter.Interface
 }
 
 func (t *Template) Initialize() error {
@@ -57,30 +57,29 @@ func (t *Template) Initialize() error {
 		}
 		var (
 			param parameter.Interface
-			field huh.Field
 			group string
 		)
 		switch typestr {
 		case parameter.TypeBoolean:
-			param = boolean.Param{}
+			param = &boolean.Param{}
 			err = mapstructure.Decode(v, &param)
 		case parameter.TypeString:
-			param = str.Param{}
+			param = &str.Param{}
 			err = mapstructure.Decode(v, &param)
 		case parameter.TypeInteger:
-			param = integer.Param{}
+			param = &integer.Param{}
 			err = mapstructure.Decode(v, &param)
 		case parameter.TypeSecret:
-			param = secret.Param{}
+			param = &secret.Param{}
 			err = mapstructure.Decode(v, &param)
 		case parameter.TypeText:
-			param = text.Param{}
+			param = &text.Param{}
 			err = mapstructure.Decode(v, &param)
 		case parameter.TypeList:
-			param = list.Param{}
+			param = &list.Param{}
 			err = mapstructure.Decode(v, &param)
 		case parameter.TypeMultiList:
-			param = multilist.Param{}
+			param = &multilist.Param{}
 			err = mapstructure.Decode(v, &param)
 		default:
 			return fmt.Errorf("unknown type %s", typestr)
@@ -93,17 +92,17 @@ func (t *Template) Initialize() error {
 			return standarderrs.Join(errs...)
 		}
 		group = param.GetGroup()
-		field = param.Render()
-		t.fields = append(t.fields, field)
+		param.Render()
+		t.fields = append(t.fields, param)
 		if group == "" {
 			group = UnknownGroup
 		}
 		if fields, ok := groups.Get(group); !ok {
 			news := make([]huh.Field, 0)
-			news = append(news, field)
+			news = append(news, param)
 			groups.Set(group, news)
 		} else {
-			fields = append(fields, field)
+			fields = append(fields, param)
 			groups.Set(group, fields)
 		}
 	}

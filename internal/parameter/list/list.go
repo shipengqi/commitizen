@@ -16,7 +16,7 @@ type Param struct {
 	Required     bool                 `yaml:"required"      json:"required"      mapstructure:"required"`
 }
 
-func (p Param) Validate() []error {
+func (p *Param) Validate() []error {
 	errs := p.Parameter.Validate()
 	if len(p.Options) < 1 {
 		errs = append(errs, errors.NewMissingErr("options", p.Name))
@@ -24,7 +24,7 @@ func (p Param) Validate() []error {
 	return errs
 }
 
-func (p Param) Render() huh.Field {
+func (p *Param) Render() {
 	param := huh.NewSelect[string]().Key(p.Name).
 		Options(p.Options...).
 		Title(p.Label)
@@ -42,5 +42,5 @@ func (p Param) Render() huh.Field {
 	if len(group) > 0 {
 		param.Validate(validators.Group(group...))
 	}
-	return param
+	p.Field = param
 }

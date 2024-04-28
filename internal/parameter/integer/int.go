@@ -16,7 +16,7 @@ type Param struct {
 	Max          *int   `yaml:"max"           json:"max"           mapstructure:"max"`
 }
 
-func (p Param) Render() huh.Field {
+func (p *Param) Render() {
 	param := huh.NewInput().Key(p.Name).
 		Title(p.Label)
 
@@ -40,5 +40,5 @@ func (p Param) Render() huh.Field {
 	if len(group) > 0 {
 		param.Validate(validators.Group(group...))
 	}
-	return param
+	p.Field = param
 }
