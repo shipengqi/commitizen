@@ -47,7 +47,7 @@ func (c *Config) initialize() error {
 
 	tmpls, err := LoadTemplates(fpath)
 	if err != nil {
-		return err
+		return fmt.Errorf("load templates %s failed: %v", fpath, err)
 	}
 	exists := make(map[string]struct{}, len(tmpls))
 	for _, v := range tmpls {
