@@ -189,6 +189,7 @@ Properties:
 | required      | no       | `false`       | Whether a string value is required or not.                                                                   |
 | fqdn          | no       | `false`       | Add a preset FQDN regex to validate string.                                                                  |
 | ip            | no       | `false`       | Add a preset IPv4/IPv6 regex to validate string.                                                             |
+| trim          | no       | `false`       | If true, will remove the leading and trailing blank characters before submit.                                |
 | default_value | no       | -             | The default value for this item.                                                                             |
 | regex         | no       | -             | A regex used to validate the string.                                                                         |
 | min_length    | no       | -             | The minimum length of the string. If the value is not required and no value has been given, this is ignored. |
@@ -239,6 +240,7 @@ Properties:
 | Property      | Required | Default Value | Description                                                                                                  |
 |:--------------|:---------|:--------------|:-------------------------------------------------------------------------------------------------------------|
 | required      | no       | `false`       | Whether the secret is required or not.                                                                       |
+| trim          | no       | `false`       | If true, will remove the leading and trailing blank characters before submit.                                |
 | default_value | no       | -             | The default value for this item.                                                                             |
 | regex         | no       | -             | A regex used to validate the secret.                                                                         |
 | min_length    | no       | -             | The minimum length of the secret. If the value is not required and no value has been given, this is ignored. |

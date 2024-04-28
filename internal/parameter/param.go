@@ -8,12 +8,14 @@ import (
 )
 
 type Interface interface {
+	huh.Field
 	GetGroup() string
-	Render() huh.Field
+	Render()
 	Validate() []error
 }
 
 type Parameter struct {
+	huh.Field   `mapstructure:"-"`
 	Name        string `yaml:"name"        json:"name"        mapstructure:"name"`
 	Group       string `yaml:"group"       json:"group"       mapstructure:"group"`
 	Label       string `yaml:"label"       json:"label"       mapstructure:"label"`
@@ -22,15 +24,13 @@ type Parameter struct {
 	// DependsOn   DependsOn `yaml:"depends_on"  json:"depends_on"  mapstructure:"depends_on"`
 }
 
-func (p Parameter) GetGroup() string {
+func (p *Parameter) GetGroup() string {
 	return p.Group
 }
 
-func (p Parameter) Render() huh.Field {
-	return nil
-}
+func (p *Parameter) Render() {}
 
-func (p Parameter) Validate() []error {
+func (p *Parameter) Validate() []error {
 	var errs []error
 	if strutil.IsEmpty(p.Name) {
 		errs = append(errs, errors.NewMissingErr("parameter.name"))

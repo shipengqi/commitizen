@@ -1,6 +1,8 @@
 package str
 
 import (
+	"strings"
+
 	"github.com/charmbracelet/huh"
 
 	"github.com/shipengqi/commitizen/internal/parameter"
@@ -13,18 +15,29 @@ type Param struct {
 	Required     bool   `yaml:"required"      json:"required"      mapstructure:"required"`
 	FQDN         bool   `yaml:"fqdn"          json:"fqdn"          mapstructure:"fqdn"`
 	IP           bool   `yaml:"ip"            json:"ip"            mapstructure:"ip"`
-	Trim         bool   `yaml:"trim"          json:"trim"          mapstructure:"trim"` // Todo implement trim??
+	Trim         bool   `yaml:"trim"          json:"trim"          mapstructure:"trim"`
 	DefaultValue string `yaml:"default_value" json:"default_value" mapstructure:"default_value"`
 	Regex        string `yaml:"regex"         json:"regex"         mapstructure:"regex"`
 	MinLength    *int   `yaml:"min_length"    json:"min_length"    mapstructure:"min_length"`
 	MaxLength    *int   `yaml:"max_length"    json:"max_length"    mapstructure:"max_length"`
 }
 
-func (p Param) Render() huh.Field {
-	return p.RenderInput()
+func (p *Param) Render() {
+	p.Field = p.RenderInput()
 }
 
-func (p Param) RenderInput() *huh.Input {
+func (p *Param) GetValue() any {
+	if !p.Trim {
+		return p.Field.GetValue()
+	}
+	val := p.Field.GetValue()
+	if str, ok := val.(string); ok {
+		return strings.TrimSpace(str)
+	}
+	return p.Field.GetValue()
+}
+
+func (p *Param) RenderInput() *huh.Input {
 	param := huh.NewInput().Key(p.Name).
 		Title(p.Label)
 

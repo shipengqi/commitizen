@@ -1,17 +1,15 @@
 package secret
 
 import (
-	"github.com/charmbracelet/huh"
-	"github.com/shipengqi/commitizen/internal/parameter/validators"
-
 	"github.com/shipengqi/commitizen/internal/parameter/str"
+	"github.com/shipengqi/commitizen/internal/parameter/validators"
 )
 
 type Param struct {
 	str.Param `mapstructure:",squash"`
 }
 
-func (p Param) Render() huh.Field {
+func (p *Param) Render() {
 	param := p.Param.RenderInput()
 	param.Password(true)
 
@@ -34,5 +32,5 @@ func (p Param) Render() huh.Field {
 		param.Validate(validators.Group(group...))
 	}
 
-	return param
+	p.Field = param
 }

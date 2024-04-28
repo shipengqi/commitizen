@@ -17,7 +17,7 @@ type Param struct {
 	Limit        *int                 `yaml:"limit"         json:"limit"         mapstructure:"limit"`
 }
 
-func (p Param) Validate() []error {
+func (p *Param) Validate() []error {
 	errs := p.Parameter.Validate()
 	if len(p.Options) < 1 {
 		errs = append(errs, errors.NewMissingErr("options", p.Name))
@@ -25,7 +25,7 @@ func (p Param) Validate() []error {
 	return errs
 }
 
-func (p Param) Render() huh.Field {
+func (p *Param) Render() {
 	param := huh.NewMultiSelect[string]().Key(p.Name).
 		Options(p.Options...).
 		Title(p.Label)
@@ -47,5 +47,5 @@ func (p Param) Render() huh.Field {
 		param.Validate(validators.Group(group...))
 	}
 
-	return param
+	p.Field = param
 }

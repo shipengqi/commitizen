@@ -18,7 +18,7 @@ type Param struct {
 	Height       *int   `yaml:"height"        json:"height"        mapstructure:"height"`
 }
 
-func (p Param) Render() huh.Field {
+func (p *Param) Render() {
 	param := huh.NewText().Key(p.Name).
 		Title(p.Label)
 
@@ -51,5 +51,5 @@ func (p Param) Render() huh.Field {
 		param.Validate(validators.Group(group...))
 	}
 
-	return param
+	p.Field = param
 }
