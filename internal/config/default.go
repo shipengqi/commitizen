@@ -3,6 +3,17 @@ package config
 const DefaultCommitTemplate = `---
 name: default
 default: true
+groups:
+  - name: hasbreaking
+    depends_on:
+      and_conditions:
+      - parameter_name: page2.isbreaking
+        value_equals: true
+  - name: nobreaking
+    depends_on:
+      and_conditions:
+      - parameter_name: page2.isbreaking
+        value_equals: false
 items:
   - name: type
     group: page1
@@ -38,12 +49,21 @@ items:
     type: string
     required: true
     trim: true
-  - name: body
-    group: page3
+  - name: isbreaking
+    group: page2
+    label: "Are there any breaking changes?"
+    type: boolean
+  - name: hasbreakingbody
+    group: hasbreaking
+    label: "A BREAKING CHANGE commit requires a body. Provide additional contextual information about the code changes:"
+    type: text
+    required: true
+  - name: nobreakingbody
+    group: nobreaking
     label: "Body. Provide additional contextual information about the code changes:"
     type: text
   - name: footer
     group: page3
     label: "Footer. Information about Breaking Changes and reference issues that this commit closes:"
     type: text
-format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
+format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .hasbreakingbody}}\n\n{{.}}{{end}}{{with .nobreakingbody}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
