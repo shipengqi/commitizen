@@ -282,6 +282,75 @@ Properties:
 | key      | yes      | The message shown in the UI.     |
 | value    | yes      | Unique identifier for the value. |
 
+### Groups
+
+Group Properties:
+
+| Property   | Required | Default Value | Description                                                                              |
+|:-----------|:---------|:--------------|:-----------------------------------------------------------------------------------------|
+| name       | yes      | -             | Unique identifier for the property.                                                      |
+| depends_on | no       | -             | If this group should only be shown when a specific condition is met on another property. |
+
+DependsOn Properties:
+
+| Property       | Required | Default Value | Description                                                                                  |
+|:---------------|:---------|:--------------|:---------------------------------------------------------------------------------------------|
+| or_conditions  | no       | `[]`          | The list of conditions in which at least one must be satisfied for the property to be shown. |
+| and_conditions | no       | `[]`          | The list of conditions in which all must be satisfied for the property to be shown.          |
+
+DependsOn Conditions:
+
+- ValueEqualsCondition
+- ValueNotEqualsCondition
+- ValueContainsCondition
+- ValueNotContainsCondition
+- ValueEmptyCondition
+
+#### ValueEqualsCondition
+
+Properties:
+
+| Property       | Required | Default Value | Description                                                                         |
+|:---------------|:---------|:--------------|:------------------------------------------------------------------------------------|
+| parameter_name | yes      | -             | The name of the group that the current group is dependent upon.                     |
+| value_equals   | yes      | -             | The value the target parameter must equal for this condition to be considered true. |
+
+#### ValueNotEqualsCondition
+
+Properties:
+
+| Property         | Required | Default Value | Description                                                                             |
+|:-----------------|:---------|:--------------|:----------------------------------------------------------------------------------------|
+| parameter_name   | yes      | -             | The name of the group that the current group is dependent upon.                         |
+| value_not_equals | yes      | -             | The value the target parameter must not equal for this condition to be considered true. |
+
+#### ValueContainsCondition
+
+Properties:
+
+| Property       | Required | Default Value | Description                                                                         |
+|:---------------|:---------|:--------------|:------------------------------------------------------------------------------------|
+| parameter_name | yes      | -             | The name of the group that the current group is dependent upon.                     |
+| value_contains | yes      | -             | A value the target parameter must contain for this condition to be considered true. |
+
+#### ValueNotContainsCondition
+
+Properties:
+
+| Property           | Required | Default Value | Description                                                                             |
+|:-------------------|:---------|:--------------|:----------------------------------------------------------------------------------------|
+| parameter_name     | yes      | -             | The name of the group that the current group is dependent upon.                         |
+| value_not_contains | yes      | -             | A value the target parameter must not contain for this condition to be considered true. |
+
+#### ValueEmptyCondition
+
+Properties:
+
+| Property       | Required | Default Value | Description                                                                      |
+|:---------------|:---------|:--------------|:---------------------------------------------------------------------------------|
+| parameter_name | yes      | -             | The name of the group that the current group is dependent upon.                  |
+| value_empty    | yes      | -             | A bool value reflecting whether the expected parameter should be empty or not.   |
+
 ### Multiple Templates
 
 You can define multiple templates in the `.czrc` file, separated by `---`：
