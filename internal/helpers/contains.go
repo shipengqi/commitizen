@@ -11,7 +11,7 @@ import (
 //	helpers.Contains("Hello World", "World")
 //	helpers.Contains(["Hello", "World"], "World")
 //	helpers.Contains({"Hello": "World"}, "Hello")
-func Contains(s, contains interface{}, msgAndArgs ...interface{}) bool {
+func Contains(s, contains interface{}) bool {
 	ok, found := containsElement(s, contains)
 	if !ok {
 		return false
@@ -26,7 +26,7 @@ func Contains(s, contains interface{}, msgAndArgs ...interface{}) bool {
 //	helpers.NotContains("Hello World", "Earth")
 //	helpers.NotContains(["Hello", "World"], "Earth")
 //	helpers.NotContains({"Hello": "World"}, "Earth")
-func NotContains(s, contains interface{}, msgAndArgs ...interface{}) bool {
+func NotContains(s, contains interface{}) bool {
 	ok, found := containsElement(s, contains)
 	if !ok {
 		return false

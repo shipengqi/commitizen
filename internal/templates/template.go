@@ -114,7 +114,7 @@ func (t *Template) Initialize() error {
 		group = param.GetGroup()
 		param.Render()
 
-		t.all[parameter.GetFiledKey(namestr, group)] = param
+		t.all[parameter.NewFiledKey(namestr, group)] = param
 
 		if fields, ok := t.sorted.GetFields(group); !ok {
 			news := make([]huh.Field, 0)

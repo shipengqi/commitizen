@@ -27,7 +27,7 @@ func Equal(expected, actual interface{}) bool {
 //
 // Pointer variable equality is determined based on the equality of the
 // referenced values (as opposed to the memory addresses).
-func NotEqual(expected, actual interface{}, msgAndArgs ...interface{}) bool {
+func NotEqual(expected, actual interface{}) bool {
 	if err := validateEqualArgs(expected, actual); err != nil {
 		// invalid operation
 		return false

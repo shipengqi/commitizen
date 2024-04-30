@@ -2,9 +2,9 @@ package parameter
 
 import (
 	standarderrs "errors"
-
 	"github.com/charmbracelet/huh"
 	"github.com/shipengqi/golib/strutil"
+	"github.com/shipengqi/log"
 
 	"github.com/shipengqi/commitizen/internal/errors"
 	"github.com/shipengqi/commitizen/internal/helpers"
@@ -34,6 +34,11 @@ func (g *Group) Validate() []error {
 }
 
 func (g *Group) Render(all map[FieldKey]huh.Field, fields []huh.Field) *huh.Group {
+	group := huh.NewGroup(fields...)
+	if len(g.DependsOn.OrConditions) < 1 && len(g.DependsOn.AndConditions) < 1 {
+		return group
+	}
+
 	for _, v := range g.DependsOn.OrConditions {
 		v.fields = all
 	}
@@ -41,11 +46,11 @@ func (g *Group) Render(all map[FieldKey]huh.Field, fields []huh.Field) *huh.Grou
 		v.fields = all
 	}
 
-	group := huh.NewGroup(fields...)
 	group.WithHideFunc(func() bool {
 		orCount := len(g.DependsOn.OrConditions)
 		andCount := len(g.DependsOn.AndConditions)
 
+		log.Debugf("OrConditions: %d, AndConditions: %d", orCount, andCount)
 		if orCount < 1 && andCount < 1 {
 			return false
 		}
@@ -64,15 +69,15 @@ func (g *Group) Render(all map[FieldKey]huh.Field, fields []huh.Field) *huh.Grou
 				andMetCount++
 			}
 		}
-
+		log.Debugf("orMet: %v, andMetCount: %d", orMet, andMetCount)
 		if orCount > 0 && andCount < 1 {
-			return orMet
+			return !orMet
 		}
 		if orCount < 1 && andCount > 0 {
-			return andCount == andMetCount
+			return !(andCount == andMetCount)
 		}
 		if orCount > 0 && andCount > 0 {
-			return orMet && (andMetCount == orCount)
+			return !(orMet && andMetCount == orCount)
 		}
 		return false
 	})
@@ -81,8 +86,8 @@ func (g *Group) Render(all map[FieldKey]huh.Field, fields []huh.Field) *huh.Grou
 }
 
 type DependsOn struct {
-	AndConditions []Condition `yaml:"and_conditions"  json:"and_conditions" mapstructure:"and_conditions"`
-	OrConditions  []Condition `yaml:"or_conditions"   json:"or_conditions"  mapstructure:"or_conditions"`
+	AndConditions []*Condition `yaml:"and_conditions"  json:"and_conditions" mapstructure:"and_conditions"`
+	OrConditions  []*Condition `yaml:"or_conditions"   json:"or_conditions"  mapstructure:"or_conditions"`
 }
 
 type Condition struct {
@@ -96,7 +101,7 @@ type Condition struct {
 	ValueNotContains interface{} `yaml:"value_not_contains"   json:"value_not_contains"   mapstructure:"value_not_contains"`
 }
 
-func (c Condition) Validate() []error {
+func (c *Condition) Validate() []error {
 	var errs []error
 	if strutil.IsEmpty(c.ParameterName) {
 		errs = append(errs, errors.NewMissingErr("parameter_name", "condition"))
@@ -108,50 +113,48 @@ func (c Condition) Validate() []error {
 	return errs
 }
 
-func (c Condition) Match() bool {
+func (c *Condition) Match() bool {
+	field, ok := c.fields[GetFiledKey(c.ParameterName)]
+	if !ok {
+		return false
+	}
+	val := field.GetValue()
+
 	if c.ValueEmpty != nil {
-		return c.IsEmpty(*c.ValueEmpty)
+		return c.IsEmpty(*c.ValueEmpty, val)
 	}
 	if c.ValueEquals != nil {
-		return c.Equal()
+		return c.Equal(val)
 	}
 	if c.ValueNotEquals != nil {
-		return c.NotEqual()
+		return c.NotEqual(val)
 	}
 	if c.ValueContains != nil {
-		return c.Contains()
+		return c.Contains(val)
 	}
 	if c.ValueNotContains != nil {
-		return c.NotContains()
+		return c.NotContains(val)
 	}
 	return false
 }
 
-func (c Condition) Equal() bool {
-	val := c.fields[GetFiledKey(c.ParameterName)]
+func (c *Condition) Equal(val interface{}) bool {
 	return helpers.Equal(c.ValueEquals, val)
 }
 
-func (c Condition) NotEqual() bool {
-	val := c.fields[GetFiledKey(c.ParameterName)]
+func (c *Condition) NotEqual(val interface{}) bool {
 	return helpers.NotEqual(c.ValueNotEquals, val)
 }
 
-func (c Condition) Contains() bool {
-	val := c.fields[GetFiledKey(c.ParameterName)]
+func (c *Condition) Contains(val interface{}) bool {
 	return helpers.Contains(val, c.ValueContains)
 }
 
-func (c Condition) NotContains() bool {
-	val := c.fields[GetFiledKey(c.ParameterName)]
+func (c *Condition) NotContains(val interface{}) bool {
 	return helpers.NotContains(val, c.ValueNotContains)
 }
 
-func (c Condition) IsEmpty(empty bool) bool {
-	val, ok := c.fields[GetFiledKey(c.ParameterName)]
-	if !ok {
-		return false
-	}
+func (c *Condition) IsEmpty(empty bool, val interface{}) bool {
 	if empty && helpers.Empty(val) {
 		return true
 	}

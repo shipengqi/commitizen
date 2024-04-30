@@ -3,10 +3,15 @@ package cz
 import (
 	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
+	"time"
 
 	cliflag "github.com/shipengqi/component-base/cli/flag"
 	"github.com/shipengqi/component-base/term"
 	"github.com/shipengqi/golib/convutil"
+	"github.com/shipengqi/golib/fsutil"
+	"github.com/shipengqi/log"
 	"github.com/spf13/cobra"
 
 	"github.com/shipengqi/commitizen/internal/config"
@@ -19,6 +24,23 @@ func New() *cobra.Command {
 	c := &cobra.Command{
 		Use:  "commitizen",
 		Long: `Command line utility to standardize git commit messages.`,
+		PreRun: func(cmd *cobra.Command, args []string) {
+			opts := &log.Options{
+				DisableRotate:        true,
+				DisableFileCaller:    true,
+				DisableConsoleCaller: true,
+				DisableConsoleLevel:  true,
+				DisableConsoleTime:   true,
+				Output:               fmt.Sprintf("%s/commitizen/logs", os.TempDir()),
+				FileLevel:            log.DebugLevel.String(),
+				FilenameEncoder:      filenameEncoder,
+			}
+			err := fsutil.MkDirAll(opts.Output)
+			if err != nil {
+				panic(err)
+			}
+			log.Configure(opts)
+		},
 		RunE: func(_ *cobra.Command, _ []string) error {
 			isRepo, err := git.IsGitRepo()
 			if err != nil {
@@ -79,4 +101,8 @@ func New() *cobra.Command {
 	c.AddCommand(NewVersionCmd())
 
 	return c
+}
+
+func filenameEncoder() string {
+	return fmt.Sprintf("%s.%s.log", filepath.Base(os.Args[0]), time.Now().Format("20060102150405"))
 }
