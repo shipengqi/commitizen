@@ -24,7 +24,7 @@ func New() *cobra.Command {
 	c := &cobra.Command{
 		Use:  "commitizen",
 		Long: `Command line utility to standardize git commit messages.`,
-		PreRun: func(cmd *cobra.Command, args []string) {
+		PreRun: func(_ *cobra.Command, _ []string) {
 			if !o.Debug {
 				return
 			}

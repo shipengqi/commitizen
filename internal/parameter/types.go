@@ -1,8 +1,9 @@
 package parameter
 
 import (
-	"github.com/shipengqi/golib/strutil"
 	"strings"
+
+	"github.com/shipengqi/golib/strutil"
 )
 
 const (

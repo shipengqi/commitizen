@@ -5,8 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/shipengqi/commitizen/internal/git"
 	cliflag "github.com/shipengqi/component-base/cli/flag"
+
+	"github.com/shipengqi/commitizen/internal/git"
 )
 
 type Options struct {
