@@ -2,6 +2,7 @@ package parameter
 
 import (
 	standarderrs "errors"
+
 	"github.com/charmbracelet/huh"
 	"github.com/shipengqi/golib/strutil"
 	"github.com/shipengqi/log"
@@ -114,12 +115,14 @@ func (c *Condition) Validate() []error {
 }
 
 func (c *Condition) Match() bool {
-	field, ok := c.fields[GetFiledKey(c.ParameterName)]
+	key := GetFiledKey(c.ParameterName)
+	log.Debugf("math field condition: %s", key)
+	field, ok := c.fields[key]
 	if !ok {
+		log.Debugf("cannot find field condition: %s", key)
 		return false
 	}
 	val := field.GetValue()
-
 	if c.ValueEmpty != nil {
 		return c.IsEmpty(*c.ValueEmpty, val)
 	}
@@ -133,32 +136,39 @@ func (c *Condition) Match() bool {
 		return c.Contains(val)
 	}
 	if c.ValueNotContains != nil {
+		log.Debugf("value not contains val: %v", val)
 		return c.NotContains(val)
 	}
 	return false
 }
 
 func (c *Condition) Equal(val interface{}) bool {
+	log.Debugf("%v contains match val: %v", c.ValueEquals, val)
 	return helpers.Equal(c.ValueEquals, val)
 }
 
 func (c *Condition) NotEqual(val interface{}) bool {
+	log.Debugf("%v not equals val: %v", c.ValueNotEquals, val)
 	return helpers.NotEqual(c.ValueNotEquals, val)
 }
 
 func (c *Condition) Contains(val interface{}) bool {
+	log.Debugf("%v contains val: %v", val, c.ValueContains)
 	return helpers.Contains(val, c.ValueContains)
 }
 
 func (c *Condition) NotContains(val interface{}) bool {
+	log.Debugf("%v not contains val: %v", val, c.ValueContains)
 	return helpers.NotContains(val, c.ValueNotContains)
 }
 
 func (c *Condition) IsEmpty(empty bool, val interface{}) bool {
 	if empty && helpers.Empty(val) {
+		log.Debugf("value is empty: %v", val)
 		return true
 	}
 	if !empty && helpers.NotEmpty(val) {
+		log.Debugf("value is not empty: %v", val)
 		return true
 	}
 	return false

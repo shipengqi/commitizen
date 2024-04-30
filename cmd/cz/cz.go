@@ -25,13 +25,16 @@ func New() *cobra.Command {
 		Use:  "commitizen",
 		Long: `Command line utility to standardize git commit messages.`,
 		PreRun: func(cmd *cobra.Command, args []string) {
+			if !o.Debug {
+				return
+			}
 			opts := &log.Options{
 				DisableRotate:        true,
 				DisableFileCaller:    true,
 				DisableConsoleCaller: true,
 				DisableConsoleLevel:  true,
 				DisableConsoleTime:   true,
-				Output:               fmt.Sprintf("%s/commitizen/logs", os.TempDir()),
+				Output:               filepath.Join(os.TempDir(), "commitizen/logs"),
 				FileLevel:            log.DebugLevel.String(),
 				FilenameEncoder:      filenameEncoder,
 			}
