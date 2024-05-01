@@ -165,7 +165,7 @@ format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{
 | name        | yes      | -             | Unique identifier for the item.                                                                                     |
 | label       | yes      | -             | This will be used as the label for the input field in the UI.                                                       |
 | type        | yes      | -             | The type of item. Determines which UI widget is shown. See the Item Types section to see all the different options. |
-| group       | no       | -             | The name of the group this item belongs to.                                                                         |
+| group       | no       | -             | The name of the group this item belongs to. Separates items into groups (you can think of groups as pages).         |
 | description | no       | -             | A short description of the item for user guidance. This will be displayed along with the input field.               |
 
 #### Item Types
@@ -282,7 +282,7 @@ Properties:
 | key      | yes      | The message shown in the UI.     |
 | value    | yes      | Unique identifier for the value. |
 
-### Groups
+### Groups (Optional)
 
 Group Properties:
 
