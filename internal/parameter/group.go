@@ -2,6 +2,7 @@ package parameter
 
 import (
 	standarderrs "errors"
+	"fmt"
 
 	"github.com/charmbracelet/huh"
 	"github.com/shipengqi/golib/strutil"
@@ -24,6 +25,9 @@ func (g *Group) Validate() []error {
 	var errs []error
 	if strutil.IsEmpty(g.Name) {
 		errs = append(errs, standarderrs.New("the group missing required field: name"))
+	}
+	if !regexName.MatchString(g.Name) {
+		errs = append(errs, fmt.Errorf("group.name '%s' must match the regex: ^[a-zA-Z0-9-_]{1,62}$", g.Name))
 	}
 	for _, v := range g.DependsOn.OrConditions {
 		errs = append(errs, v.Validate()...)

@@ -1,9 +1,14 @@
 package parameter
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/shipengqi/golib/strutil"
+)
+
+var (
+	regexName = regexp.MustCompile(`^[a-zA-Z0-9-_]{1,62}$`)
 )
 
 const (

@@ -1,6 +1,8 @@
 package parameter
 
 import (
+	"fmt"
+
 	"github.com/charmbracelet/huh"
 	"github.com/shipengqi/golib/strutil"
 
@@ -34,6 +36,9 @@ func (p *Parameter) Validate() []error {
 	var errs []error
 	if strutil.IsEmpty(p.Name) {
 		errs = append(errs, errors.NewMissingErr("parameter.name"))
+	}
+	if !regexName.MatchString(p.Name) {
+		errs = append(errs, fmt.Errorf("parameter.name '%s' must match the regex: ^[a-zA-Z0-9-_]{1,62}$", p.Name))
 	}
 	if strutil.IsEmpty(p.Label) {
 		errs = append(errs, errors.NewMissingErr("label", p.Name))
