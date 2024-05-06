@@ -101,8 +101,19 @@ $ make && ./_output/$(GOOS)/$(GOARCH)/bin/commitizen init
 You can set configuration file that `.czrc` at repository root or home directory. The configuration file that located in repository root have a priority over the one in home directory. The format is the same as the following:
 
 ```yaml
-name: my-default
-default: true  # (optional) If true, this template will be used as the default template, note that there can only be one default template       
+name: default
+default: true
+groups:
+  - name: hasbreaking
+    depends_on:
+      and_conditions:
+        - parameter_name: page2.isbreaking
+          value_equals: true
+  - name: nobreaking
+    depends_on:
+      and_conditions:
+        - parameter_name: page2.isbreaking
+          value_equals: false
 items:
   - name: type
     group: page1
@@ -118,9 +129,9 @@ items:
       - value: test
         key: "test:      Adding missing or correcting existing tests"
       - value: chore
-        key: "chore:     Changes to the build process or auxiliary tools and\n             libraries such as documentation generation"
+        key: "chore:     Changes to the build process or auxiliary tools and libraries such as documentation generation"
       - value: style
-        key: "style:     Changes that do not affect the meaning of the code\n             (white-space, formatting, missing semi-colons, etc)"
+        key: "style:     Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
       - value: refactor
         key: "refactor:  A code change that neither fixes a bug nor adds a feature"
       - value: perf
@@ -131,22 +142,36 @@ items:
     group: page2
     label: "Scope. What is the scope of this change? (class or file name):"
     type: string
-    regex: ^[a-zA-Z0-9]+
+    trim: true
   - name: subject
     group: page2
     label: "Subject. Write a short and imperative summary of the code change (lower case and no period):"
     type: string
     required: true
-  - name: body
-    group: page3
+    trim: true
+  - name: isbreaking
+    group: page2
+    label: "Are there any breaking changes?"
+    type: boolean
+  - name: hasbreakingbody
+    group: hasbreaking
+    label: "A BREAKING CHANGE commit requires a body. Provide additional contextual information about the code changes:"
+    type: text
+    required: true
+  - name: nobreakingbody
+    group: nobreaking
     label: "Body. Provide additional contextual information about the code changes:"
     type: text
   - name: footer
     group: page3
     label: "Footer. Information about Breaking Changes and reference issues that this commit closes:"
     type: text
-format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"`
+format: "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}}{{with .hasbreakingbody}}\n\n{{.}}{{end}}{{with .nobreakingbody}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"
 ```
+
+### Default
+
+Optional. If true, the template will be used as the default template, note that there can only be one default template.
 
 ### Format
 
@@ -310,10 +335,10 @@ DependsOn Conditions:
 
 Properties:
 
-| Property       | Required | Default Value | Description                                                                         |
-|:---------------|:---------|:--------------|:------------------------------------------------------------------------------------|
-| parameter_name | yes      | -             | The name of the group that the current group is dependent upon.                     |
-| value_equals   | yes      | -             | The value the target parameter must equal for this condition to be considered true. |
+| Property       | Required | Default Value | Description                                                                                     |
+|:---------------|:---------|:--------------|:------------------------------------------------------------------------------------------------|
+| parameter_name | yes      | -             | The name of the group that the current group is dependent upon. for example, `page2.isbreaking` |
+| value_equals   | yes      | -             | The value the target parameter must equal for this condition to be considered true.             |
 
 #### ValueNotEqualsCondition
 
