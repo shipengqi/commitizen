@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	RCFilename             = ".ggczrc"
+	RCFilename             = ".czrc"
 	ReservedDefaultName    = "default"
 	FieldKeyTemplateSelect = "template-select"
 )
