@@ -2,6 +2,7 @@ package secret
 
 import (
 	"fmt"
+	"github.com/charmbracelet/huh"
 	"regexp"
 
 	"github.com/shipengqi/commitizen/internal/parameter/str"
@@ -24,7 +25,7 @@ func (p *Param) Validate() []error {
 
 func (p *Param) Render() {
 	param := p.Param.RenderInput()
-	param.Password(true)
+	param.EchoMode(huh.EchoModePassword)
 
 	// reset validators of the secret
 	var group []validators.Validator[string]
