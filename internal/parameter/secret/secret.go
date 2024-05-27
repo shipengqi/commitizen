@@ -2,8 +2,9 @@ package secret
 
 import (
 	"fmt"
-	"github.com/charmbracelet/huh"
 	"regexp"
+
+	"github.com/charmbracelet/huh"
 
 	"github.com/shipengqi/commitizen/internal/parameter/str"
 	"github.com/shipengqi/commitizen/internal/parameter/validators"
