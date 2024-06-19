@@ -22,5 +22,5 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --debug --clean
+          args: release --verbose --clean
 
