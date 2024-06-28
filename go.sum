@@ -92,8 +92,8 @@ github.com/shipengqi/component-base v0.2.10 h1:r/oQeFw/rD1ekk5o6Jb95Ff0FpKSIiZtD
 github.com/shipengqi/component-base v0.2.10/go.mod h1:LfbMJtgUW7nNPwmVIi5wJMif/066edkcIJtkDDJgEQQ=
 github.com/shipengqi/golib v0.2.14 h1:XOMvaXa6EidldYBYndlC1PhWHSS1LLk+P/zws338/JE=
 github.com/shipengqi/golib v0.2.14/go.mod h1:dwpllsqMwCd18ZZHZwpwO1UCNp4vYOQjKCY37VN+qY8=
-github.com/shipengqi/log v0.2.2 h1:+JvLIb3Xycl3/XJFVZn+ZzbJF7HeUBhdNvOdUoFHHS0=
-github.com/shipengqi/log v0.2.2/go.mod h1:YqXfNjg7aDR/KrXoU5KC3vCQ/YldJltQbyEwnlpJOb4=
+github.com/shipengqi/log v0.2.3 h1:dH1LEgFV1jkojNvVf2qdjcYrWIEQ7LsHPkPaeefsTcA=
+github.com/shipengqi/log v0.2.3/go.mod h1:YqXfNjg7aDR/KrXoU5KC3vCQ/YldJltQbyEwnlpJOb4=
 github.com/spf13/cobra v1.8.1 h1:e5/vxKd/rZsfSJMUX1agtjeTDf+qv1/JdBF8gg5k9ZM=
 github.com/spf13/cobra v1.8.1/go.mod h1:wHxEcudfqmLYa8iTfL+OuZPbBZkmvliBWKIezN3kD9Y=
 github.com/spf13/pflag v1.0.5 h1:iy+VFUOCP1a+8yFto/drg2CJ5u0yRoB7fZw3DKv/JXA=

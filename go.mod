@@ -9,7 +9,7 @@ require (
 	github.com/onsi/gomega v1.33.1
 	github.com/shipengqi/component-base v0.2.10
 	github.com/shipengqi/golib v0.2.14
-	github.com/shipengqi/log v0.2.2
+	github.com/shipengqi/log v0.2.3
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.9.0
