@@ -7,7 +7,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/onsi/ginkgo/v2 v2.19.1
 	github.com/onsi/gomega v1.34.0
-	github.com/shipengqi/component-base v0.2.10
+	github.com/shipengqi/component-base v0.2.11
 	github.com/shipengqi/golib v0.2.15
 	github.com/shipengqi/log v0.2.3
 	github.com/spf13/cobra v1.8.1
