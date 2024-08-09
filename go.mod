@@ -8,7 +8,7 @@ require (
 	github.com/onsi/ginkgo/v2 v2.20.0
 	github.com/onsi/gomega v1.34.1
 	github.com/shipengqi/component-base v0.2.11
-	github.com/shipengqi/golib v0.2.15
+	github.com/shipengqi/golib v0.2.16
 	github.com/shipengqi/log v0.2.3
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/pflag v1.0.5
