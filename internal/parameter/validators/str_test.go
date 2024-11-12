@@ -75,7 +75,6 @@ func TestIPv6Validator(t *testing.T) {
 	for _, v := range tests {
 		err := IPv6Validator()(v.ip)
 		if v.expected {
-			assert.Equal(t)
 			assert.NoError(t, err)
 		} else {
 			assert.Error(t, err)

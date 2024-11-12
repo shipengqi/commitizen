@@ -10,19 +10,19 @@ var (
 	regexFQDN = regexp.MustCompile(`^([a-zA-Z0-9][a-zA-Z0-9-]{0,62})(\.[a-zA-Z0-9][a-zA-Z0-9-]{0,62})*?(\.[a-zA-Z][a-zA-Z0-9]{0,62})\.?$`)
 )
 
-func MaxLength(max int) func(string) error {
+func MaxLength(maxLen int) func(string) error {
 	return func(str string) error {
-		if len(str) > max {
-			return fmt.Errorf("string must be less than or equal to %d characters", max)
+		if len(str) > maxLen {
+			return fmt.Errorf("string must be less than or equal to %d characters", maxLen)
 		}
 		return nil
 	}
 }
 
-func MinLength(min int) func(string) error {
+func MinLength(minLen int) func(string) error {
 	return func(str string) error {
-		if len(str) < min {
-			return fmt.Errorf("string must be greater than or equal to %d characters", min)
+		if len(str) < minLen {
+			return fmt.Errorf("string must be greater than or equal to %d characters", minLen)
 		}
 		return nil
 	}
