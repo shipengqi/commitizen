@@ -98,7 +98,7 @@ $ make && ./_output/$(GOOS)/$(GOARCH)/bin/commitizen init
 
 ## Configuration
 
-You can set configuration file that `.czrc` at repository root or home directory. The configuration file that located in repository root have a priority over the one in home directory. The format is the same as the following:
+You can set configuration file that `.czrc` at repository root, home directory, or the $XDG_CONFIG_HOME/commitizen directory. The configuration file that located in repository root have a priority over the one in home directory. The format is the same as the following:
 
 ```yaml
 name: default
