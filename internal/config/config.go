@@ -35,13 +35,26 @@ func New() *Config {
 
 func (c *Config) initialize() error {
 	var fpath string
+	// Check if the configuration file is local to the repo.
 	if fsutil.IsExists(RCFilename) {
 		fpath = RCFilename
 	} else {
+		// Check if the configuration file is in the user's home directory.
 		home := sysutil.HomeDir()
 		p := filepath.Join(home, RCFilename)
 		if fsutil.IsExists(p) {
 			fpath = p
+		} else {
+			// Check if the configuration file is in the configured
+			// XDG_CONFIG_HOME directory.
+			xdgConfigHome, found := os.LookupEnv("XDG_CONFIG_HOME")
+			if !found {
+				xdgConfigHome = sysutil.HomeDir()
+			}
+			p := filepath.Join(xdgConfigHome, "commitizen", RCFilename)
+			if fsutil.IsExists(p) {
+				fpath = p
+			}
 		}
 	}
 
