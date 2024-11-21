@@ -51,9 +51,9 @@ func (c *Config) initialize() error {
 			if !found {
 				xdgConfigHome = sysutil.HomeDir()
 			}
-			p := filepath.Join(xdgConfigHome, "commitizen", RCFilename)
-			if fsutil.IsExists(p) {
-				fpath = p
+			xdgConfigPath := filepath.Join(xdgConfigHome, "commitizen", RCFilename)
+			if fsutil.IsExists(xdgConfigPath) {
+				fpath = xdgConfigPath
 			}
 		}
 	}
