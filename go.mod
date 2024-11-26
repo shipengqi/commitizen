@@ -6,7 +6,7 @@ require (
 	github.com/charmbracelet/huh v0.6.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/onsi/ginkgo/v2 v2.22.0
-	github.com/onsi/gomega v1.35.1
+	github.com/onsi/gomega v1.36.0
 	github.com/shipengqi/component-base v0.2.11
 	github.com/shipengqi/golib v0.2.18
 	github.com/shipengqi/log v0.2.3
