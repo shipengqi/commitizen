@@ -40,6 +40,10 @@ Git Commit flags:
                 override author for commit
       --date string
                 override date for commit
+      --git-flag strings
+                git flags, e.g. --git-flag="--branch"
+  -n, --no-verify
+                bypass pre-commit and commit-msg hooks.                
   -q, --quiet
                 suppress summary after successful commit
   -s, --signoff
@@ -58,6 +62,8 @@ Commitizen flags:
 
 Use "commitizen [command] --help" for more information about a command.
 ```
+
+> To use more Git flags, you can use the '--git-flag' flag. Please do not conflict with other Git commit flags.
 
 Commit with commitizen:
 
