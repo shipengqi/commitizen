@@ -1,5 +1,6 @@
 package config
 
+// DefaultCommitTemplate is the default commit template.
 const DefaultCommitTemplate = `---
 name: default
 default: true

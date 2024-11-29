@@ -1,28 +1,36 @@
 package git
 
-import "github.com/spf13/pflag"
+import (
+	"strings"
+
+	"github.com/spf13/pflag"
+)
 
 type Options struct {
-	Quiet   bool
-	Verbose bool
-	SignOff bool
-	All     bool
-	Amend   bool
-	DryRun  bool
-	Author  string
-	Date    string
+	Quiet         bool
+	Verbose       bool
+	SignOff       bool
+	All           bool
+	Amend         bool
+	DryRun        bool
+	NoVerify      bool
+	Author        string
+	Date          string
+	ExtraGitFlags []string
 }
 
 func NewOptions() *Options {
 	return &Options{
-		Quiet:   false,
-		Verbose: false,
-		SignOff: false,
-		All:     false,
-		Amend:   false,
-		DryRun:  false,
-		Author:  "",
-		Date:    "",
+		Quiet:         false,
+		Verbose:       false,
+		SignOff:       false,
+		All:           false,
+		Amend:         false,
+		NoVerify:      false,
+		DryRun:        false,
+		Author:        "",
+		Date:          "",
+		ExtraGitFlags: []string{},
 	}
 }
 
@@ -35,6 +43,8 @@ func (o *Options) AddFlags(f *pflag.FlagSet) {
 	f.BoolVarP(&o.All, "all", "a", o.All, "commit all changed files.")
 	f.BoolVarP(&o.SignOff, "signoff", "s", o.SignOff, "add a Signed-off-by trailer.")
 	f.BoolVar(&o.Amend, "amend", o.Amend, "amend previous commit")
+	f.BoolVarP(&o.NoVerify, "no-verify", "n", o.NoVerify, "bypass pre-commit and commit-msg hooks.")
+	f.StringSliceVar(&o.ExtraGitFlags, "git-flag", o.ExtraGitFlags, "git flags, e.g. --git-flag=\"--branch\"")
 }
 
 func (o *Options) Combine(filename string) []string {
@@ -61,9 +71,30 @@ func (o *Options) Combine(filename string) []string {
 	if o.Amend {
 		combination = append(combination, "--amend")
 	}
+	if o.NoVerify {
+		combination = append(combination, "--no-verify")
+	}
 	if o.DryRun {
 		combination = append(combination, "--dry-run")
 	}
+	if len(o.ExtraGitFlags) > 0 {
+		result := deDuplicateFlag(o.ExtraGitFlags, "-F", "--file")
+		combination = append(combination, result...)
+	}
 
 	return combination
+}
+
+func deDuplicateFlag(sli []string, short, long string) []string {
+	var result []string
+	for _, s := range sli {
+		if strings.HasPrefix(s, short) {
+			continue
+		}
+		if strings.HasPrefix(s, long) {
+			continue
+		}
+		result = append(result, s)
+	}
+	return result
 }

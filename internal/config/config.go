@@ -24,11 +24,13 @@ const (
 	FieldKeyTemplateSelect = "template-select"
 )
 
+// Config represents a configuration object.
 type Config struct {
 	defaultTmpl *templates.Template
 	more        []*templates.Template
 }
 
+// New creates a new Config object.
 func New() *Config {
 	return &Config{}
 }
@@ -154,6 +156,7 @@ func (c *Config) createTemplatesSelect(label string) *huh.Form {
 	)
 }
 
+// LoadTemplates reads a list of templates from the provided file.
 func LoadTemplates(file string) ([]*templates.Template, error) {
 	if len(file) == 0 {
 		return nil, nil
@@ -166,10 +169,12 @@ func LoadTemplates(file string) ([]*templates.Template, error) {
 	return load(fd)
 }
 
+// Load reads a list of templates from the provided byte slice.
 func Load(data []byte) ([]*templates.Template, error) {
 	return load(bytes.NewReader(data))
 }
 
+// load reads a list of templates from the provided io.Reader.
 func load(reader io.Reader) ([]*templates.Template, error) {
 	var tmpls []*templates.Template
 	d := yaml.NewDecoder(reader)
