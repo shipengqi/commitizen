@@ -1,6 +1,8 @@
 package git
 
 import (
+	"strings"
+
 	"github.com/spf13/pflag"
 )
 
@@ -76,8 +78,23 @@ func (o *Options) Combine(filename string) []string {
 		combination = append(combination, "--dry-run")
 	}
 	if len(o.ExtraGitFlags) > 0 {
-		combination = append(combination, o.ExtraGitFlags...)
+		result := deDuplicateFlag(o.ExtraGitFlags, "-F", "--file")
+		combination = append(combination, result...)
 	}
 
 	return combination
+}
+
+func deDuplicateFlag(sli []string, short, long string) []string {
+	var result []string
+	for _, s := range sli {
+		if strings.HasPrefix(s, short) {
+			continue
+		}
+		if strings.HasPrefix(s, long) {
+			continue
+		}
+		result = append(result, s)
+	}
+	return result
 }
