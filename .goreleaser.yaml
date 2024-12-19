@@ -76,6 +76,14 @@ release:
   footer: |
     **Full Changelog**: https://github.com/shipengqi/commitizen/compare/{{ .PreviousTag }}...{{ .Tag }}
 
+scoops:
+  - repository:
+      owner: shipengqi
+      name: scoop-bucket
+    directory: bucket
+    homepage: https://github.com/shipengqi/commitizen
+    description: The commitizen command line utility, without nodejs. Forked from commitizen-go, fixes some issues of commitizen-go and supports more new features.
+    license: MIT
 
 # modelines, feel free to remove those if you don't want/use them:
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json

@@ -73,6 +73,15 @@ $ git cz
 
 ## Installation
 
+### Scoop (Windows)
+
+```bash
+$ scoop bucket add czbucket https://github.com/shipengqi/scoop-bucket.git
+$ scoop install commitizen
+
+$ commitizen.exe init
+```
+
 ### From the Binary Releases
 
 Download the pre-compiled binaries from the [releases page](https://github.com/shipengqi/commitizen/releases) and copy them to the desired location.
