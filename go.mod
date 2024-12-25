@@ -6,7 +6,7 @@ require (
 	github.com/charmbracelet/huh v0.6.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/onsi/ginkgo/v2 v2.22.1
-	github.com/onsi/gomega v1.36.1
+	github.com/onsi/gomega v1.36.2
 	github.com/shipengqi/component-base v0.2.11
 	github.com/shipengqi/golib v0.2.20
 	github.com/shipengqi/log v0.2.3
@@ -51,7 +51,7 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
-	golang.org/x/net v0.32.0 // indirect
+	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
