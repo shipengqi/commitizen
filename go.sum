@@ -88,8 +88,8 @@ github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUc
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/shipengqi/component-base v0.2.11 h1:oNCwa3FhFBGtKVJHSc3Tr+h9ERMX6JAVxkKToeIIh4M=
 github.com/shipengqi/component-base v0.2.11/go.mod h1:YJoIETZyVgILBSqiA7ze+WXgh8j/qz8WN+gpiTfnhc8=
-github.com/shipengqi/golib v0.2.20 h1:TRyQHLNtvfAdEJC+QtmDJdmjZz+Sg3qth4bh3kGr+u4=
-github.com/shipengqi/golib v0.2.20/go.mod h1:SaQlE8h7qWyJn5N2y4wIm0vuYjD/bKT2JSzE/gz1wlc=
+github.com/shipengqi/golib v0.2.21 h1:o1/HutNT/i0p7j5tGZ3/iOLjim8MTmG3HB9m0tfE9QY=
+github.com/shipengqi/golib v0.2.21/go.mod h1:cOfLKvICVyzklLOmU5pcC6gZ9h7NtQAgSLLxmn4vKK4=
 github.com/shipengqi/log v0.2.3 h1:dH1LEgFV1jkojNvVf2qdjcYrWIEQ7LsHPkPaeefsTcA=
 github.com/shipengqi/log v0.2.3/go.mod h1:YqXfNjg7aDR/KrXoU5KC3vCQ/YldJltQbyEwnlpJOb4=
 github.com/spf13/cobra v1.8.1 h1:e5/vxKd/rZsfSJMUX1agtjeTDf+qv1/JdBF8gg5k9ZM=
@@ -122,8 +122,8 @@ golang.org/x/sys v0.0.0-20210616094352-59db8d763f22/go.mod h1:oPkhp1MJrh7nUepCBc
 golang.org/x/sys v0.0.0-20210809222454-d867a43fc93e/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.6.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
-golang.org/x/sys v0.28.0 h1:Fksou7UEQUWlKvIdsqzJmUmCX3cZuD2+P3XyyzwMhlA=
-golang.org/x/sys v0.28.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
+golang.org/x/sys v0.29.0 h1:TPYlXGxvx1MGTn2GiZDhnjPA9wZzZeGKHHmKhHYvgaU=
+golang.org/x/sys v0.29.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
 golang.org/x/text v0.21.0 h1:zyQAAkrwaneQ066sspRyJaG9VNi/YJ1NfzcGB3hZ/qo=
 golang.org/x/text v0.21.0/go.mod h1:4IBbMaMmOPCJ8SecivzSH54+73PCFmPWxNTLm+vZkEQ=
 golang.org/x/tools v0.28.0 h1:WuB6qZ4RPCQo5aP3WdKZS7i595EdWqWR8vqJTlwTVK8=
