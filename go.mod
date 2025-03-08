@@ -1,6 +1,7 @@
 module github.com/shipengqi/commitizen
 
-go 1.23
+go 1.24
+
 require (
 	github.com/charmbracelet/huh v0.6.0
 	github.com/mitchellh/mapstructure v1.5.0
