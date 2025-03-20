@@ -5,7 +5,7 @@ go 1.24
 require (
 	github.com/charmbracelet/huh v0.6.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/onsi/ginkgo/v2 v2.23.0
+	github.com/onsi/ginkgo/v2 v2.23.1
 	github.com/onsi/gomega v1.36.2
 	github.com/shipengqi/component-base v0.2.11
 	github.com/shipengqi/golib v0.2.23
