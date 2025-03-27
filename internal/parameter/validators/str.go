@@ -88,9 +88,9 @@ func isIP(input string) int32 {
 }
 
 func isIPv4(input string) bool {
-	return 4 == isIP(input)
+	return isIP(input) == 4
 }
 
 func isIPv6(input string) bool {
-	return 6 == isIP(input)
+	return isIP(input) == 6
 }

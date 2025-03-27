@@ -25,7 +25,7 @@ func (p *Param) Validate() []error {
 }
 
 func (p *Param) Render() {
-	param := p.Param.RenderInput()
+	param := p.RenderInput()
 	param.EchoMode(huh.EchoModePassword)
 
 	// reset validators of the secret

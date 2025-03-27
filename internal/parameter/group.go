@@ -79,10 +79,10 @@ func (g *Group) Render(all map[FieldKey]huh.Field, fields []huh.Field) *huh.Grou
 			return !orMet
 		}
 		if orCount < 1 && andCount > 0 {
-			return !(andCount == andMetCount)
+			return andCount != andMetCount
 		}
 		if orCount > 0 && andCount > 0 {
-			return !(orMet && andMetCount == orCount)
+			return !orMet || andMetCount != orCount
 		}
 		return false
 	})
