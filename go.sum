@@ -106,8 +106,8 @@ github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUc
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/shipengqi/component-base v0.2.11 h1:oNCwa3FhFBGtKVJHSc3Tr+h9ERMX6JAVxkKToeIIh4M=
 github.com/shipengqi/component-base v0.2.11/go.mod h1:YJoIETZyVgILBSqiA7ze+WXgh8j/qz8WN+gpiTfnhc8=
-github.com/shipengqi/golib v0.2.26 h1:+3KzNW7yOjGgjjE6SFDFjdYJr1o4klRJnI0U4odvtuc=
-github.com/shipengqi/golib v0.2.26/go.mod h1:QXuIqEx1/3y1OhiKlirozAOO+DsB0lTmx6e7gIqGVB0=
+github.com/shipengqi/golib v0.2.27 h1:X9Rq5XVaJZhVxiIj2N8Gfkwxhwa1G/u4uA+tWmMYVBY=
+github.com/shipengqi/golib v0.2.27/go.mod h1:qFS6uEuKbQxVmcFpygC/PsMXphIjOx/51Y8xA2pL4QM=
 github.com/shipengqi/log v0.2.3 h1:dH1LEgFV1jkojNvVf2qdjcYrWIEQ7LsHPkPaeefsTcA=
 github.com/shipengqi/log v0.2.3/go.mod h1:YqXfNjg7aDR/KrXoU5KC3vCQ/YldJltQbyEwnlpJOb4=
 github.com/spf13/cobra v1.9.1 h1:CXSaggrXdbHK9CF+8ywj8Amf7PBRmPCOJugH954Nnlo=
