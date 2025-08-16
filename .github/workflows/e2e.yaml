@@ -36,7 +36,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - name: Check out the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         if: steps.cli-cache.outputs.cache-hit != 'true'
       # If no binaries were built for this PR, build it now.
       - name: Build CLI
@@ -52,7 +52,7 @@ jobs:
         with:
           go-version: stable
       - name: Check out the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Fetch built CLI
         id: cli-cache
         uses: actions/cache@v4
