@@ -11,7 +11,7 @@ require (
 	github.com/shipengqi/golib v0.2.27
 	github.com/shipengqi/log v0.2.3
 	github.com/spf13/cobra v1.9.1
-	github.com/spf13/pflag v1.0.7
+	github.com/spf13/pflag v1.0.10
 	github.com/stretchr/testify v1.10.0
 	gopkg.in/yaml.v3 v3.0.1
 )
