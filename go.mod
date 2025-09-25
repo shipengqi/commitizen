@@ -1,6 +1,6 @@
 module github.com/shipengqi/commitizen
 
-go 1.24
+go 1.25
 
 require (
 	github.com/charmbracelet/huh v0.7.0
@@ -8,7 +8,7 @@ require (
 	github.com/onsi/ginkgo/v2 v2.25.3
 	github.com/onsi/gomega v1.38.2
 	github.com/shipengqi/component-base v0.2.11
-	github.com/shipengqi/golib v0.2.27
+	github.com/shipengqi/golib v0.2.28
 	github.com/shipengqi/log v0.2.3
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.10
@@ -19,7 +19,7 @@ require (
 replace golang.org/x/net v0.35.0 => golang.org/x/net v0.37.0
 
 require (
-	github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 // indirect
+	github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 // indirect; injdirect
 	github.com/Masterminds/semver/v3 v3.4.0 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
