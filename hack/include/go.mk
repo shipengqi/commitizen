@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-GO_SUPPORTED_VERSIONS ?= 1.20|1.21|1.22|1.23|1.24
+GO_SUPPORTED_VERSIONS ?= 1.20|1.21|1.22|1.23|1.24|1.25
 
 .PHONY: go.build.verify
 go.build.verify:
