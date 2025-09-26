@@ -3,7 +3,7 @@
 
 dist: _output
 snapshot:
-  name_template: '{{ incpatch .Version }}-next'
+  version_template: '{{ incpatch .Version }}-next'
 builds:
   - env:
       - CGO_ENABLED=0
@@ -43,7 +43,7 @@ archives:
     # Default is empty.
     format_overrides:
       - goos: windows
-        format: zip
+        format: [ 'zip' ]
 checksum:
   name_template: 'CHECKSUM'
 changelog:

@@ -9,6 +9,9 @@ on:
       - "example/**"
       - "docs/**"
       - "README.md"
+permissions:
+  contents: read
+      
 jobs:
   # Build the commitizen and cache it so the workers can get it.
   build:
