@@ -111,7 +111,7 @@ homebrew_casks:
     homepage: "https://github.com/shipengqi/commitizen"
     binary: "commitizen"
     url:
-      template: "https://github.com/shipengqi/commitizen/releases/download/{{ .Tag }}/commitizen-{{ .Tag }}-darwin-arm64.tar.gz"
+      template: "https://github.com/shipengqi/commitizen/releases/download/{{ .Tag }}/commitizen-{{ .Tag }}-{{ .Os }}-{{ .Arch }}.tar.gz"
 
 # modelines, feel free to remove those if you don't want/use them:
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
