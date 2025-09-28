@@ -85,6 +85,17 @@ scoops:
     description: The commitizen command line utility, without nodejs. Forked from commitizen-go, fixes some issues of commitizen-go and supports more new features.
     license: MIT
 
+homebrew_casks:
+  - name: commitizen
+    repository:
+      owner: shipengqi
+      name: homebrew-casks
+    description: "The commitizen command line utility, without nodejs. Forked from commitizen-go, fixes some issues of commitizen-go and supports more new features."
+    homepage: "https://github.com/shipengqi/commitizen"
+    binary: "commitizen"
+    url:
+      template: "https://github.com/shipengqi/commitizen/releases/download/{{ .Tag }}/commitizen-{{ .Tag }}-darwin-arm64.tar.gz"
+
 # modelines, feel free to remove those if you don't want/use them:
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 # vim: set ts=2 sw=2 tw=0 fo=cnqoj
