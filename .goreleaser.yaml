@@ -1,7 +1,7 @@
 # This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
-version: 2
 
+version: 2
 dist: _output
 snapshot:
   version_template: '{{ incpatch .Version }}-next'
@@ -41,10 +41,26 @@ archives:
       - CHANGELOG/**
     # Can be used to change the archive formats for specific GOOSs.
     # Most common use case is to archive as zip on Windows.
-    # Default is empty.
     format_overrides:
-      - goos: windows
-        format: [ 'zip' ]
+      - # Which GOOS to override the format for.
+        goos: windows
+
+        # The formats to use for the given GOOS.
+        #
+        # Valid options are:
+        # - `tar.gz`
+        # - `tgz`
+        # - `tar.xz`
+        # - `txz`
+        # - `tar.zst`
+        # - `tzst` # Since: v2.1.
+        # - `tar`
+        # - `gz`
+        # - `zip`
+        # - `binary` # be extra-cautious with the file name template in this case!
+        # - `none`   # skips this archive
+        #
+        formats: ["zip"] # Plural form, multiple formats. Since: v2.6
 checksum:
   name_template: 'CHECKSUM'
 changelog:
