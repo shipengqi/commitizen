@@ -73,6 +73,14 @@ $ git cz
 
 ## Installation
 
+### Homebrew
+
+```bash
+$ brew tap shipengqi/casks
+$ brew install commitizen
+$ sudo commitizen init
+```
+
 ### Scoop (Windows)
 
 ```bash
