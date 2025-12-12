@@ -6,7 +6,7 @@ import (
 	"github.com/charmbracelet/huh"
 	"github.com/shipengqi/golib/strutil"
 
-	"github.com/shipengqi/commitizen/internal/errors"
+	"github.com/shipengqi/commitizen/internal/errorsx"
 )
 
 type Interface interface {
@@ -35,16 +35,16 @@ func (p *Parameter) Render() {}
 func (p *Parameter) Validate() []error {
 	var errs []error
 	if strutil.IsEmpty(p.Name) {
-		errs = append(errs, errors.NewMissingErr("parameter.name"))
+		errs = append(errs, errorsx.NewMissingErr("parameter.name"))
 	}
 	if !regexName.MatchString(p.Name) {
 		errs = append(errs, fmt.Errorf("parameter.name '%s' must match the regex: ^[a-zA-Z0-9-_]{1,62}$", p.Name))
 	}
 	if strutil.IsEmpty(p.Label) {
-		errs = append(errs, errors.NewMissingErr("label", p.Name))
+		errs = append(errs, errorsx.NewMissingErr("label", p.Name))
 	}
 	if strutil.IsEmpty(p.Type) {
-		errs = append(errs, errors.NewMissingErr("type", p.Name))
+		errs = append(errs, errorsx.NewMissingErr("type", p.Name))
 	}
 	return errs
 }
