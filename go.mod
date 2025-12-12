@@ -10,7 +10,7 @@ require (
 	github.com/shipengqi/component-base v0.2.11
 	github.com/shipengqi/golib v0.2.30
 	github.com/shipengqi/log v0.2.3
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v3 v3.0.1
