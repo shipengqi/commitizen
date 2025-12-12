@@ -10,7 +10,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/shipengqi/golib/strutil"
 
-	"github.com/shipengqi/commitizen/internal/errors"
+	"github.com/shipengqi/commitizen/internal/errorsx"
 	"github.com/shipengqi/commitizen/internal/helpers"
 	"github.com/shipengqi/commitizen/internal/parameter"
 	"github.com/shipengqi/commitizen/internal/parameter/boolean"
@@ -36,7 +36,7 @@ type Template struct {
 
 func (t *Template) Initialize() error {
 	if strutil.IsEmpty(t.Format) {
-		return errors.NewMissingErr("format")
+		return errorsx.NewMissingErr("format")
 	}
 
 	existGroups := make(map[string]struct{}, len(t.Groups))

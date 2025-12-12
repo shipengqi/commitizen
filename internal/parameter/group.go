@@ -8,7 +8,7 @@ import (
 	"github.com/shipengqi/golib/strutil"
 	"github.com/shipengqi/log"
 
-	"github.com/shipengqi/commitizen/internal/errors"
+	"github.com/shipengqi/commitizen/internal/errorsx"
 	"github.com/shipengqi/commitizen/internal/helpers"
 )
 
@@ -109,7 +109,7 @@ type Condition struct {
 func (c *Condition) Validate() []error {
 	var errs []error
 	if strutil.IsEmpty(c.ParameterName) {
-		errs = append(errs, errors.NewMissingErr("parameter_name", "condition"))
+		errs = append(errs, errorsx.NewMissingErr("parameter_name", "condition"))
 	}
 	if c.ValueEmpty == nil && c.ValueEquals == nil && c.ValueNotEquals == nil &&
 		c.ValueNotContains == nil && c.ValueContains == nil {

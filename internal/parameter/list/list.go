@@ -3,7 +3,7 @@ package list
 import (
 	"github.com/charmbracelet/huh"
 
-	"github.com/shipengqi/commitizen/internal/errors"
+	"github.com/shipengqi/commitizen/internal/errorsx"
 	"github.com/shipengqi/commitizen/internal/parameter"
 	"github.com/shipengqi/commitizen/internal/parameter/validators"
 )
@@ -20,7 +20,7 @@ type Param struct {
 func (p *Param) Validate() []error {
 	errs := p.Parameter.Validate()
 	if len(p.Options) < 1 {
-		errs = append(errs, errors.NewMissingErr("options", p.Name))
+		errs = append(errs, errorsx.NewMissingErr("options", p.Name))
 	}
 	return errs
 }
