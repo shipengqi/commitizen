@@ -16,10 +16,6 @@ require (
 	gopkg.in/yaml.v3 v3.0.1
 )
 
-require golang.org/x/mod v0.35.0 // indirect
-
-replace golang.org/x/net v0.35.0 => golang.org/x/net v0.37.0
-
 require (
 	github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 // indirect; injdirect
 	github.com/Masterminds/semver/v3 v3.4.0 // indirect
@@ -60,6 +56,7 @@ require (
 	go.uber.org/multierr v1.10.0 // indirect
 	go.uber.org/zap v1.27.1 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	golang.org/x/mod v0.35.0 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
