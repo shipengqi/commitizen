@@ -59,6 +59,9 @@ func (o *Options) Combine(filename string) []string {
 	if o.Verbose {
 		combination = append(combination, "-v")
 	}
+	if o.SignOff {
+		combination = append(combination, "--signoff")
+	}
 	if o.Author != "" {
 		combination = append(combination, "--author", o.Author)
 	}
